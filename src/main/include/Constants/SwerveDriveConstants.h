@@ -21,7 +21,7 @@ namespace SwerveDriveConstants {
     constexpr auto kBlueSourceAlignTarget = 120.0_deg;
     constexpr auto kRedSourceAlignTarget = 60.0_deg;
 
-    constexpr auto kRefreshRate = units::frequency::hertz_t{100};
+    constexpr auto kRefreshRate = units::frequency::hertz_t {100};
 
     static frc::SwerveDriveKinematics<4> kKinematics {
         frc::Translation2d{+SwerveDriveConstants::kXDistanceFromCenter, +SwerveDriveConstants::kYDistanceFromCenter},

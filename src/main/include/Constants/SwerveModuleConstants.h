@@ -2,6 +2,8 @@
 
 #include <ctre/phoenix6/signals/SpnEnums.hpp>
 
+#define Pi 3.141592653
+
 namespace SwerveModuleConstants {
     // Sensor IDs for motors + encoders - labeled on robot
     constexpr int kFrontLeftDriveID {1};
@@ -33,6 +35,18 @@ namespace SwerveModuleConstants {
     constexpr bool kAngleMotorInverted = false;
     constexpr bool kCANcoderInverted = false;
 
+    constexpr double kMaxVoltage {10.0};
+    // Current limits -- allows continuous operation at certain amps, or a peak of greater amps for <threshold time
+    constexpr int kAngleContinuousCurrentLimit = 25;
+    constexpr int kAnglePeakCurrentLimit = 40;
+    constexpr double kAnglePeakCurrentDuration = 0.1; // seconds
+    constexpr bool kAngleEnableCurrentLimit = true;
+    
+    constexpr int kDriveContinuousCurrentLimit = 35;
+    constexpr int kDrivePeakCurrentLimit = 60;
+    constexpr double kDrivePeakCurrentDuration = 0.1;
+    constexpr bool kDriveEnableCurrentLimit = true;
+
     // Encoder sensor range
     constexpr auto kCANcoderSensorRange = ctre::phoenix6::signals::AbsoluteSensorRangeValue::Signed_PlusMinusHalf;
 
@@ -50,6 +64,7 @@ namespace SwerveModuleConstants {
     constexpr int kFusedCANcoder{5};
     constexpr int kSyncCANcoder{6};
 
+    // Even though probably not using FF, keep constants in case
     constexpr double kPDrive {0.0};
     constexpr double kIDrive {0.0};
     constexpr double kDDrive {0.0};
@@ -62,19 +77,6 @@ namespace SwerveModuleConstants {
     constexpr double kVAngle {0.0};
     constexpr double kSAngle {0.0};
 
-    constexpr double kMaxVoltage {10.0};
-    // Current limits -- allows continuous operation at certain amps, or a peak of greater amps for <threshold time
-    constexpr int kAngleContinuousCurrentLimit = 25;
-    constexpr int kAnglePeakCurrentLimit = 40;
-    constexpr double kAnglePeakCurrentDuration = 0.1; // seconds
-    constexpr bool kAngleEnableCurrentLimit = true;
-    
-    constexpr int kDriveContinuousCurrentLimit = 35;
-    constexpr int kDrivePeakCurrentLimit = 60;
-    constexpr double kDrivePeakCurrentDuration = 0.1;
-    constexpr bool kDriveEnableCurrentLimit = true;
-
-    // PID, sensor IDs passed in via structs in namespace
     constexpr auto kMaxSpeed {4.0_mps};
     constexpr double kMPSToRPM {600.0};
     constexpr double kDEGToRAD {57.2957795131};
@@ -87,5 +89,4 @@ namespace SwerveModuleConstants {
     constexpr int kFalconEncoderTicksPerRevolution {2048};
     constexpr int kCANcoderTicksPerRevolution {4096};
 
-    
 }
