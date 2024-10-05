@@ -7,6 +7,21 @@
 
 
 SwerveDrive::SwerveDrive(PoseEstimatorHelper *helper) : 
+m_modules{
+  {+SwerveDriveConstants::kXDistanceFromCenter, +SwerveDriveConstants::kYDistanceFromCenter},
+  {+SwerveDriveConstants::kXDistanceFromCenter, -SwerveDriveConstants::kYDistanceFromCenter},
+  {-SwerveDriveConstants::kXDistanceFromCenter, +SwerveDriveConstants::kYDistanceFromCenter},
+  {-SwerveDriveConstants::kXDistanceFromCenter, -SwerveDriveConstants::kYDistanceFromCenter},
+  {0, SwerveModuleConstants::kFrontLeftDriveID, SwerveModuleConstants::kFrontLeftAngleID,
+   SwerveModuleConstants::kFrontLeftCANcoderID, SwerveModuleConstants::kFrontLeftOffset},
+  {1, SwerveModuleConstants::kFrontRightDriveID, SwerveModuleConstants::kFrontRightAngleID,
+   SwerveModuleConstants::kFrontRightCANcoderID, SwerveModuleConstants::kFrontRightOffset},
+  {2, SwerveModuleConstants::kBackLeftDriveID, SwerveModuleConstants::kBackLeftAngleID,
+   SwerveModuleConstants::kBackLeftCANcoderID, SwerveModuleConstants::kBackLeftOffset},
+  {3, SwerveModuleConstants::kBackRightDriveID, SwerveModuleConstants::kBackRightAngleID,
+   SwerveModuleConstants::kBackRightCANcoderID, SwerveModuleConstants::kBackRightOffset}
+}, 
+
 m_moduleArray(
     &m_modules.m_frontLeft,
     &m_modules.m_frontRight,
@@ -22,16 +37,28 @@ m_modulePositions(
     m_modules.m_backLeft.GetPosition(true),
     m_modules.m_backRight.GetPosition(true)
     //initializes the gyroscope and pose helpers for pose estimator
-),
+)
+
 
 {
-frc::Preferences::SetDouble(m_drivePKey, SwerveModuleConstants::kPDrive);
-frc::Preferences::SetDouble(m_driveIKey, SwerveModuleConstants::kIDrive);
-frc::Preferences::SetDouble(m_driveDKey, SwerveModuleConstants::kDDrive);
-frc::Preferences::SetDouble(m_anglePKey, SwerveModuleConstants::kPAngle);
-frc::Preferences::SetDouble(m_angleIKey, SwerveModuleConstants::kIAngle);
-frc::Preferences::SetDouble(m_angleDKey, SwerveModuleConstants::kDAngle);
-frc::Preferences::SetDouble(m_rotationSKey, SwerveDriveConstants::kSRot);
+    frc::Preferences::SetBoolean(m_tuningModeKey, false);
+    frc::Preferences::SetBoolean(m_diagnosticsKey, true);
+    
+    m_drivePKey = "DriveP";
+    m_driveIKey = "DriveI";
+    m_driveDKey = "DriveD";
+    m_anglePKey = "AngleP";
+    m_angleIKey = "AngleI";
+    m_angleDKey = "AngleD";
+    m_rotationSKey = "RotS";
+
+    frc::Preferences::SetDouble(m_drivePKey, SwerveModuleConstants::kPDrive);
+    frc::Preferences::SetDouble(m_driveIKey, SwerveModuleConstants::kIDrive);
+    frc::Preferences::SetDouble(m_driveDKey, SwerveModuleConstants::kDDrive);
+    frc::Preferences::SetDouble(m_anglePKey, SwerveModuleConstants::kPAngle);
+    frc::Preferences::SetDouble(m_angleIKey, SwerveModuleConstants::kIAngle);
+    frc::Preferences::SetDouble(m_angleDKey, SwerveModuleConstants::kDAngle);
+    frc::Preferences::SetDouble(m_rotationSKey, SwerveDriveConstants::kSRot);
 }
 
 void SwerveDrive::DriveRobotRelative(frc::ChassisSpeeds speeds) {

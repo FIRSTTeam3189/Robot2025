@@ -70,4 +70,7 @@ class SwerveDrive : public frc2::SubsystemBase {
   std::string m_rotationSKey;
   ctre::phoenix6::configs::Pigeon2Configuration m_pigeonConfigs{};
 
+  std::string_view m_tuningModeKey = "Tuning Mode";
+  std::string_view m_diagnosticsKey = "Full Diagnostics";
+
 };
