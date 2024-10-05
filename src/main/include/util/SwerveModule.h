@@ -15,6 +15,8 @@
 #include "Constants/GlobalConstants.h"
 #include "Constants/SwerveModuleConstants.h"
 
+enum class DriveState {HeadingControl, RotationVelocityControl, SpeakerAlign, SpeakerAlignTranslationAlgorithm, ArbitraryAngleAlign, SourceAlign } ;
+
 struct PIDValues {
   double driveP;
   double driveI;
@@ -40,7 +42,6 @@ class SwerveModule {
   frc::SwerveModulePosition GetPosition(bool refresh);
   frc::SwerveModuleState GetState(bool refresh);
   units::meters_per_second_t GetDriveSpeed();
-  void ResetDriveEncoder();
 
  private:
   // Motors

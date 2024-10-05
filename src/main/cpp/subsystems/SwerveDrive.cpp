@@ -40,6 +40,7 @@ m_modulePositions(
 )
 
 
+
 {
     frc::Preferences::SetBoolean(m_tuningModeKey, false);
     frc::Preferences::SetBoolean(m_diagnosticsKey, true);
@@ -101,6 +102,4 @@ void SwerveDrive::UpdateEstimator() {
     m_modulePositions[1] = m_modules.m_frontRight.GetPosition(true);
     m_modulePositions[2] = m_modules.m_backLeft.GetPosition(true);
     m_modulePositions[3] = m_modules.m_backRight.GetPosition(true);
-    
-    std::cout << "Swerve side pose estimator pointer" << m_poseHelper << "\n";
 }

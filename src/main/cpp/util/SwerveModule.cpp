@@ -138,7 +138,10 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState &state) {
     frc::SmartDashboard::PutNumber(speedKey, targetSpeed);
     frc::SmartDashboard::PutNumber(angleKey, targetAngle.value());
 
-    m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{targetSpeed * 1.311}));
+    frc::SmartDashboard::PutNumber("Target Speed ", targetSpeed);
+
+    // Output target speed to see if multiplier is necessary
+    m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{targetSpeed})); // *1.311
     if (fabs(targetSpeed) < .05 && fabs(m_lastAngle - targetAngle.value()) < 5.0) {
         m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{0.0}));
         targetAngle = units::degree_t{m_lastAngle};
@@ -187,12 +190,6 @@ frc::SwerveModuleState SwerveModule::GetState(bool refresh) {
             frc::Rotation2d(units::degree_t{360 * m_anglePosition.GetValue().value()})};
 }
 
-
 units::meters_per_second_t SwerveModule::GetDriveSpeed() {
     return units::meters_per_second_t{m_driveMotor.GetVelocity().Refresh().GetValue().value() / SwerveModuleConstants::kRotationsPerMeter};
 }
-
-void SwerveModule::ResetDriveEncoder() {
-    m_driveMotor.SetPosition(units::turn_t{0.0});
-}
-

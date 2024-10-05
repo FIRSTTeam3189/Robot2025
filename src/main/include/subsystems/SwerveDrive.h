@@ -22,6 +22,9 @@
 #include "util/SwerveModule.h"
 #include <ctre/phoenix6/Pigeon2.hpp>
 
+enum class DriveState { HeadingControl, RotationVelocityControl, ArbitraryAngleAlign, SourceAlign } ;
+
+
 struct SwerveModules {
   frc::Translation2d m_frontLeftLocation;
   frc::Translation2d m_frontRightLocation;
