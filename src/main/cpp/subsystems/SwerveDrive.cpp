@@ -5,7 +5,6 @@
 
 #include "subsystems/SwerveDrive.h"
 
-
 SwerveDrive::SwerveDrive(PoseEstimatorHelper *helper) : 
 m_modules{
   {+SwerveDriveConstants::kXDistanceFromCenter, +SwerveDriveConstants::kYDistanceFromCenter},
@@ -38,10 +37,13 @@ m_modulePositions(
     m_modules.m_backRight.GetPosition(true)
     //initializes the gyroscope and pose helpers for pose estimator
 )
-
-
-
 {
+    ConfigGyro();
+    ConfigSignals();
+    auto poseEstimator = new frc::SwerveDrivePoseEstimator<4> (SwerveDriveConstants::kKinematics, m_pigeon.GetRotation2d(), 
+    m_modulePositions, frc::Pose2d{}, VisionConstants::kEncoderTrustCoefficients, VisionConstants::kVisionTrustCoefficients);
+    m_poseHelper->SetPoseEstimator(poseEstimator);
+    
     frc::Preferences::SetBoolean(m_tuningModeKey, false);
     frc::Preferences::SetBoolean(m_diagnosticsKey, true);
     
@@ -75,7 +77,48 @@ void SwerveDrive::SetModuleStates(std::array<frc::SwerveModuleState, 4> desiredS
 
 // This method will be called once per scheduler run
 void SwerveDrive::Periodic() {
+    if (frc::Preferences::GetBoolean(m_tuningModeKey, false)) {
+        m_modules.m_frontLeft.UpdatePreferences();
+        m_modules.m_frontRight.UpdatePreferences();
+        m_modules.m_backLeft.UpdatePreferences();
+        m_modules.m_backRight.UpdatePreferences();
 
+        // Update rotation S value
+        m_rotationS = frc::Preferences::GetDouble(m_rotationSKey, SwerveDriveConstants::kSRot);
+    }
+    UpdateEstimator();
+    RefreshAllSignals();
+}
+
+void SwerveDrive::RefreshAllSignals() {
+    frc::SmartDashboard::PutString("Swerve signal status", ctre::phoenix6::BaseStatusSignal::WaitForAll(0.02_s, m_allSignals).GetName());
+}
+
+void SwerveDrive::ConfigSignals() {
+    // Takes in robot frequency Talon FX using 
+    for(int i=0; i < 4; i++) {
+        auto signals = m_moduleArray[i]->GetSignals();
+        for(int j=0; j < 4; j++) {
+            m_allSignals.emplace_back(signals[j]);
+        }
+    }
+
+    ctre::phoenix6::BaseStatusSignal::SetUpdateFrequencyForAll(SwerveDriveConstants::kRefreshRate, m_allSignals);
+}
+
+units::degree_t SwerveDrive::GetNormalizedYaw() {
+    // Normalizes yaw to (-180, 180)
+    double yaw =  m_pigeon.GetYaw().GetValue().value(); 
+    // (-360, 360)
+    double normalizedYaw = fmod(yaw, 360.0);
+    // (-180, 180)
+    if (normalizedYaw > 180)
+        normalizedYaw -= 360;
+    else if (normalizedYaw < -180)
+        normalizedYaw += 360;
+
+    frc::SmartDashboard::PutNumber("Normalized Yaw", normalizedYaw);
+    return units::degree_t{normalizedYaw};
 }
 
 void SwerveDrive::ConfigGyro() {
@@ -102,4 +145,11 @@ void SwerveDrive::UpdateEstimator() {
     m_modulePositions[1] = m_modules.m_frontRight.GetPosition(true);
     m_modulePositions[2] = m_modules.m_backLeft.GetPosition(true);
     m_modulePositions[3] = m_modules.m_backRight.GetPosition(true);
+}
+
+void SwerveDrive::Stop() {
+    m_modules.m_frontLeft.Stop();
+    m_modules.m_frontRight.Stop();
+    m_modules.m_backLeft.Stop();
+    m_modules.m_backRight.Stop();
 }

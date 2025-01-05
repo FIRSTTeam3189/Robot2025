@@ -21,9 +21,9 @@
 #include "subsystems/PoseEstimatorHelper.h"
 #include "util/SwerveModule.h"
 #include <ctre/phoenix6/Pigeon2.hpp>
+#include "Constants/VisionConstants.h"
 
 enum class DriveState { HeadingControl, RotationVelocityControl, ArbitraryAngleAlign, SourceAlign } ;
-
 
 struct SwerveModules {
   frc::Translation2d m_frontLeftLocation;
@@ -40,16 +40,19 @@ struct SwerveModules {
 class SwerveDrive : public frc2::SubsystemBase {
  public:
   SwerveDrive(PoseEstimatorHelper *helper);
-  void SwerveDrive::ConfigGyro();
-  void SwerveDrive::Drive(units::meters_per_second_t xSpeed,
+  void ConfigGyro();
+  
+  void Stop();
+  void Drive(units::meters_per_second_t xSpeed,
                         units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
                         bool fieldRelative,
                         frc::Translation2d centerOfRotation);
-  void SwerveDrive::UpdateEstimator();
-  void SwerveDrive::DriveRobotRelative(frc::ChassisSpeeds speeds);
-  void SwerveDrive::SetModuleStates(std::array<frc::SwerveModuleState, 4> desiredStates);
-  
-  
+  void UpdateEstimator();
+  void DriveRobotRelative(frc::ChassisSpeeds speeds);
+  void SetModuleStates(std::array<frc::SwerveModuleState, 4> desiredStates);
+  units::degree_t GetNormalizedYaw();
+  void RefreshAllSignals();
+  void ConfigSignals();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -71,6 +74,11 @@ class SwerveDrive : public frc2::SubsystemBase {
   std::string m_angleIKey;
   std::string m_angleDKey;
   std::string m_rotationSKey;
+
+  double m_rotationS = SwerveDriveConstants::kSRot;
+
+  std::vector<ctre::phoenix6::BaseStatusSignal*> m_allSignals;
+
   ctre::phoenix6::configs::Pigeon2Configuration m_pigeonConfigs{};
 
   std::string_view m_tuningModeKey = "Tuning Mode";

@@ -15,8 +15,6 @@
 #include "Constants/GlobalConstants.h"
 #include "Constants/SwerveModuleConstants.h"
 
-enum class DriveState {HeadingControl, RotationVelocityControl, SpeakerAlign, SpeakerAlignTranslationAlgorithm, ArbitraryAngleAlign, SourceAlign } ;
-
 struct PIDValues {
   double driveP;
   double driveI;
@@ -29,7 +27,7 @@ struct PIDValues {
 class SwerveModule {
  public:
   SwerveModule(int moduleNumber, int driveMotorID, int angleMotorID,
-               int CANcoderID, double CANcoderOffset);
+               int CANcoderID, units::turn_t CANcoderOffset);
   void ConfigDriveMotor();
   void ConfigAngleMotor(int CANcoderID);
   void ConfigCANcoder();
@@ -51,7 +49,7 @@ class SwerveModule {
   PIDValues m_PIDValues;
 
   int m_moduleNumber;
-  double m_CANcoderOffset;
+  units::turn_t m_CANcoderOffset;
   double m_lastAngle;
   frc::SwerveModulePosition m_position{0_m, frc::Rotation2d{}};
 
@@ -77,7 +75,6 @@ class SwerveModule {
   std::string m_angleDKey;
 
   std::vector<ctre::phoenix6::BaseStatusSignal*> m_signals;
-
 };
 
 

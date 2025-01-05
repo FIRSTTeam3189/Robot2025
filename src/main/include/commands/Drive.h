@@ -6,13 +6,13 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc/controller/PIDController.h>
 #include <frc/Joystick.h>
-#include <frc2/command/button/CommandJoystick.h>
+#include <frc/PS5Controller.h>
 #include "subsystems/SwerveDrive.h"
 
 class Drive
     : public frc2::CommandHelper<frc2::Command, Drive> {
  public:
-  Drive(frc2::CommandJoystick *joystick, SwerveDrive *swerveDrive, DriveState driveState, units::degree_t arbitraryAngle = 0.0_deg);
+  Drive(frc::PS5Controller *joystick, SwerveDrive *swerveDrive, DriveState driveState, units::degree_t arbitraryAngle = 0.0_deg);
   units::angular_velocity::radians_per_second_t GetDesiredRotationalVelocity();
 
   // For PID tuning
@@ -27,7 +27,7 @@ class Drive
   bool IsFinished() override;
 
  private:
-  frc2::CommandJoystick *m_bill;
+  frc::PS5Controller *m_bill;
   SwerveDrive *m_swerveDrive;
   frc::PIDController m_rotationPIDController;
   DriveState m_driveState;
