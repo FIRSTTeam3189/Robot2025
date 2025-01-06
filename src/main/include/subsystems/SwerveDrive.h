@@ -53,6 +53,8 @@ class SwerveDrive : public frc2::SubsystemBase {
   units::degree_t GetNormalizedYaw();
   void RefreshAllSignals();
   void ConfigSignals();
+  void SetBrakeMode(BrakeMode mode);
+  void SetPose(frc::Pose2d pose, bool justRotation);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

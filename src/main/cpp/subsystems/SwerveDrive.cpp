@@ -153,3 +153,29 @@ void SwerveDrive::Stop() {
     m_modules.m_backLeft.Stop();
     m_modules.m_backRight.Stop();
 }
+
+void SwerveDrive::SetPose(frc::Pose2d pose, bool justRotation) {
+    UpdateEstimator();
+    if (justRotation) {
+        auto currentPose = GetEstimatedPose();
+        m_poseHelper->ResetPose(GetNormalizedYaw(), m_modulePositions, frc::Pose2d{currentPose.X(), currentPose.Y(), pose.Rotation()});
+        // m_poseHelper->ResetPose(pose.Rotation(), m_modulePositions, frc::Pose2d{currentPose.X(), currentPose.Y(), pose.Rotation()});
+    }
+    else {
+        m_poseHelper->ResetPose(GetNormalizedYaw(), m_modulePositions, pose);
+        // m_poseHelper->ResetPose(pose.Rotation(), m_modulePositions, pose);
+    }
+    //sets pose to current pose
+    frc::SmartDashboard::PutNumber("Auto starting pose x", pose.X().value());
+    frc::SmartDashboard::PutNumber("Auto starting pose y", pose.Y().value());
+    frc::SmartDashboard::PutNumber("Auto starting pose rot", pose.Rotation().Degrees().value());
+    for (int i = 0; i < 10; i++) {
+        m_pigeon.SetYaw(pose.Rotation().Degrees());
+    }
+}
+
+void SwerveDrive::SetBrakeMode(BrakeMode mode) {
+    for (auto mod: m_moduleArray) {
+        mod->SetBrakeMode(mode);
+    }
+}

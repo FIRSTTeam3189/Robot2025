@@ -7,6 +7,8 @@
 
 #define PI 3.14159265358979323846
 
+enum class ActiveDriveController { OfficialDriver, TestControls };
+
 namespace SwerveDriveConstants {
     constexpr int kGyroID {13};
     constexpr double kRadiansToDegreesMultiplier {180.0 / PI};
