@@ -13,7 +13,9 @@
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/Preferences.h>
+#include <frc/DriverStation.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
 #include <math.h>
 #include <iostream>
 #include <string>
@@ -22,6 +24,7 @@
 #include "util/SwerveModule.h"
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include "Constants/VisionConstants.h"
+#include "Constants/AutoConstants.h"
 
 enum class DriveState { HeadingControl, RotationVelocityControl, ArbitraryAngleAlign, SourceAlign } ;
 
@@ -53,6 +56,10 @@ class SwerveDrive : public frc2::SubsystemBase {
   units::degree_t GetNormalizedYaw();
   void RefreshAllSignals();
   void ConfigSignals();
+  frc::Pose2d GetEstimatedPose();
+  frc::Pose2d GetEstimatedAutoPose();
+  void SetPose(frc::Pose2d pose, bool justRotation);
+  frc::ChassisSpeeds GetRobotRelativeSpeeds();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -84,4 +91,22 @@ class SwerveDrive : public frc2::SubsystemBase {
   std::string_view m_tuningModeKey = "Tuning Mode";
   std::string_view m_diagnosticsKey = "Full Diagnostics";
 
+  // Wheel radius, maxDriveVelocityMPS, wheelCOF, driveMotor, driveCurrentLimit, numMotors
+  pathplanner::ModuleConfig m_autoModuleConfig = pathplanner::ModuleConfig(
+    units::meter_t{SwerveModuleConstants::kWheelRadiusMeters},
+    SwerveModuleConstants::kMaxSpeed, 
+    SwerveModuleConstants::kWheelCOF,
+    AutoConstants::kDriveMotorConfig,
+    SwerveModuleConstants::kDrivePeakCurrentLimit,
+    1
+  );
+
+  // units::kilogram_t mass, units::kilogram_square_meter_t MOI, ModuleConfig moduleConfig, units::meter_t trackwidth, units::meter_t wheelbase
+  pathplanner::RobotConfig m_autoRobotConfig = pathplanner::RobotConfig(
+    53.524_kg, // TODO robot total mass
+    units::kilogram_square_meter_t{5.500}, // TODO estimate robot as cube or smth
+    m_autoModuleConfig,
+    SwerveDriveConstants::kTrackwidth
+    // SwerveDriveConstants::kWheelbase,
+  );
 };

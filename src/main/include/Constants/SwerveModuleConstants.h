@@ -32,7 +32,7 @@ namespace SwerveModuleConstants {
     constexpr int kBackRightCANcoderID {12};
 
     // Swerve angle offsets -- difference between actual degrees heading and absolute degree values
-    // TO BE DETERMINED
+    // TODO not figured out yet
     constexpr units::turn_t kFrontLeftOffset {0.921143};
     constexpr units::turn_t kFrontRightOffset {-0.351562};
     constexpr units::turn_t kBackLeftOffset {0.115479}; 
@@ -86,16 +86,15 @@ namespace SwerveModuleConstants {
     constexpr double kVAngle {0.0};
     constexpr double kSAngle {0.0};
 
-    constexpr auto kMaxSpeed {4.0_mps};
-    constexpr double kMPSToRPM {600.0};
+    constexpr auto kMaxSpeed {5.0_mps}; // TODO
     constexpr double kDEGToRAD {57.2957795131};
     constexpr double kWheelRadiusInches {2.0};
     constexpr double kWheelRadiusMeters {0.0508};
     constexpr double kWheelCircumferenceMeters {2.0 * PI * kWheelRadiusMeters};
-    constexpr double kDriveGearRatio {8.1};
-    constexpr double kAngleGearRatio {15.43};
+    constexpr double kDriveGearRatio {6.11};
+    constexpr double kAngleGearRatio {13.3714};
     constexpr double kRotationsPerMeter {1.0 / kWheelCircumferenceMeters};
     constexpr int kFalconEncoderTicksPerRevolution {2048};
     constexpr int kCANcoderTicksPerRevolution {4096};
-
+    constexpr double kWheelCOF {1.200}; // estimated
 }
