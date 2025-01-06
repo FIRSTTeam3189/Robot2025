@@ -44,6 +44,31 @@ m_modulePositions(
     m_modulePositions, frc::Pose2d{}, VisionConstants::kEncoderTrustCoefficients, VisionConstants::kVisionTrustCoefficients);
     m_poseHelper->SetPoseEstimator(poseEstimator);
     
+    // / Setup autobuilder for pathplannerlib
+    pathplanner::AutoBuilder::configure(
+        [this](){ return GetEstimatedAutoPose(); }, // Robot pose supplier
+        [this](frc::Pose2d pose){ SetPose(pose, false); }, // Method to reset odometry (will be called if your auto has a starting pose)
+        [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        [this](frc::ChassisSpeeds speeds){ DriveRobotRelative(speeds); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        std::make_shared<pathplanner::PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
+            pathplanner::PIDConstants(AutoConstants::kPTranslationAuto, AutoConstants::kITranslationAuto, AutoConstants::kDTranslationAuto), // Translation PID constants
+            pathplanner::PIDConstants(AutoConstants::kPRotationAuto, AutoConstants::kIRotationAuto, AutoConstants::kDRotationAuto) // Rotation PID constants
+        ),
+        m_autoRobotConfig,
+        []() {
+            // Boolean supplier that controls when the path will be mirrored for the red alliance
+            // This will flip the path being followed to the red side of the field.
+            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+            auto alliance = frc::DriverStation::GetAlliance();
+            if (alliance) {
+                return alliance.value() == frc::DriverStation::Alliance::kRed;
+            }
+            return false;
+        },
+        this // Reference to this subsystem to set requirements
+    );
+
     frc::Preferences::SetBoolean(m_tuningModeKey, false);
     frc::Preferences::SetBoolean(m_diagnosticsKey, true);
     
@@ -64,8 +89,78 @@ m_modulePositions(
     frc::Preferences::SetDouble(m_rotationSKey, SwerveDriveConstants::kSRot);
 }
 
-void SwerveDrive::DriveRobotRelative(frc::ChassisSpeeds speeds) {
+frc::Pose2d SwerveDrive::GetEstimatedPose() {
+    UpdateEstimator();
+    return m_poseHelper->GetEstimatedPose();
+}
 
+frc::Pose2d SwerveDrive::GetEstimatedAutoPose() {
+    UpdateEstimator();
+    auto pose = m_poseHelper->GetEstimatedPose();
+    frc::SmartDashboard::PutNumber("Auto pose x", pose.X().value());
+    frc::SmartDashboard::PutNumber("Auto pose y", pose.Y().value());
+    frc::SmartDashboard::PutNumber("Auto pose rot", pose.Rotation().Degrees().value());
+    return pose;
+}
+
+void SwerveDrive::SetPose(frc::Pose2d pose, bool justRotation) {
+    UpdateEstimator();
+    if (justRotation) {
+        auto currentPose = GetEstimatedPose();
+        m_poseHelper->ResetPose(GetNormalizedYaw(), m_modulePositions, frc::Pose2d{currentPose.X(), currentPose.Y(), pose.Rotation()});
+        // m_poseHelper->ResetPose(pose.Rotation(), m_modulePositions, frc::Pose2d{currentPose.X(), currentPose.Y(), pose.Rotation()});
+    }
+    else {
+        m_poseHelper->ResetPose(GetNormalizedYaw(), m_modulePositions, pose);
+        // m_poseHelper->ResetPose(pose.Rotation(), m_modulePositions, pose);
+    }
+    //sets pose to current pose
+    frc::SmartDashboard::PutNumber("Auto starting pose x", pose.X().value());
+    frc::SmartDashboard::PutNumber("Auto starting pose y", pose.Y().value());
+    frc::SmartDashboard::PutNumber("Auto starting pose rot", pose.Rotation().Degrees().value());
+    for (int i = 0; i < 10; i++) {
+        m_pigeon.SetYaw(pose.Rotation().Degrees());
+    }
+}
+
+void SwerveDrive::DriveRobotRelative(frc::ChassisSpeeds speeds) {
+    if (speeds.omega > units::radians_per_second_t(0.0)){
+        speeds.omega += units::radians_per_second_t(m_rotationS);
+    } else if (speeds.omega < units::radians_per_second_t(0.0)) {
+        speeds.omega -= units::radians_per_second_t(m_rotationS);
+    }
+
+    auto states = SwerveDriveConstants::kKinematics.ToSwerveModuleStates(speeds);
+    auto [fl, fr, bl, br] = states;
+    SwerveDriveConstants::kKinematics.DesaturateWheelSpeeds(&states, AutoConstants::kMaxAutoModuleSpeed);
+
+    double AutoDesiredStates[] = 
+    {(double)fl.angle.Degrees(), (double)fl.speed,
+     (double)fr.angle.Degrees(), (double)fr.speed,
+     (double)bl.angle.Degrees(), (double)bl.speed,
+     (double)br.angle.Degrees(), (double)br.speed};
+
+    frc::SmartDashboard::PutNumberArray("Auto Desired States", AutoDesiredStates);
+    frc::SmartDashboard::PutNumber("Robot relative desired x speed", speeds.vx.value());
+    frc::SmartDashboard::PutNumber("Robot relative desired y speed", speeds.vy.value());
+    frc::SmartDashboard::PutNumber("Robot relative desired omega speed", speeds.omega.value());
+
+    SetModuleStates(states);
+}
+
+frc::ChassisSpeeds SwerveDrive::GetRobotRelativeSpeeds() {
+    frc::SwerveModuleState frontLeftModuleState = m_modules.m_frontLeft.GetState(true);
+    frc::SwerveModuleState frontRightModuleState = m_modules.m_frontRight.GetState(true);
+    frc::SwerveModuleState backLeftModuleState = m_modules.m_backLeft.GetState(true);
+    frc::SwerveModuleState backRightModuleState = m_modules.m_backRight.GetState(true);
+
+    auto speeds = SwerveDriveConstants::kKinematics.ToChassisSpeeds(
+        frontLeftModuleState, frontRightModuleState, backLeftModuleState, backRightModuleState);
+
+    frc::SmartDashboard::PutNumber("Robot relative x speed", speeds.vx.value());
+    frc::SmartDashboard::PutNumber("Robot relative y speed", speeds.vy.value());
+    frc::SmartDashboard::PutNumber("Robot relative omega speed", speeds.omega.value());
+    return speeds;
 }
 
 void SwerveDrive::SetModuleStates(std::array<frc::SwerveModuleState, 4> desiredStates) {

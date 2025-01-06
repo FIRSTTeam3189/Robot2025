@@ -15,8 +15,10 @@ namespace SwerveDriveConstants {
 
     // Coordinate plane distance in meters to each swerve drive
     // This has x-positive as forward, y-positive as left
-    constexpr auto kXDistanceFromCenter {0.282575_m};
-    constexpr auto kYDistanceFromCenter {0.282575_m};
+    constexpr auto kXDistanceFromCenter {0.2921_m};
+    constexpr auto kYDistanceFromCenter {0.2921_m};
+    constexpr auto kWheelbase {0.2921_m * 2.0};
+    constexpr auto kTrackwidth {0.2921_m * 2.0};
 
     constexpr units::degree_t kGyroMountPoseYaw {0.0};
 
@@ -32,8 +34,8 @@ namespace SwerveDriveConstants {
         frc::Translation2d{-SwerveDriveConstants::kXDistanceFromCenter, +SwerveDriveConstants::kYDistanceFromCenter},
         frc::Translation2d{-SwerveDriveConstants::kXDistanceFromCenter, -SwerveDriveConstants::kYDistanceFromCenter}
     };
-    constexpr auto kMaxSpeed {4.0_mps};
-    constexpr auto kMaxAcceleration {5.0_mps_sq};
+    constexpr auto kMaxSpeed {5.0_mps};
+    constexpr auto kMaxAcceleration {5.0_mps_sq}; // TODO
     constexpr units::radians_per_second_t kMaxAngularVelocity {4.0 * PI};
     constexpr units::radians_per_second_squared_t kMaxAngularAcceleration {2.0 * PI};
 
