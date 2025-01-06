@@ -20,6 +20,7 @@
 
 #include "commands/Drive.h"
 #include "subsystems/PoseEstimatorHelper.h"
+#include "subsystems/Vision.h"
 #include "Constants/OperatorConstants.h"
 #include "Constants/AutoConstants.h"
 #include "Constants/SwerveDriveConstants.h"
@@ -54,6 +55,7 @@ class RobotContainer {
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
+  Vision *m_vision = new Vision(m_poseEstimator);
 
   frc::SendableChooser<frc2::Command*> m_chooser;
 
