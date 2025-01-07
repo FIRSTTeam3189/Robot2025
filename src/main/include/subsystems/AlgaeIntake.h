@@ -16,8 +16,10 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/core/CoreTalonFX.hpp>
 #include <rev/SparkMax.h>
+#include <rev/config/SparkMaxConfig.h>
 
 #include "Constants/GlobalConstants.h"
+#include "Constants/AlgaeIntakeConstants.h"
 
 enum class AlgaeIntakeState { HoldCurrentPosition, GoTarget };
 
@@ -26,7 +28,7 @@ enum class AlgaeIntakeTarget { IntakeAlgae, ScoreProcessor, DefaultRetract };
 
 class AlgaeIntake : public frc2::SubsystemBase {
  public:
-  AlgaeIntake();
+  AlgaeIntake(int CANcoderID);
   void SetRollerPower(double power);
   void SetRotationPower(double power);
   void SetRotation(units::degree_t target);
@@ -35,7 +37,7 @@ class AlgaeIntake : public frc2::SubsystemBase {
   void SetState(AlgaeIntakeState state);
   void UpdatePreferences();
   void ConfigRollerMotor();
-  void ConfigRotationMotor();
+  void ConfigRotationMotor(int CANcoderID);
   void SetBrakeMode(BrakeMode mode);
   void HoldPosition();
 
@@ -50,6 +52,9 @@ class AlgaeIntake : public frc2::SubsystemBase {
  private:
   ctre::phoenix6::hardware::TalonFX m_rotationMotor;
   rev::spark::SparkMax m_rollerMotor;
+
+  ctre::phoenix6::configs::TalonFXConfiguration m_rotationConfig{};
+  rev::spark::SparkMaxConfig m_rollerConfig;
 
   frc::TrapezoidProfile<units::degrees>::Constraints m_constraints;
   frc::ProfiledPIDController<units::degrees> m_profiledPIDController;
