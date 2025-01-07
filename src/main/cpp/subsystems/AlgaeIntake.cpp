@@ -8,8 +8,7 @@ AlgaeIntake::AlgaeIntake(int CANcoderID) :
  m_rollerConfig(),
  m_constraints(AlgaeIntakeConstants::kMaxRotationVelocity, AlgaeIntakeConstants::kMaxRotationAcceleration),
  m_profiledPIDController(AlgaeIntakeConstants::kPRotation, AlgaeIntakeConstants::kIRotation, AlgaeIntakeConstants::kDRotation, m_constraints),
- m_target(AlgaeIntakeConstants::kRetractTarget),
- m_isActive(false)
+ m_targetAngle(AlgaeIntakeConstants::kRetractTarget),
 { rev::spark::SparkMax::MotorType::kBrushless
     ConfigRotationMotor();
     ConfigRollerMotor();
@@ -34,7 +33,7 @@ void AlgaeIntake::ConfigRotationMotor(int CANcoderID) {
 
     // TODO
     m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kAngleGearRatio;
-    m_rotationConfig.Feedback.FeedbackRemoteSensorID = CANcoderID;
+    m_rotationConfig.Feedback.FeedbackRemoteSensorID = CANcoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
     m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RemoteCANcoder;
 
     m_rotationConfig.CurrentLimits.SupplyCurrentLowerLimit = AlgaeIntakeConstants::kAngleContinuousCurrentLimit;
@@ -86,14 +85,55 @@ void AlgaeIntake::ConfigPID() {
     frc::Preferences::SetDouble(m_rotationSKey, AlgaeIntakeConstants::kSRotation.value());
     frc::Preferences::SetDouble(m_rotationVKey, AlgaeIntakeConstants::kVRotation.value());
     frc::Preferences::SetDouble(m_rotationAKey, AlgaeIntakeConstants::kARotation.value());
-    frc::Preferences::SetDouble(m_rotationTargetKey, m_target.value());
+    frc::Preferences::SetDouble(m_rotationTargetKey, m_targetAngle.value());
 }
 
 //initializing PID and SGVA values
 
+units::volt_t AlgaeIntake::GetMotionProfileFeedForwardValue() {
+    // Generate motion profile
+    m_profiledPIDController.Calculate(GetRotation(), m_targetAngle);
+
+    // Calculates the change in velocity (acceleration) since last control loop
+    // Uses the acceleration value and desired velocity to calculate feedforward gains
+    // Feedforward gains are approximated based on the current state of the system and a known physics model
+    // Gains calculated with SysID   
+    m_acceleration = (units::degrees_per_second_t{m_rotationEncoder.GetVelocity()} - m_lastSpeed) /
+      (frc::Timer::GetFPGATimestamp() - m_lastTime);
+
+    m_targetAcceleration = (m_profiledPIDController.GetSetpoint().velocity - m_lastTargetSpeed) /
+      (frc::Timer::GetFPGATimestamp() - m_lastTime);
+    units::volt_t ffValue = m_ff->Calculate(units::radian_t{target}, units::radians_per_second_t{m_profiledPIDController.GetSetpoint().velocity},
+                                           units::radians_per_second_squared_t{m_targetAcceleration});
+
+    return ffValue;
+}
+
+void AlgaeIntake::SetRotation(units::degree_t target) {
+    // Calculates PID value in volts based on position and target
+    units::volt_t PIDValue = units::volt_t{(target - GetRotation()).value() * m_profiledPIDController.GetP()};  
+    units::volt_t ffValue = 0.0_V;
+
+    // Only use feedforward/motion profile if actively trying to move
+    if (m_state = AlgaeIntakeState::GoTarget) {
+        ffValue = GetMotionProfileFeedForwardValue();
+    }
+
+    m_rotationMotor.SetVoltage(std::clamp((PIDValue + ffValue), -12.0_V, 12.0_V));
+
+    frc::SmartDashboard::PutNumber("Intake power", m_rotationMotor.Get());
+    frc::SmartDashboard::PutNumber("Intake rotation volts", PIDValue.value() + ffValue.value());
+    frc::SmartDashboard::PutNumber("Intake rotation PID", PIDValue.value());
+    frc::SmartDashboard::PutNumber("Intake rotation FF", ffValue.value());
+
+    m_lastTargetSpeed = m_profiledPIDController.GetSetpoint().velocity;
+    m_lastSpeed = units::degrees_per_second_t{m_rotationEncoder.GetVelocity()};
+    m_lastTime = frc::Timer::GetFPGATimestamp();
+}
+
 // This method will be called once per scheduler run
 void AlgaeIntake::Periodic() {
-    frc::SmartDashboard::PutNumber("Algae Intake PID target", m_target.value());
+    frc::SmartDashboard::PutNumber("Algae Intake PID target", m_targetAngle.value());
     frc::SmartDashboard::PutNumber("Algae Intake rotation", GetRotation().value());
     frc::SmartDashboard::PutNumber("Algae Intake power", m_rollerMotor.Get());
 
@@ -107,5 +147,42 @@ void AlgaeIntake::Periodic() {
         UpdatePreferences();
     }
 
-    SetRotation(m_target);
+    SetRotation(m_targetAngle);
+}
+
+void AlgaeIntake::SetState(AlgaeIntakeState state, AlgaeIntakeTarget target) {
+    auto targetAngle = 0.0_deg;
+
+    switch(state){
+        case (AlgaeIntakeState::HoldCurrentPosition) :
+            m_state = AlgaeIntakeState::HoldCurrentPosition;
+            break;
+        case (AlgaeIntakeState::GoTarget) :
+            m_state = AlgaeIntakeState::GoTarget;
+            targetAngle = IntakeConstants::kExtendTarget;
+            break;
+    }
+
+    m_targetAngle = targetAngle;
+    //update the m_target variable with the target value changed from the state
+}
+
+units::degree_t AlgaeIntake::GetTargetAngleFromTarget(AlgaeIntakeTarget target) {
+    auto targetAngle = 0.0_deg;
+    switch (target) {
+        case (AlgaeIntakeTarget::IntakeAlgae):
+            targetAngle = AlgaeIntakeConstants::kIntakeAlgaeAngle;
+            break;
+        case (AlgaeIntakeTarget::ScoreProcessor):
+            targetAngle = AlgaeIntakeConstants::kScoreProcessorAngle;
+            break;
+        case (AlgaeIntakeTarget::DefaultRetract):
+            targetAngle = AlgaeIntakeConstants::kDefaultRetractAngle;
+            break;
+        default:
+            targetAngle = AlgaeIntakeConstants::kDefaultRetractAngle;
+            break;
+    }
+
+    return targetAngle;
 }
