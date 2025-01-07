@@ -58,7 +58,6 @@ class RobotContainer {
   frc::SendableChooser<frc2::Command*> m_chooser;
 
   DriveState m_driveState = DriveState::HeadingControl;
-  units::degree_t m_driveAligntarget;
 
   void ConfigureDriverBindings();
   void ConfigureCoDriverBindings();

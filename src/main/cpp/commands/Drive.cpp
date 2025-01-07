@@ -6,13 +6,17 @@
 #include "commands/Drive.h"
 #include "Constants/OperatorConstants.h"
 
-Drive::Drive(frc::PS5Controller *joystick, SwerveDrive *swerveDrive, DriveState driveState, units::degree_t arbitraryAngle) :
+Drive::Drive(frc::PS5Controller *joystick, SwerveDrive *swerveDrive, DriveState driveState, CoralStationTarget coralStationTarget, units::degree_t arbitraryAngle) :
 m_bill(joystick),
 m_swerveDrive(swerveDrive),
 m_rotationPIDController(SwerveDriveConstants::kPRot, SwerveDriveConstants::kIRot, SwerveDriveConstants::kDRot),
 m_driveState(driveState),
 m_arbitraryAngle(arbitraryAngle),
+m_coralStationTarget(coralStationTarget),
 m_allianceSide(frc::DriverStation::Alliance::kBlue) {
+  (void)VisionConstants::kSyncBytes[0];
+  (void)AutoConstants::kAutonomousPaths[0];
+
   AddRequirements(swerveDrive);
 
   if (frc::DriverStation::GetAlliance())
@@ -67,7 +71,19 @@ void Drive::Execute(){
     case(DriveState::HeadingControl) :
       rot = GetDesiredRotationalVelocity();
       break;
-      
+    case(DriveState::ArbitraryAngleAlign) :
+      rot = units::angular_velocity::radians_per_second_t{
+              m_rotLimiter.Calculate(m_rotationPIDController.Calculate(m_swerveDrive->GetNormalizedYaw().value(), m_arbitraryAngle.value()))
+              * SwerveDriveConstants::kMaxAngularVelocity};
+      break;
+     case(DriveState::CoralStationAlign) :
+      {
+        units::degree_t targetAngle = GetSourceAlignAngle(m_coralStationTarget);
+        rot = units::angular_velocity::radians_per_second_t{
+              m_rotLimiter.Calculate(m_rotationPIDController.Calculate(m_swerveDrive->GetNormalizedYaw().value(), targetAngle.value()))
+              * SwerveDriveConstants::kMaxAngularVelocity};
+        break;
+      }
     default:
       rot = units::angular_velocity::radians_per_second_t{0.0};
       break;
@@ -131,6 +147,27 @@ units::angular_velocity::radians_per_second_t Drive::GetDesiredRotationalVelocit
   }
 
   return rot;
+}
+
+units::angle::degree_t Drive::GetSourceAlignAngle(CoralStationTarget target){
+  auto angle = 0.0_deg;
+   switch (target){
+    case(CoralStationTarget::RedTop) :
+      angle = SwerveDriveConstants::kRedSourceAlignTargetTop;
+      break;
+    case(CoralStationTarget::RedBottom) :
+      angle = SwerveDriveConstants::kRedSourceAlignTargetRightBottom;
+      break;
+    case(CoralStationTarget::BlueTop) :
+      angle = SwerveDriveConstants::kBlueSourceAlignTargetTop;
+      break;
+    case(CoralStationTarget::BlueBottom) :
+      angle = SwerveDriveConstants::kBlueSourceAlignTargetBottom;
+      break;
+    default:
+      angle = 0.0_deg;
+   }
+    return angle;
 }
 
 void Drive::UpdatePreferences() {

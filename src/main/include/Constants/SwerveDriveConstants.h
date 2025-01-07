@@ -26,8 +26,13 @@ namespace SwerveDriveConstants {
     constexpr units::degree_t kGyroMountPoseYaw {0.0};
 
     constexpr auto kAmpAlignTarget = 90.0_deg;
-    constexpr auto kBlueSourceAlignTarget = 120.0_deg;
-    constexpr auto kRedSourceAlignTarget = 60.0_deg;
+
+    // TODO: Get the angles for all of them
+    constexpr auto kBlueSourceAlignTargetTop = 120.0_deg;
+    constexpr auto kRedSourceAlignTargetTop = 60.0_deg;
+    constexpr auto kBlueSourceAlignTargetBottom = 120.0_deg;
+    constexpr auto kRedSourceAlignTargetRightBottom = 60.0_deg;
+
 
     constexpr auto kRefreshRate = units::hertz_t {100};
 

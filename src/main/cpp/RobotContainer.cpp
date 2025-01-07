@@ -8,6 +8,7 @@
 
 RobotContainer::RobotContainer() {
   (void)VisionConstants::kSyncBytes[0];
+  (void)AutoConstants::kAutonomousPaths[0];
   RegisterAutoCommands();
   
   // Initialize all of your commands and subsystems here 
@@ -26,19 +27,6 @@ RobotContainer::RobotContainer() {
   }
 
   frc::SmartDashboard::PutData("Auto Routines", &m_chooser);
-  
-  // m_intake->SetDefaultCommand(frc2::RunCommand([this] {
-  //   m_intake->SetRotationPower(m_ted.GetRawAxis(OperatorConstants::kAxisLeftStickY));
-  // },{m_intake}).ToPtr());
-
-  // m_shooter->SetDefaultCommand(frc2::RunCommand([this]{
-  //   auto input = m_ted.GetRawAxis(OperatorConstants::kAxisRightStickY);
-  //   if (fabs(input) > 0.05)
-  //     m_shooter->SetRotationPower(-m_ted.GetRawAxis(OperatorConstants::kAxisRightStickY));
-  //   else
-  //     m_shooter->SetRotationPower(0.02);
-  //   // May need to change joystick axis
-  // },{m_shooter}));
   
   // Configure the button bindings
   ConfigureDriverBindings();
@@ -69,7 +57,6 @@ void RobotContainer::ConfigureDriverBindings() {
 
 void RobotContainer::ConfigureCoDriverBindings() {
   // Ted controls
-
 }
 
 void RobotContainer::RegisterAutoCommands() {
@@ -77,8 +64,6 @@ void RobotContainer::RegisterAutoCommands() {
   pathplanner::NamedCommands::registerCommand("PrintAutoMessage", frc2::InstantCommand([this]{
     for (int i = 0; i < 10; i++) {
       std::cout << "Auto started/ended\n"; }},{}).ToPtr());
-
-
 } 
 
 void RobotContainer::CreateAutoPaths() {
@@ -126,7 +111,21 @@ void RobotContainer::SetAllNormalBrakeMode() {
 
 
 void RobotContainer::ConfigureTestBindings() {
-
+  frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
+  coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
+    // if (m_driveState == DriveState::HeadingControl) {
+      m_driveState = DriveState::CoralStationAlign;
+    // } else {
+    //   m_driveState = DriveState::HeadingControl;
+    // }
+      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+    },{m_swerveDrive}).ToPtr()
+  );
+  coralStationAlignButton.OnFalse(frc2::InstantCommand([this]{
+      m_driveState = DriveState::HeadingControl;
+      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+    },{m_swerveDrive}).ToPtr()
+  );
 }
 
 
