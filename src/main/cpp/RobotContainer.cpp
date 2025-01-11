@@ -51,8 +51,6 @@ void RobotContainer::ConfigureDriverBindings() {
         m_swerveDrive->SetPose(frc::Pose2d{15.579_m, 5.50_m, frc::Rotation2d{180.0_deg}}, false);
     }
   },{m_swerveDrive}).ToPtr());
-
- 
 }
 
 void RobotContainer::ConfigureCoDriverBindings() {
