@@ -26,7 +26,7 @@
 #include "Constants/VisionConstants.h"
 #include "Constants/AutoConstants.h"
 
-enum class DriveState { HeadingControl, RotationVelocityControl, ArbitraryAngleAlign, SourceAlign } ;
+enum class DriveState { HeadingControl, ArbitraryAngleAlign, CoralStationAlign } ;
 
 struct SwerveModules {
   frc::Translation2d m_frontLeftLocation;
@@ -58,6 +58,7 @@ class SwerveDrive : public frc2::SubsystemBase {
   void ConfigSignals();
   void SetBrakeMode(BrakeMode mode);
   void SetPose(frc::Pose2d pose, bool justRotation);
+  void SetSlowMode(bool slow);
   frc::Pose2d GetEstimatedPose();
   frc::Pose2d GetEstimatedAutoPose();
   frc::ChassisSpeeds GetRobotRelativeSpeeds();
@@ -70,11 +71,11 @@ class SwerveDrive : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  PoseEstimatorHelper *m_poseHelper;
   SwerveModules m_modules;
   wpi::array<SwerveModule*, 4> m_moduleArray;
-  wpi::array<frc::SwerveModulePosition, 4> m_modulePositions;
+  PoseEstimatorHelper *m_poseHelper;
   ctre::phoenix6::hardware::Pigeon2 m_pigeon;
+  wpi::array<frc::SwerveModulePosition, 4> m_modulePositions;
   std::string m_drivePKey;
   std::string m_driveIKey;
   std::string m_driveDKey;
@@ -91,6 +92,7 @@ class SwerveDrive : public frc2::SubsystemBase {
 
   std::string_view m_tuningModeKey = "Tuning Mode";
   std::string_view m_diagnosticsKey = "Full Diagnostics";
+  bool m_slowMode = false;
 
   // Wheel radius, maxDriveVelocityMPS, wheelCOF, driveMotor, driveCurrentLimit, numMotors
   pathplanner::ModuleConfig m_autoModuleConfig = pathplanner::ModuleConfig(

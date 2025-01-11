@@ -37,6 +37,9 @@ m_modulePositions(
     //initializes the gyroscope and pose helpers for pose estimator
 )
 {
+    (void)VisionConstants::kSyncBytes[0];
+    (void)AutoConstants::kAutonomousPaths[0];
+
     ConfigGyro();
     ConfigSignals();
     auto poseEstimator = new frc::SwerveDrivePoseEstimator<4> (SwerveDriveConstants::kKinematics, m_pigeon.GetRotation2d(), 
@@ -221,17 +224,44 @@ void SwerveDrive::ConfigGyro() {
     m_pigeon.GetConfigurator().Apply(m_pigeonConfigs);
 }
 
-void SwerveDrive::Drive(units::meters_per_second_t xSpeed,
+void SwerveDrive::Drive(units::meters_per_second_t xSpeed, 
                         units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
                         bool fieldRelative,
-                        frc::Translation2d centerOfRotation) {
+                        frc::Translation2d centerOfRotation
+                        ) {
 
-                        auto states = SwerveDriveConstants::kKinematics.ToSwerveModuleStates(
-                        (fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+    // Add static ff value depending on direction of travel (rot)
+    if (rot > units::radians_per_second_t(0.0)){
+        rot += units::radians_per_second_t(m_rotationS);
+    } else if (rot < units::radians_per_second_t(0.0)) {
+        rot -= units::radians_per_second_t(m_rotationS);
+    }
+
+    auto states = SwerveDriveConstants::kKinematics.ToSwerveModuleStates(
+                  (fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                         xSpeed, ySpeed, rot, m_pigeon.GetRotation2d())
                             : frc::ChassisSpeeds{xSpeed, ySpeed, rot}),
                             centerOfRotation);
-                        }
+
+    
+    auto [fl, fr, bl, br] = states;
+
+    if (m_slowMode) {
+        SwerveDriveConstants::kKinematics.DesaturateWheelSpeeds(&states, SwerveModuleConstants::kMaxSpeed * SwerveDriveConstants::kSlowModeDriveMultiplier);
+    } else {
+        SwerveDriveConstants::kKinematics.DesaturateWheelSpeeds(&states, SwerveModuleConstants::kMaxSpeed);
+    }
+
+    double AdvantageScopeDesiredStates[] = 
+    {(double)fl.angle.Degrees(), (double)fl.speed,
+     (double)fr.angle.Degrees(), (double)fr.speed,
+     (double)bl.angle.Degrees(), (double)bl.speed,
+     (double)br.angle.Degrees(), (double)br.speed};
+
+    frc::SmartDashboard::PutNumberArray("AdvantageScope Desired States", AdvantageScopeDesiredStates);
+
+    SetModuleStates(states);
+}
 
 void SwerveDrive::UpdateEstimator() {
     // Get current positions and update
@@ -239,6 +269,10 @@ void SwerveDrive::UpdateEstimator() {
     m_modulePositions[1] = m_modules.m_frontRight.GetPosition(true);
     m_modulePositions[2] = m_modules.m_backLeft.GetPosition(true);
     m_modulePositions[3] = m_modules.m_backRight.GetPosition(true);
+}
+
+void SwerveDrive::SetSlowMode(bool slow) {
+    m_slowMode = slow;
 }
 
 void SwerveDrive::Stop() {

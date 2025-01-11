@@ -6,7 +6,8 @@
 
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -65,6 +66,8 @@ void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {
+  (void)VisionConstants::kSyncBytes[0];
+  (void)AutoConstants::kAutonomousPaths[0];
   return frc::StartRobot<Robot>();
 }
 #endif
