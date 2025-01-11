@@ -37,12 +37,11 @@ class AlgaeIntake : public frc2::SubsystemBase {
   units::degree_t GetRotation();
   units::degree_t GetCurrentTargetAngle();
   units::degree_t GetTargetAngleFromTarget(AlgaeIntakeTarget target);
-  void SetState(AlgaeIntakeState state);
+  void SetState(AlgaeIntakeState state, AlgaeIntakeTarget target);
   void SetBrakeMode(BrakeMode mode);
   void UpdatePreferences();
   void ConfigRollerMotor();
   void ConfigRotationMotor(int CANcoderID);
-  void SetBrakeMode(BrakeMode mode);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

@@ -115,7 +115,7 @@ void AlgaeIntake::SetRotation(units::degree_t target) {
     units::volt_t ffValue = 0.0_V;
 
     // Only use feedforward/motion profile if actively trying to move
-    if (m_state = AlgaeIntakeState::GoTarget) {
+    if (m_state == AlgaeIntakeState::GoTarget) {
         ffValue = GetMotionProfileFeedForwardValue();
     }
 
@@ -151,20 +151,15 @@ void AlgaeIntake::Periodic() {
 }
 
 void AlgaeIntake::SetState(AlgaeIntakeState state, AlgaeIntakeTarget target) {
-    auto targetAngle = 0.0_deg;
-
     switch(state){
         case (AlgaeIntakeState::HoldCurrentPosition) :
             m_state = AlgaeIntakeState::HoldCurrentPosition;
             break;
         case (AlgaeIntakeState::GoTarget) :
             m_state = AlgaeIntakeState::GoTarget;
-            targetAngle = IntakeConstants::kExtendTarget;
+            m_targetAngle = GetTargetAngleFromTarget(target);
             break;
     }
-
-    m_targetAngle = targetAngle;
-    //update the m_target variable with the target value changed from the state
 }
 
 units::degree_t AlgaeIntake::GetTargetAngleFromTarget(AlgaeIntakeTarget target) {
@@ -185,4 +180,8 @@ units::degree_t AlgaeIntake::GetTargetAngleFromTarget(AlgaeIntakeTarget target) 
     }
 
     return targetAngle;
+}
+
+units::degree_t AlgaeIntake::GetCurrentTargetAngle() {
+    return m_targetAngle;
 }
