@@ -12,7 +12,7 @@
 
 #define PI 3.14159265358979323846
 
-namespace CoralExtenderConstants{
+namespace CoralElevatorConstants{
     constexpr int kExtensionMotorID {17};
 
     // TODO

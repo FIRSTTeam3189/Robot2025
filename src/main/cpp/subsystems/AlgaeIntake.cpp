@@ -100,9 +100,9 @@ void AlgaeIntake::Periodic() {
     frc::SmartDashboard::PutNumber("Algae Intake PID target", m_targetAngle.value());
     frc::SmartDashboard::PutNumber("Algae Intake rotation", GetRotation().value());
     frc::SmartDashboard::PutNumber("Algae Intake roller power", m_rollerMotor.Get());
-
+    
     // if (frc::Preferences::GetBoolean("Full Diagnostics", false)) {
-    //     frc::SmartDashboard::PutNumber("Algae Intake desired rotational velocity", m_profiledPIDController.GetSetpoint().velocity.value());
+    //     frc::SmartDashboard::PutNumber("Algae Intake desired rotational velocity", m_rotationMotor.get);
     //     frc::SmartDashboard::PutNumber("Algae Intake rotational acceleration", m_acceleration.value());
     //     frc::SmartDashboard::PutNumber("Algae Intake desired rotational acceleration", m_targetAcceleration.value());
     // }

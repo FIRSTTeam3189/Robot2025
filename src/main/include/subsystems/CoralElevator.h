@@ -13,14 +13,14 @@
 #include "Constants/GlobalConstants.h"
 #include "Constants/CoralMechanismConstants.h"
 
-enum class CoralExtenderState { DefaultRetract, L1, L2, L3, L4, Intake };
+enum class CoralElevatorState { DefaultRetract, L1, L2, L3, L4, Intake };
 
-class CoralExtender : public frc2::SubsystemBase {
+class CoralElevator : public frc2::SubsystemBase {
  public:
-  CoralExtender();
+  CoralElevator();
   units::meter_t GetExtension();
   units::meter_t GetCurrentTargetHeight();
-  void SetState(CoralExtenderState state);
+  void SetState(CoralElevatorState state);
   void SetExtension(units::meter_t target);
   void SetExtensionBrakeMode(BrakeMode mode);
   void UpdatePreferences();
@@ -38,7 +38,7 @@ class CoralExtender : public frc2::SubsystemBase {
   ctre::phoenix6::hardware::TalonFX m_extensionMotor;
   ctre::phoenix6::configs::TalonFXConfiguration m_extensionConfig{};
 
-  CoralExtenderState m_state;
+  CoralElevatorState m_state;
   units::meter_t m_targetHeight;
   ctre::phoenix6::StatusSignal<units::angle::turn_t> m_extensionHeight = m_extensionMotor.GetPosition();
   ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_extensionVelocity = m_extensionMotor.GetVelocity();

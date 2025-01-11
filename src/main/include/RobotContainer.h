@@ -19,11 +19,16 @@
 #include <frc2/command/WaitCommand.h>
 
 #include "commands/Drive.h"
+#include "commands/SetAlgaeIntakeRotation.h"
+#include "commands/SetCoralElevatorExtension.h"
+#include "commands/SetCoralManipulatorRotation.h"
+
 #include "subsystems/PoseEstimatorHelper.h"
 #include "subsystems/Vision.h"
 #include "subsystems/AlgaeIntake.h"
-#include "subsystems/CoralExtender.h"
+#include "subsystems/CoralElevator.h"
 #include "subsystems/CoralManipulator.h"
+
 #include "Constants/OperatorConstants.h"
 #include "Constants/AutoConstants.h"
 #include "Constants/SwerveDriveConstants.h"
@@ -58,10 +63,10 @@ class RobotContainer {
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
-  Vision *m_vision = new Vision(m_poseEstimator);
-  AlgaeIntake *m_algaeIntake = new AlgaeIntake();
-  CoralExtender *m_coralExtender = new CoralExtender();
-  CoralManipulator *m_coralManipulator = new CoralManipulator();
+  // Vision *m_vision = new Vision(m_poseEstimator);
+  // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
+  // CoralElevator *m_coralElevator = new CoralElevator();
+  // CoralManipulator *m_coralManipulator = new CoralManipulator();
 
   frc::SendableChooser<frc2::Command*> m_chooser;
 

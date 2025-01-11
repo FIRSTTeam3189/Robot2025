@@ -4,6 +4,8 @@
 #include <units/angular_acceleration.h>
 #include <units/frequency.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
+#include <frc/geometry/Pose2d.h>
+#include <frc/geometry/Rotation2d.h>
 
 #define PI 3.14159265358979323846
 
@@ -11,7 +13,7 @@ enum class ActiveDriveController { OfficialDriver, TestControls };
 
 namespace SwerveDriveConstants {
     // SET ACTIVE DRIVER HERE
-    constexpr ActiveDriveController kActiveController {ActiveDriveController::OfficialDriver};
+    constexpr ActiveDriveController kActiveController {ActiveDriveController::TestControls};
 
     constexpr int kGyroID {13};
     constexpr double kRadiansToDegreesMultiplier {180.0 / PI};
@@ -33,6 +35,8 @@ namespace SwerveDriveConstants {
     constexpr auto kBlueSourceAlignTargetBottom = 120.0_deg;
     constexpr auto kRedSourceAlignTargetRightBottom = 60.0_deg;
 
+    constexpr frc::Pose2d kBlueResetPose {8.0_m, 4.023_m, frc::Rotation2d{0.0_deg}};
+    constexpr frc::Pose2d kRedResetPose {9.55_m, 4.023_m, frc::Rotation2d{180.0_deg}};
 
     constexpr auto kRefreshRate = units::hertz_t {100};
 
