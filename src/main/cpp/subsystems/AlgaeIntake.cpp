@@ -9,7 +9,7 @@ AlgaeIntake::AlgaeIntake(int CANcoderID) :
  m_constraints(AlgaeIntakeConstants::kMaxRotationVelocity, AlgaeIntakeConstants::kMaxRotationAcceleration),
  m_profiledPIDController(AlgaeIntakeConstants::kPRotation, AlgaeIntakeConstants::kIRotation, AlgaeIntakeConstants::kDRotation, m_constraints),
  m_state(),
- m_targetAngle(AlgaeIntakeConstants::kRetractTarget),
+ m_targetAngle(AlgaeIntakeConstants::kRetractTarget)
 { rev::spark::SparkMax::MotorType::kBrushless;
     ConfigRotationMotor(CANcoderID);
     ConfigRollerMotor();
