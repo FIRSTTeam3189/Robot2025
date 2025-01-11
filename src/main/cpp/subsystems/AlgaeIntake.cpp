@@ -3,14 +3,15 @@
 AlgaeIntake::AlgaeIntake(int CANcoderID) : 
 
  // TODO
- m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID, rev::spark::SparkMax::MotorType::kBrushless),
+ m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID, ""),
  m_rollerMotor(AlgaeIntakeConstants::kRollerMotorID, rev::spark::SparkMax::MotorType::kBrushless),
  m_rollerConfig(),
  m_constraints(AlgaeIntakeConstants::kMaxRotationVelocity, AlgaeIntakeConstants::kMaxRotationAcceleration),
  m_profiledPIDController(AlgaeIntakeConstants::kPRotation, AlgaeIntakeConstants::kIRotation, AlgaeIntakeConstants::kDRotation, m_constraints),
+ m_state(),
  m_targetAngle(AlgaeIntakeConstants::kRetractTarget),
-{ rev::spark::SparkMax::MotorType::kBrushless
-    ConfigRotationMotor();
+{ rev::spark::SparkMax::MotorType::kBrushless;
+    ConfigRotationMotor(CANcoderID);
     ConfigRollerMotor();
     ConfigPID();
 
@@ -32,20 +33,20 @@ void AlgaeIntake::ConfigRotationMotor(int CANcoderID) {
     m_rotationConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
     // TODO
-    m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kAngleGearRatio;
+    m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kRotationGearRatio;
     m_rotationConfig.Feedback.FeedbackRemoteSensorID = CANcoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
     m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RemoteCANcoder;
 
-    m_rotationConfig.CurrentLimits.SupplyCurrentLowerLimit = AlgaeIntakeConstants::kAngleContinuousCurrentLimit;
-    m_rotationConfig.CurrentLimits.SupplyCurrentLimit = AlgaeIntakeConstants::kAnglePeakCurrentLimit;
-    m_rotationConfig.CurrentLimits.SupplyCurrentLowerTime = AlgaeIntakeConstants::kAnglePeakCurrentDuration;
-    m_rotationConfig.CurrentLimits.SupplyCurrentLimitEnable = AlgaeIntakeConstants::kAngleEnableCurrentLimit;
+    m_rotationConfig.CurrentLimits.SupplyCurrentLowerLimit = AlgaeIntakeConstants::kRotationContinuousCurrentLimit;
+    m_rotationConfig.CurrentLimits.SupplyCurrentLimit = AlgaeIntakeConstants::kRotationPeakCurrentLimit;
+    m_rotationConfig.CurrentLimits.SupplyCurrentLowerTime = AlgaeIntakeConstants::kRotationPeakCurrentDuration;
+    m_rotationConfig.CurrentLimits.SupplyCurrentLimitEnable = AlgaeIntakeConstants::kRotationEnableCurrentLimit;
 
     m_rotationConfig.Voltage.PeakForwardVoltage = AlgaeIntakeConstants::kMaxVoltage;
     m_rotationConfig.Voltage.PeakReverseVoltage = AlgaeIntakeConstants::kMaxVoltage;
 
-    m_rotationConfig.MotorOutput.Inverted = AlgaeIntakeConstants::kAngleMotorInverted;
-    m_rotationConfig.MotorOutput.NeutralMode = AlgaeIntakeConstants::kAngleNeutralMode;
+    m_rotationConfig.MotorOutput.Inverted = AlgaeIntakeConstants::kRotationMotorInverted;
+    m_rotationConfig.MotorOutput.NeutralMode = AlgaeIntakeConstants::kRotationNeutralMode;
 
     m_rotationMotor.GetConfigurator().Apply(m_rotationConfig);
 }
@@ -103,7 +104,7 @@ units::volt_t AlgaeIntake::GetMotionProfileFeedForwardValue() {
 
     m_targetAcceleration = (m_profiledPIDController.GetSetpoint().velocity - m_lastTargetSpeed) /
       (frc::Timer::GetFPGATimestamp() - m_lastTime);
-    units::volt_t ffValue = m_ff->Calculate(units::radian_t{target}, units::radians_per_second_t{m_profiledPIDController.GetSetpoint().velocity},
+    units::volt_t ffValue = m_ff->Calculate(units::radian_t{m_targetAngle}, units::radians_per_second_t{m_profiledPIDController.GetSetpoint().velocity},
                                            units::radians_per_second_squared_t{m_targetAcceleration});
 
     return ffValue;
