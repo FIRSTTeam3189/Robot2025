@@ -87,8 +87,8 @@ void SwerveModule::ConfigAngleMotor(int CANcoderID) {
     m_angleConfigs.CurrentLimits.SupplyCurrentLowerTime = SwerveModuleConstants::kAnglePeakCurrentDuration;
     m_angleConfigs.CurrentLimits.SupplyCurrentLimitEnable = SwerveModuleConstants::kAngleEnableCurrentLimit;
 
-    m_angleConfigs.Voltage.PeakForwardVoltage = SwerveModuleConstants::kMaxVoltage;
-    m_angleConfigs.Voltage.PeakReverseVoltage = -SwerveModuleConstants::kMaxVoltage;
+    m_angleConfigs.Voltage.PeakForwardVoltage = SwerveModuleConstants::kMaxAngleVoltage;
+    m_angleConfigs.Voltage.PeakReverseVoltage = -SwerveModuleConstants::kMaxAngleVoltage;
 
     m_angleConfigs.MotorOutput.Inverted = SwerveModuleConstants::kAngleMotorInverted;
     m_angleConfigs.MotorOutput.NeutralMode = SwerveModuleConstants::kAngleNeutralMode;

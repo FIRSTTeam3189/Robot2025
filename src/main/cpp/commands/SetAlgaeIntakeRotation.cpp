@@ -4,9 +4,8 @@
 
 #include "commands/SetAlgaeIntakeRotation.h"
 
-SetAlgaeIntakeRotation::SetAlgaeIntakeRotation(AlgaeIntake *algaeIntake, AlgaeIntakeState state, AlgaeIntakeTarget target) :
+SetAlgaeIntakeRotation::SetAlgaeIntakeRotation(AlgaeIntake *algaeIntake, AlgaeIntakeState target) :
 m_algaeIntake(algaeIntake),
-m_state(state),
 m_target(target) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(algaeIntake);
@@ -14,7 +13,7 @@ m_target(target) {
 
 // Called when the command is initially scheduled.
 void SetAlgaeIntakeRotation::Initialize() {
-  m_algaeIntake->SetState(m_state, m_target);
+  m_algaeIntake->SetState(m_target);
 }
 
 // Called repeatedly when this Command is scheduled to run

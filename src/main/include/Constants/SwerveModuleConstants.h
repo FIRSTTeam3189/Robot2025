@@ -43,7 +43,7 @@ namespace SwerveModuleConstants {
     constexpr bool kAngleMotorInverted = false;
     constexpr bool kCANcoderInverted = false;
 
-    constexpr units::volt_t kMaxVoltage {12.0}; // TODO
+    constexpr units::volt_t kMaxAngleVoltage {10.0};
     // Current limits -- allows continuous operation at certain amps, or a peak of greater amps for <threshold time
     constexpr auto kAngleContinuousCurrentLimit = units::ampere_t{25.0};
     constexpr auto kAnglePeakCurrentLimit = units::ampere_t{40.0};

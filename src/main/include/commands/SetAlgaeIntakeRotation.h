@@ -21,7 +21,7 @@ class SetAlgaeIntakeRotation
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  SetAlgaeIntakeRotation(AlgaeIntake *algaeIntake, AlgaeIntakeState state, AlgaeIntakeTarget target = AlgaeIntakeTarget::DefaultRetract);
+  SetAlgaeIntakeRotation(AlgaeIntake *algaeIntake, AlgaeIntakeState target);
 
   void Initialize() override;
 
@@ -33,6 +33,5 @@ class SetAlgaeIntakeRotation
 
  private:
   AlgaeIntake *m_algaeIntake;
-  AlgaeIntakeState m_state;
-  AlgaeIntakeTarget m_target;
+  AlgaeIntakeState m_target;
 };

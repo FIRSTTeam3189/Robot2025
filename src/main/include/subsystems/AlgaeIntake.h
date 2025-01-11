@@ -2,19 +2,12 @@
 #include <frc2/command/sysid/SysIdRoutine.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-#include <frc/AnalogPotentiometer.h>
-#include <frc/Timer.h>
-#include <frc/DigitalInput.h>
-
 #include <frc/Preferences.h>
-#include <frc/RobotController.h>
-
-#include <frc/controller/ArmFeedforward.h>
-#include <frc/controller/ProfiledPIDController.h>
-#include <frc/trajectory/TrapezoidProfile.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/core/CoreTalonFX.hpp>
+#include <ctre/phoenix6/StatusSignal.hpp>
+#include <ctre/phoenix6/CANcoder.hpp>
 #include <rev/SparkMax.h>
 #include <rev/config/SparkMaxConfig.h>
 
@@ -22,26 +15,22 @@
 #include "Constants/AlgaeIntakeConstants.h"
 #include "Constants/AlgaeIntakeConstants.h"
 
-enum class AlgaeIntakeState { HoldCurrentPosition, GoTarget };
-
 // IntakeAlgae extends it to the target to get the algae and spin rollers, ScoreProcessor goes to vertical position and DefaultRetract is its state when doing nothing (retracted in the robot)
-enum class AlgaeIntakeTarget { IntakeAlgae, ScoreProcessor, DefaultRetract };
+enum class AlgaeIntakeState { IntakeAlgae, ScoreProcessor, DefaultRetract };
 
 class AlgaeIntake : public frc2::SubsystemBase {
  public:
-  AlgaeIntake(int CANcoderID);
+  AlgaeIntake();
   void SetRollerPower(double power);
-  void SetRotationPower(double power);
   void SetRotation(units::degree_t target);
-  units::volt_t GetMotionProfileFeedForwardValue();
   units::degree_t GetRotation();
   units::degree_t GetCurrentTargetAngle();
-  units::degree_t GetTargetAngleFromTarget(AlgaeIntakeTarget target);
-  void SetState(AlgaeIntakeState state, AlgaeIntakeTarget target);
-  void SetBrakeMode(BrakeMode mode);
+  void SetState(AlgaeIntakeState state);
+  void SetRotationBrakeMode(BrakeMode mode);
   void UpdatePreferences();
   void ConfigRollerMotor();
-  void ConfigRotationMotor(int CANcoderID);
+  void ConfigRotationMotor();
+  void ConfigRotationCANcoder();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -53,21 +42,17 @@ class AlgaeIntake : public frc2::SubsystemBase {
 
  private:
   ctre::phoenix6::hardware::TalonFX m_rotationMotor;
+  ctre::phoenix6::hardware::CANcoder m_CANcoder;
   rev::spark::SparkMax m_rollerMotor;
 
   ctre::phoenix6::configs::TalonFXConfiguration m_rotationConfig{};
+  ctre::phoenix6::configs::CANcoderConfiguration m_encoderConfig{};
   rev::spark::SparkMaxConfig m_rollerConfig;
 
-  frc::TrapezoidProfile<units::degrees>::Constraints m_constraints;
-  frc::ProfiledPIDController<units::degrees> m_profiledPIDController;
-  frc::ArmFeedforward *m_ff;
+  AlgaeIntakeState m_target;
   units::degree_t m_targetAngle;
-  AlgaeIntakeState m_state;
-  units::degrees_per_second_t m_lastSpeed;
-  units::degrees_per_second_t m_lastTargetSpeed;
-  units::degrees_per_second_squared_t m_acceleration;
-  units::degrees_per_second_squared_t m_targetAcceleration;
-  units::second_t m_lastTime;
+  ctre::phoenix6::StatusSignal<units::angle::turn_t> m_rotationAngle = m_rotationMotor.GetPosition();
+  ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_rotationVelocity = m_rotationMotor.GetVelocity();
   
   // String keys for PID preferences
   std::string m_rotationPKey;
