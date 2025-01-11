@@ -1,3 +1,5 @@
+#pragma once
+
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/sysid/SysIdRoutine.h>
 #include <frc/smartdashboard/SmartDashboard.h>

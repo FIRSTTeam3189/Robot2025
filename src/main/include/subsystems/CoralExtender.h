@@ -11,7 +11,7 @@
 #include <frc/Preferences.h>
 
 #include "Constants/GlobalConstants.h"
-#include "Constants/CoralExtenderConstants.h"
+#include "Constants/CoralMechanismConstants.h"
 
 enum class CoralExtenderState { DefaultRetract, L1, L2, L3, L4, Intake };
 

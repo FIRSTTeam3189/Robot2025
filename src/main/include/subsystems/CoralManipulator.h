@@ -18,7 +18,7 @@
 
 #include <frc/Timer.h>
 
-#include "Constants/CoralManipulatorConstants.h"
+#include "Constants/CoralMechanismConstants.h"
 
 // ScoreCoralL123 just sets it to -35 degrees for the levels 1-3
 // Hold position keeps previous target while GoTarget generates a motion profile

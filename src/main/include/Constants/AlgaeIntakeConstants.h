@@ -46,7 +46,6 @@ namespace AlgaeIntakeConstants{
     constexpr auto kDefaultRetractAngle {90.0_deg}; // TODO
     constexpr auto kIntakeAlgaeAngle {45.0_deg}; // TODO
     constexpr auto kScoreProcessorAngle {80.0_deg}; // TODO
-    constexpr bool kRotationInverted {false};
     constexpr bool kRotationMotorInverted {true};
     constexpr auto kRotationNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)

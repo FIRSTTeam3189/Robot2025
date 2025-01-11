@@ -36,6 +36,7 @@ void CoralExtender::ConfigExtensionMotor() {
     m_extensionConfig.Slot0.kP = CoralExtenderConstants::kPExtension;
     m_extensionConfig.Slot0.kI = CoralExtenderConstants::kIExtension;
     m_extensionConfig.Slot0.kD = CoralExtenderConstants::kDExtension;
+    m_extensionConfig.Slot0.GravityType = ctre::phoenix6::signals::GravityTypeValue::Elevator_Static;
 
     // Motion magic configs
     m_extensionConfig.MotionMagic.MotionMagicCruiseVelocity = CoralExtenderConstants::kMotionMagicMaxVelocity;
@@ -113,13 +114,13 @@ void CoralExtender::SetExtension(units::meter_t target) {
 
     // set target position to target meters
     // First, convert meters into rotations of the motor
-    m_extensionMotor.SetControl(request.WithEnableFOC(true).WithPosition(units::turn_t{target / CoralExtenderConstants::kExtensionConversionRotationsToMeters}));
+    m_extensionMotor.SetControl(request.WithEnableFOC(true).WithPosition(units::turn_t{target.value() / CoralExtenderConstants::kExtensionConversionRotationsToMeters}));
 
     frc::SmartDashboard::PutNumber("Coral extender power", m_extensionMotor.Get());
 }
 
 units::meter_t CoralExtender::GetExtension() {
-    return ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(m_extensionHeight, m_extensionVelocity);
+    return units::meter_t{CoralExtenderConstants::kExtensionConversionRotationsToMeters * ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(m_extensionHeight, m_extensionVelocity).value()};
 }
 
 units::meter_t CoralExtender::GetCurrentTargetHeight() {
@@ -134,7 +135,7 @@ void CoralExtender::UpdatePreferences() {
     m_extensionConfig.Slot0.kP = frc::Preferences::GetDouble(m_extensionPKey, CoralExtenderConstants::kPExtension);
     m_extensionConfig.Slot0.kI = frc::Preferences::GetDouble(m_extensionIKey, CoralExtenderConstants::kIExtension);
     m_extensionConfig.Slot0.kD = frc::Preferences::GetDouble(m_extensionDKey, CoralExtenderConstants::kDExtension);
-    m_targetHeight = units::degree_t{frc::Preferences::GetDouble(m_extensionTargetKey, m_targetHeight.value())};
+    m_targetHeight = units::meter_t{frc::Preferences::GetDouble(m_extensionTargetKey, m_targetHeight.value())};
 
     m_extensionMotor.GetConfigurator().Apply(m_extensionConfig);
 }

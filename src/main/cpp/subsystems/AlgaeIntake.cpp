@@ -31,16 +31,18 @@ void AlgaeIntake::ConfigRotationMotor() {
     m_rotationConfig.Slot0.kP = AlgaeIntakeConstants::kPRotation;
     m_rotationConfig.Slot0.kI = AlgaeIntakeConstants::kIRotation;
     m_rotationConfig.Slot0.kD = AlgaeIntakeConstants::kDRotation;
+    m_rotationConfig.Slot0.GravityType = ctre::phoenix6::signals::GravityTypeValue::Arm_Cosine;
 
     // Motion magic configs
     m_rotationConfig.MotionMagic.MotionMagicCruiseVelocity = AlgaeIntakeConstants::kMotionMagicMaxVelocity;
     m_rotationConfig.MotionMagic.MotionMagicAcceleration = AlgaeIntakeConstants::kMotionMagicMaxAcceleration;
     m_rotationConfig.MotionMagic.MotionMagicJerk = AlgaeIntakeConstants::kMotionMagicMaxJerk;
 
-    m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kRotationGearRatio;
-    m_rotationConfig.Feedback.FeedbackRemoteSensorID = AlgaeIntakeConstants::kRotationCANCoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
+    // m_rotationConfig.Feedback.FeedbackRemoteSensorID = AlgaeIntakeConstants::kRotationCANCoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
+    // m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kRotationGearRatio;
     // m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::FusedCANcoder;
     m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RotorSensor;
+    m_rotationConfig.Feedback.SensorToMechanismRatio = AlgaeIntakeConstants::kRotationGearRatio;
 
     m_rotationConfig.CurrentLimits.SupplyCurrentLowerLimit = AlgaeIntakeConstants::kRotationContinuousCurrentLimit;
     m_rotationConfig.CurrentLimits.SupplyCurrentLimit = AlgaeIntakeConstants::kRotationPeakCurrentLimit;
