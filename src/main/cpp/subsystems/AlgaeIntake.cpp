@@ -39,7 +39,8 @@ void AlgaeIntake::ConfigRotationMotor() {
 
     m_rotationConfig.Feedback.RotorToSensorRatio = AlgaeIntakeConstants::kRotationGearRatio;
     m_rotationConfig.Feedback.FeedbackRemoteSensorID = AlgaeIntakeConstants::kRotationCANCoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
-    m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::FusedCANcoder;
+    // m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::FusedCANcoder;
+    m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RotorSensor;
 
     m_rotationConfig.CurrentLimits.SupplyCurrentLowerLimit = AlgaeIntakeConstants::kRotationContinuousCurrentLimit;
     m_rotationConfig.CurrentLimits.SupplyCurrentLimit = AlgaeIntakeConstants::kRotationPeakCurrentLimit;
