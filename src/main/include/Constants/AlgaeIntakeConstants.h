@@ -27,6 +27,7 @@ namespace AlgaeIntakeConstants{
     // constexpr auto kARotation {0.0006516_V * 1.0_s * 1.0_s / 1.0_rad};
 
     // TODO
+
     constexpr double kPRotation {0.05};
     constexpr double kIRotation {0.0};
     constexpr double kDRotation {0.0};
@@ -36,6 +37,14 @@ namespace AlgaeIntakeConstants{
     // constexpr auto kVRotation {0.65_V * 1.0_s / 1.0_rad};
     constexpr auto kARotation {0.0_V * 1.0_s * 1.0_s / 1.0_rad};
 
+    // TODO
+    constexpr auto kMaxVoltage {10.0_V}; // volts
+    // Current limits -- allows continuous operation at certain amps, or a peak of greater amps for <threshold time
+    constexpr auto kRotationContinuousCurrentLimit = units::ampere_t{25.0};
+    constexpr auto kRotationPeakCurrentLimit = units::ampere_t{40.0};
+    constexpr auto kRotationPeakCurrentDuration = 0.1_s; // seconds
+    constexpr bool kRotationEnableCurrentLimit = true;
+    
     constexpr double kFeedforward {1.0};
 
     // In degrees
@@ -53,6 +62,7 @@ namespace AlgaeIntakeConstants{
     constexpr bool kRotationMotorInverted {true};
     constexpr auto kRotationStopDistance {5.0_deg};
     constexpr auto kRotationIdleTolerance {1.5_deg};
+    constexpr double kRotationGearRatio {15.43};
 
-    constexpr auto kIdleMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
+    constexpr auto kRotationNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
 }
