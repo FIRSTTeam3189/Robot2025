@@ -62,6 +62,7 @@ class SwerveDrive : public frc2::SubsystemBase {
   frc::Pose2d GetEstimatedPose();
   frc::Pose2d GetEstimatedAutoPose();
   frc::ChassisSpeeds GetRobotRelativeSpeeds();
+  void LogModuleStates(wpi::array<frc::SwerveModulePosition, 4> modulePositions);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
