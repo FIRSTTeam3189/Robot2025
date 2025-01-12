@@ -58,6 +58,103 @@ void RobotContainer::RegisterAutoCommands() {
   pathplanner::NamedCommands::registerCommand("PrintAutoMessage", frc2::InstantCommand([this]{
     for (int i = 0; i < 10; i++) {
       std::cout << "Auto started/ended\n"; }},{}).ToPtr());
+
+  pathplanner::NamedCommands::registerCommand("AlgaeIntakeRunExtend", frc2::SequentialCommandGroup(
+      frc2::InstantCommand([this]{
+        m_algaeIntake->SetRollerPower(AlgaeIntakeConstants::kRollerIntakePower);
+      }, {m_algaeIntake}),
+      frc2::ParallelRaceGroup(
+        frc2::WaitCommand(AutoConstants::kAlgaeIntakeMaxExtendTime),
+        SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::IntakeAlgae)
+      )
+    ).ToPtr()
+  );
+
+  pathplanner::NamedCommands::registerCommand("AlgaeIntakeStopRetract", frc2::SequentialCommandGroup(
+      frc2::InstantCommand([this]{
+        m_algaeIntake->SetRollerPower(0.0);
+      }, {m_algaeIntake}),
+      frc2::ParallelRaceGroup(
+        frc2::WaitCommand(AutoConstants::kAlgaeIntakeMaxRetractTime),
+        SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::DefaultRetract)
+      )
+    ).ToPtr()
+  );
+  
+  pathplanner::NamedCommands::registerCommand("ScoreCoralL1", frc2::SequentialCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1),
+      frc2::WaitCommand(0.5_s),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
+      frc2::WaitCommand(1.5_s),
+      frc2::ParallelCommandGroup(
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  );
+
+  pathplanner::NamedCommands::registerCommand("ScoreCoralL2", frc2::SequentialCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2),
+      frc2::WaitCommand(0.5_s),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
+      frc2::WaitCommand(1.5_s),
+      frc2::ParallelCommandGroup(
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  );
+
+  pathplanner::NamedCommands::registerCommand("ScoreCoralL3", frc2::SequentialCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3),
+      frc2::WaitCommand(0.5_s),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
+      frc2::WaitCommand(1.5_s),
+      frc2::ParallelCommandGroup(
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  );
+
+  pathplanner::NamedCommands::registerCommand("ScoreCoralL4", frc2::SequentialCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4),
+      frc2::WaitCommand(0.5_s),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL4),
+      frc2::WaitCommand(1.5_s),
+      frc2::ParallelCommandGroup(
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  ); 
+
+  pathplanner::NamedCommands::registerCommand("CoralMechanismIntakeCoralStation", frc2::SequentialCommandGroup(
+      frc2::ParallelCommandGroup(
+        frc2::ParallelRaceGroup(
+          frc2::WaitCommand(AutoConstants::kCoralElevatorMaxIntakeExtendTime),
+          SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake)
+        ),
+        frc2::ParallelRaceGroup(
+          frc2::WaitCommand(AutoConstants::kCoralManipulatorMaxIntakeExtendTime),
+          SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
+        )
+      ),
+      frc2::WaitCommand(AutoConstants::kCoralIntakeWaitingTime)
+    ).ToPtr()
+  );
+
+  pathplanner::NamedCommands::registerCommand("CoralMechanismDefault", frc2::ParallelCommandGroup(
+      frc2::ParallelRaceGroup(
+        frc2::WaitCommand(AutoConstants::kCoralElevatorMaxRetractTime),
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract)
+      ),
+      frc2::ParallelRaceGroup(
+        frc2::WaitCommand(AutoConstants::kCoralManipulatorMaxRetractTime),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  );
 } 
 
 void RobotContainer::CreateAutoPaths() {

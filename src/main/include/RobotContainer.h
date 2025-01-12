@@ -66,10 +66,10 @@ class RobotContainer {
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
-  // Vision *m_vision = new Vision(m_poseEstimator);
-  // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
-  // CoralElevator *m_coralElevator = new CoralElevator();
-  // CoralManipulator *m_coralManipulator = new CoralManipulator();
+  Vision *m_vision = new Vision(m_poseEstimator);
+  AlgaeIntake *m_algaeIntake = new AlgaeIntake();
+  CoralElevator *m_coralElevator = new CoralElevator();
+  CoralManipulator *m_coralManipulator = new CoralManipulator();
 
   frc::SendableChooser<frc2::Command*> m_chooser;
 
