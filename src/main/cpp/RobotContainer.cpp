@@ -131,8 +131,24 @@ void RobotContainer::ConfigureTestBindings() {
   );
 
   // frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
-  // intakeCoralButton.OnTrue(
-    
+  // intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
+  //   ).ToPtr()
+  // );
+  // intakeCoralButton.OnFalse(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+  //   ).ToPtr()
+  // );
+
+  // TODO
+  // frc2::Trigger scoreCoralButton([this](){ return m_test.GetR2Button(); });
+  // scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
+  // scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+  //   ).ToPtr()
   // );
 
   // // 5 buttons below just set height of elevator to desired height when pressed

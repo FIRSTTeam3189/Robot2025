@@ -33,14 +33,14 @@ namespace SwerveModuleConstants {
 
     // Swerve angle offsets -- difference between actual degrees heading and absolute degree values
     // TODO not figured out yet
-    constexpr units::turn_t kFrontLeftOffset {0.921143};
-    constexpr units::turn_t kFrontRightOffset {-0.351562};
-    constexpr units::turn_t kBackLeftOffset {0.115479}; 
-    constexpr units::turn_t kBackRightOffset {0.332031};
+    constexpr units::turn_t kFrontLeftOffset {0.005371};
+    constexpr units::turn_t kFrontRightOffset {0.195068};
+    constexpr units::turn_t kBackLeftOffset {-0.013428}; 
+    constexpr units::turn_t kBackRightOffset {0.470947};
 
      // Motor + sensor inversions
-    constexpr bool kDriveMotorInverted = false;
-    constexpr bool kAngleMotorInverted = false;
+    constexpr bool kDriveMotorInverted = true;
+    constexpr bool kAngleMotorInverted = true;
     constexpr bool kCANcoderInverted = false;
 
     constexpr units::volt_t kMaxAngleVoltage {10.0};
@@ -73,14 +73,15 @@ namespace SwerveModuleConstants {
     constexpr int kFusedCANcoder{5};
     constexpr int kSyncCANcoder{6};
 
-    // Even though probably not using FF, keep constants in case
-    constexpr double kPDrive {0.0};
+    // Even though probably not using FF, keep constants in case\
+    // TODO tune
+    constexpr double kPDrive {1.5};
     constexpr double kIDrive {0.0};
     constexpr double kDDrive {0.0};
     constexpr double kVDrive {0.0};
     constexpr double kSDrive {0.0};
 
-    constexpr double kPAngle {0.0};
+    constexpr double kPAngle {5.0};
     constexpr double kIAngle {0.0};
     constexpr double kDAngle {0.0};
     constexpr double kVAngle {0.0};

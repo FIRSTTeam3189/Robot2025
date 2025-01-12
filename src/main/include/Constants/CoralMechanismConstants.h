@@ -73,7 +73,9 @@ namespace CoralManipulatorConstants{
 
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
 
+    // TODO
     constexpr auto kDefaultAngle {90.0_deg};
+    constexpr auto kIntakeAngle {35.0_deg};
     constexpr auto kScoreL123Angle {-37.0_deg};
     constexpr auto kScoreL4Angle {27.0_deg};
 

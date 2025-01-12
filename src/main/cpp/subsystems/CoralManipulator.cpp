@@ -149,6 +149,12 @@ units::degree_t CoralManipulator::GetTargetAngleFromTarget(CoralManipulatorTarge
         case (CoralManipulatorTarget::ScoreCoralL4):
             targetAngle = CoralManipulatorConstants::kScoreL4Angle;
             break;
+        case (CoralManipulatorTarget::Intake):
+            targetAngle = CoralManipulatorConstants::kIntakeAngle;
+            break;
+        case (CoralManipulatorTarget::DefaultPosition):
+            targetAngle = CoralManipulatorConstants::kDefaultAngle;
+            break;
         default:
             targetAngle = CoralManipulatorConstants::kDefaultAngle;
             break;
