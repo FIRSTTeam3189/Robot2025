@@ -25,6 +25,15 @@ namespace AutoConstants {
     constexpr double kIRotationAuto {0.0};
     constexpr double kDRotationAuto {0.0};
 
+    // TODO
+    constexpr auto kAlgaeIntakeMaxExtendTime {1.0_s};
+    constexpr auto kAlgaeIntakeMaxRetractTime {1.0_s};
+    constexpr auto kCoralElevatorMaxIntakeExtendTime {1.0_s};
+    constexpr auto kCoralManipulatorMaxIntakeExtendTime {1.0_s};
+    constexpr auto kCoralIntakeWaitingTime {3.0_s};
+    constexpr auto kCoralElevatorMaxRetractTime {1.0_s};
+    constexpr auto kCoralManipulatorMaxRetractTime {1.0_s};
+
     // TODO: redo for krakens
     // nominalVoltage, stallTorque, stallCurrent, freeCurrent, freeSpeed, numMotors
     constexpr frc::DCMotor kDriveMotorConfig {
