@@ -22,8 +22,8 @@
 
 // ScoreCoralL123 just sets it to -35 degrees for the levels 1-3
 // Hold position keeps previous target while GoTarget generates a motion profile
-enum class CoralManipulatorState {HoldPosition, GoTarget};
-enum class CoralManipulatorTarget { DefaultPosition, ScoreCoralL123, ScoreCoralL4 };
+enum class CoralManipulatorState { HoldPosition, GoTarget };
+enum class CoralManipulatorTarget { DefaultPosition, Intake, ScoreCoralL123, ScoreCoralL4 };
 
 class CoralManipulator : public frc2::SubsystemBase {
  public:

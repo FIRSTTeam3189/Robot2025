@@ -41,14 +41,10 @@ void RobotContainer::ConfigureDriverBindings() {
   frc2::Trigger resetPoseButton([this](){ return m_bill.GetTouchpadButton(); });
   resetPoseButton.OnTrue(frc2::InstantCommand([this]{
     if (frc::DriverStation::GetAlliance()) {
-      // if (frc::DriverStation::GetAlliance().value() == frc::DriverStation::Alliance::kBlue)
-      //   m_swerveDrive->SetPose(frc::Pose2d{0.0_m, 0.0_m, frc::Rotation2d{0.0_deg}}, true);
-      // else
-      //   m_swerveDrive->SetPose(frc::Pose2d{0.0_m, 0.0_m, frc::Rotation2d{180.0_deg}}, true);
       if (frc::DriverStation::GetAlliance().value() == frc::DriverStation::Alliance::kBlue)
-        m_swerveDrive->SetPose(frc::Pose2d{0.92_m, 5.50_m, frc::Rotation2d{0.0_deg}}, false);
+        m_swerveDrive->SetPose(SwerveDriveConstants::kBlueResetPose, false);
       else
-        m_swerveDrive->SetPose(frc::Pose2d{15.579_m, 5.50_m, frc::Rotation2d{180.0_deg}}, false);
+        m_swerveDrive->SetPose(SwerveDriveConstants::kRedResetPose, false);
     }
   },{m_swerveDrive}).ToPtr());
 }
@@ -107,8 +103,17 @@ void RobotContainer::SetAllNormalBrakeMode() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Default);
 }
 
-
 void RobotContainer::ConfigureTestBindings() {
+  frc2::Trigger resetPoseButton([this](){ return m_test.GetTouchpadButton(); });
+  resetPoseButton.OnTrue(frc2::InstantCommand([this]{
+    if (frc::DriverStation::GetAlliance()) {
+      if (frc::DriverStation::GetAlliance().value() == frc::DriverStation::Alliance::kBlue)
+        m_swerveDrive->SetPose(SwerveDriveConstants::kBlueResetPose, false);
+      else
+        m_swerveDrive->SetPose(SwerveDriveConstants::kRedResetPose, false);
+    }
+  },{m_swerveDrive}).ToPtr());
+
   frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
   coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
     // if (m_driveState == DriveState::HeadingControl) {
@@ -159,7 +164,53 @@ void RobotContainer::ConfigureTestBindings() {
     }, {m_algaeIntake})
   ).ToPtr()
   );
-}
 
+  // frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
+  // intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
+  //   ).ToPtr()
+  // );
+  // intakeCoralButton.OnFalse(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+  //   ).ToPtr()
+  // );
+
+  // TODO
+  // frc2::Trigger scoreCoralButton([this](){ return m_test.GetR2Button(); });
+  // scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
+  // scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
+  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+  //   ).ToPtr()
+  // );
+
+  // // 5 buttons below just set height of elevator to desired height when pressed
+  // frc2::Trigger retractCoralElevatorButton([this](){ return m_test.GetTouchpadButton(); });
+  // retractCoralElevatorButton.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract).ToPtr()
+  // );
+
+  // frc2::Trigger extendCoralElevatorL1Button([this](){ return m_test.GetCrossButton(); });
+  // extendCoralElevatorL1Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1).ToPtr()
+  // );
+
+  // frc2::Trigger extendCoralElevatorL2Button([this](){ return m_test.GetCircleButton(); });
+  // extendCoralElevatorL2Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2).ToPtr()
+  // );
+
+  // frc2::Trigger extendCoralElevatorL3Button([this](){ return m_test.GetTriangleButton(); });
+  // extendCoralElevatorL3Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3).ToPtr()
+  // );
+
+  // frc2::Trigger extendCoralElevatorL4Button([this](){ return m_test.GetSquareButton(); });
+  // extendCoralElevatorL4Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
+  // );
+}
 
 // no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket
