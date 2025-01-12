@@ -15,7 +15,6 @@ m_arbitraryAngle(arbitraryAngle),
 m_coralStationTarget(coralStationTarget),
 m_allianceSide(frc::DriverStation::Alliance::kBlue) {
   (void)VisionConstants::kSyncBytes[0];
-  (void)AutoConstants::kAutonomousPaths[0];
 
   AddRequirements(swerveDrive);
 

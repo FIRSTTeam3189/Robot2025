@@ -67,7 +67,6 @@ void Robot::SimulationPeriodic() {}
 #ifndef RUNNING_FRC_TESTS
 int main() {
   (void)VisionConstants::kSyncBytes[0];
-  (void)AutoConstants::kAutonomousPaths[0];
   return frc::StartRobot<Robot>();
 }
 #endif

@@ -108,7 +108,7 @@ class SwerveDrive : public frc2::SubsystemBase {
   // units::kilogram_t mass, units::kilogram_square_meter_t MOI, ModuleConfig moduleConfig, units::meter_t trackwidth, units::meter_t wheelbase
   pathplanner::RobotConfig m_autoRobotConfig = pathplanner::RobotConfig(
     53.524_kg, // TODO robot total mass
-    units::kilogram_square_meter_t{5.500}, // TODO estimate robot as cube or smth
+    units::kilogram_square_meter_t{6.750}, // TODO estimate robot as cube or smth
     m_autoModuleConfig,
     SwerveDriveConstants::kTrackwidth
     // SwerveDriveConstants::kWheelbase,

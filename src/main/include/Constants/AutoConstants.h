@@ -30,10 +30,4 @@ namespace AutoConstants {
     constexpr frc::DCMotor kDriveMotorConfig {
         12.0_V, units::newton_meter_t{5.84}, units::ampere_t{304.0}, units::ampere_t{1.5}, units::radians_per_second_t{636.6961104}
     };
-
-    using namespace std::literals;
-    constexpr std::array kAutonomousPaths {
-        // "Do Nothing - Mid"sv,
-        "egg"
-    };
 }

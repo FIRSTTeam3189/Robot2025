@@ -38,7 +38,6 @@ m_modulePositions(
 )
 {
     (void)VisionConstants::kSyncBytes[0];
-    (void)AutoConstants::kAutonomousPaths[0];
 
     ConfigGyro();
     ConfigSignals();

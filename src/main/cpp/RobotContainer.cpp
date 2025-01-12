@@ -6,9 +6,9 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() :
+m_chooser(pathplanner::AutoBuilder::buildAutoChooser()) {
   (void)VisionConstants::kSyncBytes[0];
-  (void)AutoConstants::kAutonomousPaths[0];
   RegisterAutoCommands();
   
   // Initialize all of your commands and subsystems here 
@@ -61,13 +61,14 @@ void RobotContainer::RegisterAutoCommands() {
 } 
 
 void RobotContainer::CreateAutoPaths() {
-  for (auto autoPath : AutoConstants::kAutonomousPaths) {
-    m_chooser.AddOption(autoPath, new pathplanner::PathPlannerAuto(std::string{autoPath}));
-    for (int i = 0; i < 10; i++) {
-      std::cout << "Constructing path:" << std::string{autoPath} << std::endl;
-    }
-    std::cout << "\n";
-  }
+  // TODO if pathplanner automatic auto populating doesnt work, add back autonomouspaths array
+  // for (auto autoPath : AutoConstants::kAutonomousPaths) {
+  //   m_chooser.AddOption(autoPath, new pathplanner::PathPlannerAuto(std::string{autoPath}));
+  //   for (int i = 0; i < 10; i++) {
+  //     std::cout << "Constructing path:" << std::string{autoPath} << std::endl;
+  //   }
+  //   std::cout << "\n";
+  // }
   frc::SmartDashboard::PutData("Auto Routines", &m_chooser);
 
   // Logging callbacks for pathplanner -- current pose, target pose, and active path
@@ -177,7 +178,6 @@ void RobotContainer::ConfigureTestBindings() {
   //   ).ToPtr()
   // );
 
-  // TODO
   // frc2::Trigger scoreCoralButton([this](){ return m_test.GetR2Button(); });
   // scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
   // scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
