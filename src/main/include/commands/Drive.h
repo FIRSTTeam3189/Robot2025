@@ -29,6 +29,8 @@ class Drive
   bool IsFinished() override;
 
   units::degree_t GetSourceAlignAngle(CoralStationTarget targetStation);
+  units::degree_t GetSourceAlignAngleAutomatically();
+
 
  private:
   frc::PS5Controller *m_bill;

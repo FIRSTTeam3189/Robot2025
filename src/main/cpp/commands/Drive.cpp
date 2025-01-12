@@ -78,7 +78,8 @@ void Drive::Execute(){
       break;
      case(DriveState::CoralStationAlign) :
       {
-        units::degree_t targetAngle = GetSourceAlignAngle(m_coralStationTarget);
+        // units::degree_t targetAngle = GetSourceAlignAngle(m_coralStationTarget);
+        units::degree_t targetAngle = GetSourceAlignAngleAutomatically();
         rot = units::angular_velocity::radians_per_second_t{
               m_rotLimiter.Calculate(m_rotationPIDController.Calculate(m_swerveDrive->GetNormalizedYaw().value(), targetAngle.value()))
               * SwerveDriveConstants::kMaxAngularVelocity};
@@ -147,6 +148,17 @@ units::angular_velocity::radians_per_second_t Drive::GetDesiredRotationalVelocit
   }
 
   return rot;
+}
+
+units::angle::degree_t Drive::GetSourceAlignAngleAutomatically(){
+  auto currentPose = m_swerveDrive->GetEstimatedPose();
+  bool isBlueAlliance;
+  if(frc::DriverStation::GetAlliance()){
+    auto isBlueAlliance = frc::DriverStation::GetAlliance().value() == frc::DriverStation::Alliance::kBlue;
+  }
+  return (currentPose.Y().value() >= SwerveDriveConstants::kMidFieldY) 
+        ? (isBlueAlliance ? SwerveDriveConstants::kBlueSourceAlignTargetTop : SwerveDriveConstants::kRedSourceAlignTargetTop)
+        : (isBlueAlliance ? SwerveDriveConstants::kBlueSourceAlignTargetBottom : SwerveDriveConstants::kRedSourceAlignTargetRightBottom);
 }
 
 units::angle::degree_t Drive::GetSourceAlignAngle(CoralStationTarget target){

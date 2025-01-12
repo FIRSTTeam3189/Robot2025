@@ -30,6 +30,7 @@ namespace SwerveDriveConstants {
     constexpr auto kAmpAlignTarget = 90.0_deg;
 
     // TODO: Get the angles for all of them
+    constexpr auto kMidFieldY = 4.05;  // Meters
     constexpr auto kBlueSourceAlignTargetTop = 120.0_deg;
     constexpr auto kRedSourceAlignTargetTop = 60.0_deg;
     constexpr auto kBlueSourceAlignTargetBottom = 120.0_deg;
