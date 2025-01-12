@@ -19,6 +19,9 @@
 #include <frc2/command/WaitCommand.h>
 
 #include "commands/Drive.h"
+#include "commands/SetAlgaeIntakeRotation.h"
+#include "commands/RunAlgaeIntakeRoller.h"
+
 #include "subsystems/PoseEstimatorHelper.h"
 #include "subsystems/Vision.h"
 #include "subsystems/AlgaeIntake.h"

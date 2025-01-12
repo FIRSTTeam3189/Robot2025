@@ -50,6 +50,9 @@ namespace AlgaeIntakeConstants{
     constexpr auto kRotationNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     constexpr auto kRotationIdleTolerance {1.5_deg}; // TODO: same as above
+
+    constexpr auto kRollerScorePower {-0.5};
+    constexpr auto kRollerIntakePower {0.5};
     
     // Other CANcoder configs
     constexpr auto kCANcoderOffset {0.0_tr}; // TODO
