@@ -6,13 +6,16 @@
 
 CoralManipulator::CoralManipulator() :
     m_rotationMotor(CoralManipulatorConstants::kRotationMotorID, rev::spark::SparkMax::MotorType::kBrushless),
+    m_rollerMotor(CoralManipulatorConstants::kRollerMotorID, rev::spark::SparkMax::MotorType::kBrushless),
     m_rotationEncoder(m_rotationMotor.GetAbsoluteEncoder()),
     m_rotationConfig(),
+    m_rollerConfig(),
     m_targetAngle(CoralManipulatorConstants::kDefaultAngle),
     m_state(),
     m_profiledPIDController(CoralManipulatorConstants::kPRotation, CoralManipulatorConstants::kIRotation, CoralManipulatorConstants::kDRotation, m_constraints)
 {
     ConfigRotationMotor();
+    ConfigRollerMotor();
     ConfigPID();
 }
 // This method will be called once per scheduler run
@@ -43,6 +46,15 @@ void CoralManipulator::ConfigRotationMotor(){
         .VelocityConversionFactor(CoralManipulatorConstants::kRotationConversion);
 
     m_rotationMotor.Configure(m_rotationConfig, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
+}
+
+void CoralManipulator::ConfigRollerMotor(){
+    m_rollerConfig
+        .Inverted(CoralManipulatorConstants::kRollerInverted)
+        .SmartCurrentLimit(CoralManipulatorConstants::kRollerCurrentLimit)
+        .SetIdleMode(rev::spark::SparkMaxConfig::IdleMode::kBrake);
+
+    m_rollerMotor.Configure(m_rollerConfig, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
 }
 
 void CoralManipulator::ConfigPID(){
@@ -134,6 +146,10 @@ void CoralManipulator::SetState(CoralManipulatorState state, CoralManipulatorTar
             break;
     }
     // SetRotation is already going to be called in Periodic.
+}
+
+void CoralManipulator::SetRollerPower(double power) {
+    m_rollerMotor.Set(power);
 }
 
 units::degree_t CoralManipulator::GetCurrentTargetAngle() {

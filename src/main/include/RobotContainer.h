@@ -59,17 +59,17 @@ class RobotContainer {
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc::PS5Controller m_bill{OperatorConstants::kDriverControllerPort};
+  frc::PS5Controller m_bill{OperatorConstants::kDriverControllerPort}; //meow -trillian
   frc::PS5Controller m_ted{OperatorConstants::kCoDriverControllerPort};
   frc::PS5Controller m_test{OperatorConstants::kTestControllerPort};
 
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
-  // Vision *m_vision = new Vision(m_poseEstimator);
-  // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
-  // CoralElevator *m_coralElevator = new CoralElevator();
-  // CoralManipulator *m_coralManipulator = new CoralManipulator();
+  Vision *m_vision = new Vision(m_poseEstimator);
+  AlgaeIntake *m_algaeIntake = new AlgaeIntake();
+  CoralElevator *m_coralElevator = new CoralElevator();
+  CoralManipulator *m_coralManipulator = new CoralManipulator();
 
   frc::SendableChooser<frc2::Command*> m_chooser;
 

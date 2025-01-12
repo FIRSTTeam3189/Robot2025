@@ -57,10 +57,17 @@ namespace CoralElevatorConstants{
 
 namespace CoralManipulatorConstants{
     constexpr int kRotationMotorID {17};  // TODO
+    constexpr int kRollerMotorID {18};  // TODO
 
     constexpr unsigned int kRotationCurrentLimit {40};
     constexpr bool kRotationInverted {true};
     constexpr double kRotationConversion {360.0}; 
+
+    constexpr unsigned int kRollerCurrentLimit {40};
+    constexpr bool kRollerInverted {true};
+
+    constexpr double kRollerIntakePower {-0.5};
+    constexpr double kRollerScorePower {0.5};
 
     constexpr double kPRotation {0.0};
     constexpr double kIRotation {0.0};
