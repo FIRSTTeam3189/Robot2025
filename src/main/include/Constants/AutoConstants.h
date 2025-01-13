@@ -33,6 +33,7 @@ namespace AutoConstants {
     constexpr auto kCoralIntakeWaitingTime {3.0_s};
     constexpr auto kCoralElevatorMaxRetractTime {1.0_s};
     constexpr auto kCoralManipulatorMaxRetractTime {1.0_s};
+    constexpr auto kCoralIntakeScoreTime {1.5_s};
 
     // TODO: redo for krakens
     // nominalVoltage, stallTorque, stallCurrent, freeCurrent, freeSpeed, numMotors

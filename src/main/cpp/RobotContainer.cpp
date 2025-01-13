@@ -80,54 +80,41 @@ void RobotContainer::RegisterAutoCommands() {
       )
     ).ToPtr()
   );
+
+   pathplanner::NamedCommands::registerCommand("ScoreCoral", frc2::SequentialCommandGroup(
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
+      frc2::WaitCommand(AutoConstants::kCoralIntakeScoreTime),
+      frc2::ParallelCommandGroup(
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+      )
+    ).ToPtr()
+  );
   
-  pathplanner::NamedCommands::registerCommand("ScoreCoralL1", frc2::SequentialCommandGroup(
+  pathplanner::NamedCommands::registerCommand("RaiseCoralL1", frc2::ParallelRaceGroup(
       SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1),
-      frc2::WaitCommand(0.5_s),
-      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
-      frc2::WaitCommand(1.5_s),
-      frc2::ParallelCommandGroup(
-        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-      )
+      frc2::WaitCommand(AutoConstants::kCoralElevatorMaxIntakeExtendTime)
     ).ToPtr()
   );
 
-  pathplanner::NamedCommands::registerCommand("ScoreCoralL2", frc2::SequentialCommandGroup(
+  pathplanner::NamedCommands::registerCommand("RaiseCoralL2", frc2::ParallelRaceGroup(
       SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2),
-      frc2::WaitCommand(0.5_s),
-      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
-      frc2::WaitCommand(1.5_s),
-      frc2::ParallelCommandGroup(
-        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-      )
+      frc2::WaitCommand(AutoConstants::kCoralElevatorMaxIntakeExtendTime)
     ).ToPtr()
   );
 
-  pathplanner::NamedCommands::registerCommand("ScoreCoralL3", frc2::SequentialCommandGroup(
+  pathplanner::NamedCommands::registerCommand("RaiseCoralL3", frc2::ParallelRaceGroup(
       SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3),
-      frc2::WaitCommand(0.5_s),
-      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123),
-      frc2::WaitCommand(1.5_s),
-      frc2::ParallelCommandGroup(
-        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-      )
+      frc2::WaitCommand(AutoConstants::kCoralElevatorMaxIntakeExtendTime)
     ).ToPtr()
   );
 
-  pathplanner::NamedCommands::registerCommand("ScoreCoralL4", frc2::SequentialCommandGroup(
+  pathplanner::NamedCommands::registerCommand("RaiseCoralL4", frc2::ParallelRaceGroup(
       SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4),
-      frc2::WaitCommand(0.5_s),
-      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL4),
-      frc2::WaitCommand(1.5_s),
-      frc2::ParallelCommandGroup(
-        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-      )
+      frc2::WaitCommand(AutoConstants::kCoralElevatorMaxIntakeExtendTime)
     ).ToPtr()
-  ); 
+  );
+
 
   pathplanner::NamedCommands::registerCommand("CoralMechanismIntakeCoralStation", frc2::SequentialCommandGroup(
       frc2::ParallelCommandGroup(
