@@ -41,7 +41,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-
+  m_container.SetDriveBrake();
 }
 
 /**

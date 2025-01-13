@@ -16,7 +16,7 @@ namespace CoralElevatorConstants{
     constexpr int kExtensionMotorID {17};
 
     // TODO
-    constexpr double kSExtension {0.0}; // Static voltage applied to overcome friction
+    constexpr double kSExtension {0.5}; // Static voltage applied to overcome friction
     constexpr double kGExtension {0.0}; // Variable gravity voltage
     constexpr double kVExtension {0.0}; // Volts applied per meter per second
     constexpr double kAExtension {0.0}; // Volts applied per meter per second squared
@@ -43,8 +43,8 @@ namespace CoralElevatorConstants{
     constexpr auto kExtensionHeightL3 {0.0_m};
     constexpr auto kExtensionHeightL4 {0.0_m};
     constexpr auto kExtensionHeightIntake {0.0_m};
-    constexpr double kExtensionOffset {0.0 / 360.0}; // TODO
-    constexpr bool kExtensionMotorInverted {true};
+    constexpr auto kExtensionOffset {0.176758_tr}; // TODO
+    constexpr bool kExtensionMotorInverted {false};
     constexpr auto kExtensionHeightTolerance {0.3_m}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     // This is the diameter of the wheel that the telescoping arm's cable wraps around
     // Used to figure out the conversion from rotational to linear motion
@@ -56,19 +56,19 @@ namespace CoralElevatorConstants{
 }
 
 namespace CoralManipulatorConstants{
-    constexpr int kRotationMotorID {17};  // TODO
+    constexpr int kRotationMotorID {18};  // TODO
 
     constexpr unsigned int kRotationCurrentLimit {40};
     constexpr bool kRotationInverted {true};
     constexpr double kRotationConversion {360.0}; 
 
+    // TODO
     constexpr double kPRotation {0.0};
     constexpr double kIRotation {0.0};
     constexpr double kDRotation {0.0};
     constexpr auto kSRotation {0.0_V};
     constexpr auto kGRotation {0.0_V};
-    constexpr auto kVRotation {1.0_V * 1.0_s / 1.0_rad};
-    // constexpr auto kVRotation {0.65_V * 1.0_s / 1.0_rad};
+    constexpr auto kVRotation {0.0_V * 1.0_s / 1.0_rad};
     constexpr auto kARotation {0.0_V * 1.0_s * 1.0_s / 1.0_rad};
 
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)

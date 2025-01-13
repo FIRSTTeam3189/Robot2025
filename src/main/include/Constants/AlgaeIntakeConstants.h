@@ -11,9 +11,9 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 
 namespace AlgaeIntakeConstants{
-    constexpr int kRotationMotorID {17};
-    constexpr int kRotationCANCoderID {18}; 
-    constexpr int kRollerMotorID {19};
+    constexpr int kRotationMotorID {14};
+    constexpr int kRotationCANCoderID {15}; 
+    constexpr int kRollerMotorID {16};
 
     // TODO
     constexpr double kSRotation {0.0}; // Static voltage applied to overcome friction

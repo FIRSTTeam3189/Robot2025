@@ -1,8 +1,8 @@
 #include "subsystems/AlgaeIntake.h"
 
 AlgaeIntake::AlgaeIntake() : 
- m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID),
- m_CANcoder(AlgaeIntakeConstants::kRotationCANCoderID),
+ m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID, "Swerve"),
+ m_CANcoder(AlgaeIntakeConstants::kRotationCANCoderID, "Swerve"),
  m_rollerMotor(AlgaeIntakeConstants::kRollerMotorID, rev::spark::SparkMax::MotorType::kBrushless),
  m_rotationConfig(),
  m_encoderConfig(),

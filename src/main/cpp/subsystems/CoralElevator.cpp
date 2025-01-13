@@ -5,7 +5,7 @@
 #include "subsystems/CoralElevator.h"
 
 CoralElevator::CoralElevator() :
- m_extensionMotor(CoralElevatorConstants::kExtensionMotorID),
+ m_extensionMotor(CoralElevatorConstants::kExtensionMotorID, "Swerve"),
  m_extensionConfig(),
  m_state(CoralElevatorState::DefaultRetract),
  m_targetHeight(CoralElevatorConstants::kDefaultRetractHeight) {
@@ -15,8 +15,8 @@ CoralElevator::CoralElevator() :
 
 // This method will be called once per scheduler run
 void CoralElevator::Periodic() {
-    frc::SmartDashboard::PutNumber("Coral Extender height target", m_targetHeight.value());
-    frc::SmartDashboard::PutNumber("Coral Extender height", GetExtension().value());
+    frc::SmartDashboard::PutNumber("Coral Extender target height", m_targetHeight.value());
+    frc::SmartDashboard::PutNumber("Coral Extender current height", GetExtension().value());
 
     if (frc::Preferences::GetBoolean("Tuning Mode", false)) {
         UpdatePreferences();
@@ -47,6 +47,7 @@ void CoralElevator::ConfigExtensionMotor() {
     // m_extensionConfig.Feedback.FeedbackRemoteSensorID = CoralElevatorConstants::kRotationCANCoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
     // m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::FusedCANcoder;
     m_extensionConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RotorSensor;
+    m_extensionConfig.Feedback.FeedbackRotorOffset = CoralElevatorConstants::kExtensionOffset;
 
     m_extensionConfig.CurrentLimits.SupplyCurrentLowerLimit = CoralElevatorConstants::kExtensionContinuousCurrentLimit;
     m_extensionConfig.CurrentLimits.SupplyCurrentLimit = CoralElevatorConstants::kExtensionPeakCurrentLimit;
@@ -57,6 +58,7 @@ void CoralElevator::ConfigExtensionMotor() {
     m_extensionConfig.MotorOutput.NeutralMode = CoralElevatorConstants::kExtensionNeutralMode;
 
     m_extensionMotor.GetConfigurator().Apply(m_extensionConfig);
+
 }
 
 void CoralElevator::ConfigPID() {
