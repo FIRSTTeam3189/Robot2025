@@ -8,7 +8,7 @@ AlgaeIntake::AlgaeIntake() :
  m_encoderConfig(),
  m_rollerConfig(),
  m_target(AlgaeIntakeState::DefaultRetract),
- m_targetAngle(AlgaeIntakeConstants::kDefaultRetractAngle)
+ m_targetAngle(AlgaeIntakeConstants::kDefaultRetractAngle) //meow 2
 {
     ConfigRotationMotor();
     ConfigRotationCANcoder();

@@ -55,6 +55,20 @@ namespace CoralElevatorConstants{
     constexpr auto kExtensionNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
 }
 
+namespace ClimberConstants{
+    constexpr int kClimberMotorID {42}; //TODO - Find IDs
+
+    constexpr double kSClimber {0.0}; // Static voltage applied to overcome friction
+    constexpr double kGClimber {0.0}; // Variable gravity voltage
+    constexpr double kVClimber {0.0}; // Volts applied per meter per second
+    constexpr double kAClimber {0.0}; // Volts applied per meter per second squared
+    constexpr double kPClimber {0.0}; // Volts applied per meter error
+    constexpr double kIClimber {0.0}; // Volts applied per meter integral error
+    constexpr double kDClimber {0.0}; // Volts applied per meter velocity error
+
+
+}
+
 namespace CoralManipulatorConstants{
     constexpr int kRotationMotorID {17};  // TODO
 

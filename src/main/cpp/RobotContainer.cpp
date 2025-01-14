@@ -47,6 +47,8 @@ void RobotContainer::ConfigureDriverBindings() {
         m_swerveDrive->SetPose(SwerveDriveConstants::kRedResetPose, false);
     }
   },{m_swerveDrive}).ToPtr());
+
+  frc2::Trigger extendClimberButton([this](){ return m_bill.GetL1Button(); });
 }
 
 void RobotContainer::ConfigureCoDriverBindings() {
