@@ -16,6 +16,9 @@
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
   "files.associations": {
-    "functional": "cpp"
+    "functional": "cpp",
+    "*.tcc": "cpp",
+    "deque": "cpp",
+    "vector": "cpp"
   }
 }

@@ -1,8 +1,8 @@
 #include "subsystems/AlgaeIntake.h"
 
 AlgaeIntake::AlgaeIntake() : 
- m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID),
- m_CANcoder(AlgaeIntakeConstants::kRotationCANCoderID),
+ m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID, "Swerve"),
+ m_CANcoder(AlgaeIntakeConstants::kRotationCANCoderID, "Swerve"),
  m_rollerMotor(AlgaeIntakeConstants::kRollerMotorID, rev::spark::SparkMax::MotorType::kBrushless),
  m_rotationConfig(),
  m_encoderConfig(),
@@ -14,6 +14,9 @@ AlgaeIntake::AlgaeIntake() :
     ConfigRotationCANcoder();
     ConfigRollerMotor();
     ConfigPID();
+
+    m_allSignals.emplace_back(&m_rotationAngle);
+    m_allSignals.emplace_back(&m_rotationVelocity);
 
     //configure motors and PID
 
@@ -97,6 +100,8 @@ void AlgaeIntake::ConfigPID() {
 
 // This method will be called once per scheduler run
 void AlgaeIntake::Periodic() {
+    RefreshAllSignals();
+    
     frc::SmartDashboard::PutNumber("Algae Intake PID target", m_targetAngle.value());
     frc::SmartDashboard::PutNumber("Algae Intake rotation", GetRotation().value());
     frc::SmartDashboard::PutNumber("Algae Intake roller power", m_rollerMotor.Get());
@@ -164,6 +169,10 @@ units::degree_t AlgaeIntake::GetCurrentTargetAngle() {
 
 units::degree_t AlgaeIntake::GetRotation() {
     return ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(m_rotationAngle, m_rotationVelocity);
+}
+
+void AlgaeIntake::RefreshAllSignals() {
+    frc::SmartDashboard::PutString("Algae intake signal status", ctre::phoenix6::BaseStatusSignal::WaitForAll(0.02_s, m_allSignals).GetName());
 }
 
 void AlgaeIntake::SetRollerPower(double power) {

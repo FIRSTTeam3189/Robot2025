@@ -5,18 +5,23 @@
 #include "subsystems/CoralElevator.h"
 
 CoralElevator::CoralElevator() :
- m_extensionMotor(CoralElevatorConstants::kExtensionMotorID),
+ m_extensionMotor(CoralElevatorConstants::kExtensionMotorID, "Swerve"),
  m_extensionConfig(),
  m_state(CoralElevatorState::DefaultRetract),
  m_targetHeight(CoralElevatorConstants::kDefaultRetractHeight) {
     ConfigExtensionMotor();
     ConfigPID();
+
+    m_allSignals.emplace_back(&m_extensionHeight);
+    m_allSignals.emplace_back(&m_extensionVelocity);
 }
 
 // This method will be called once per scheduler run
 void CoralElevator::Periodic() {
-    frc::SmartDashboard::PutNumber("Coral Extender height target", m_targetHeight.value());
-    frc::SmartDashboard::PutNumber("Coral Extender height", GetExtension().value());
+    RefreshAllSignals();
+
+    frc::SmartDashboard::PutNumber("Coral Extender target height", m_targetHeight.value());
+    frc::SmartDashboard::PutNumber("Coral Extender current height", GetExtension().value());
 
     if (frc::Preferences::GetBoolean("Tuning Mode", false)) {
         UpdatePreferences();
@@ -28,6 +33,11 @@ void CoralElevator::Periodic() {
 void CoralElevator::ConfigExtensionMotor() {
     // Set to factory default
     m_extensionMotor.GetConfigurator().Apply(ctre::phoenix6::configs::TalonFXConfiguration({}));
+
+    m_extensionConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    m_extensionConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = CoralElevatorConstants::kTopSoftLimit; // Top
+    m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = CoralElevatorConstants::kBottomSoftLimit; // Bottom
 
     m_extensionConfig.Slot0.kS = CoralElevatorConstants::kSExtension; 
     m_extensionConfig.Slot0.kV = CoralElevatorConstants::kVExtension;
@@ -47,6 +57,7 @@ void CoralElevator::ConfigExtensionMotor() {
     // m_extensionConfig.Feedback.FeedbackRemoteSensorID = CoralElevatorConstants::kRotationCANCoderID; // TODO: check with electrical if using a cancoder for intake/coral wrist rotation
     // m_rotationConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::FusedCANcoder;
     m_extensionConfig.Feedback.FeedbackSensorSource = ctre::phoenix6::signals::FeedbackSensorSourceValue::RotorSensor;
+    m_extensionConfig.Feedback.FeedbackRotorOffset = CoralElevatorConstants::kExtensionOffset;
 
     m_extensionConfig.CurrentLimits.SupplyCurrentLowerLimit = CoralElevatorConstants::kExtensionContinuousCurrentLimit;
     m_extensionConfig.CurrentLimits.SupplyCurrentLimit = CoralElevatorConstants::kExtensionPeakCurrentLimit;
@@ -60,14 +71,14 @@ void CoralElevator::ConfigExtensionMotor() {
 }
 
 void CoralElevator::ConfigPID() {
-    m_extensionPKey = "Coral Extender Rotation P";
-    m_extensionIKey = "Coral Extender Rotation I";
-    m_extensionDKey = "Coral Extender Rotation D";
-    m_extensionGKey = "Coral Extender Rotation G";
-    m_extensionSKey = "Coral Extender Rotation S";
-    m_extensionVKey = "Coral Extender Rotation V";
-    m_extensionAKey = "Coral Extender Rotation A";
-    m_extensionTargetKey = "Coral Extender Extension Target";
+    m_extensionPKey = "Coral Elevator P";
+    m_extensionIKey = "Coral Elevator I";
+    m_extensionDKey = "Coral Elevator D";
+    m_extensionGKey = "Coral Elevator G";
+    m_extensionSKey = "Coral Elevator S";
+    m_extensionVKey = "Coral Elevator V";
+    m_extensionAKey = "Coral Elevator A";
+    m_extensionTargetKey = "Coral Elevator Target Height";
     //keys for PID and FF 
 
     frc::Preferences::SetDouble(m_extensionPKey, CoralElevatorConstants::kPExtension);
@@ -121,6 +132,10 @@ void CoralElevator::SetExtension(units::meter_t target) {
 
 units::meter_t CoralElevator::GetExtension() {
     return units::meter_t{CoralElevatorConstants::kExtensionConversionRotationsToMeters * ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(m_extensionHeight, m_extensionVelocity).value()};
+}
+
+void CoralElevator::RefreshAllSignals() {
+    frc::SmartDashboard::PutString("Coral elevator signal status", ctre::phoenix6::BaseStatusSignal::WaitForAll(0.02_s, m_allSignals).GetName());
 }
 
 units::meter_t CoralElevator::GetCurrentTargetHeight() {
