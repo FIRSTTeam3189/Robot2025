@@ -75,6 +75,8 @@ namespace ClimberConstants{
     constexpr auto kMotionMagicMaxVelocity {0_tr / 1.0_s}; // rotations per second
     constexpr auto kMotionMagicMaxAcceleration {0_tr / 1.0_s / 1.0_s}; // rotations per second squared
     constexpr auto kMotionMagicMaxJerk {0_tr / 1.0_s / 1.0_s / 1.0_s}; // rotations per second cubed
+    constexpr auto kDefaultRetractHeight {0.0_m}; // TODO
+    constexpr double kClimberGearRatio {1.0}; // Find the gear ratio
 }
 
 namespace CoralManipulatorConstants{

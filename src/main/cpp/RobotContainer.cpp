@@ -219,7 +219,6 @@ void RobotContainer::ConfigureTestBindings() {
     },{m_swerveDrive}).ToPtr()
   );
 
-<<<<<<< HEAD
     frc2::Trigger extendClimberButton([this](){ return m_test.GetL1Button(); });
   extendClimberButton.OnTrue(frc2::InstantCommand([this]{
     m_climber->SetPower(1.0);
@@ -230,18 +229,6 @@ void RobotContainer::ConfigureTestBindings() {
   //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
   //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
   //   ).ToPtr()
-=======
-  // frc2::Trigger algaeIntakeButton([this](){ return m_test.GetL1Button(); });
-  // algaeIntakeButton.OnTrue(frc2::SequentialCommandGroup(
-  //   frc2::InstantCommand([this]{
-  //     m_algaeIntake->SetRollerPower(AlgaeIntakeConstants::kRollerIntakePower);
-  //   }, {m_algaeIntake}),
-  //   frc2::ParallelRaceGroup(
-  //     frc2::WaitCommand(1.0_s),
-  //     SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::IntakeAlgae)
-  //   )
-  // ).ToPtr()
->>>>>>> 450fd086b1016adce9733e5110a2c9982c81cf2d
   // );
   // algaeIntakeButton.OnFalse(frc2::SequentialCommandGroup(
   //   frc2::InstantCommand([this]{

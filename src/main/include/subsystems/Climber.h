@@ -20,6 +20,10 @@ class Climber : public frc2::SubsystemBase {
   void ConfigClimberMotor();
   void ConfigPID();
   void SetPower(double voltage);
+  void Climber::RefreshAllSignals();
+  units::meter_t Climber::GetExtension();
+  void Climber::UpdatePreferences();
+  void Climber::SetExtension(units::meter_t target);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -32,6 +36,11 @@ class Climber : public frc2::SubsystemBase {
   ctre::phoenix6::hardware::TalonFX m_climberMotor;
   ctre::phoenix6::configs::TalonFXConfiguration m_climberConfig{};
 
+  units::meter_t m_targetHeightClimber;
+  ctre::phoenix6::StatusSignal<units::angle::turn_t> m_climberHeight = m_climberMotor.GetPosition();
+  ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_climberVelocity = m_climberMotor.GetVelocity();
+  std::vector<ctre::phoenix6::BaseStatusSignal*> m_allSignals;
+
   std::string m_climberPKey;
   std::string m_climberIKey;
   std::string m_climberDKey;
@@ -39,4 +48,5 @@ class Climber : public frc2::SubsystemBase {
   std::string m_climberSKey; //meow
   std::string m_climberVKey;
   std::string m_climberAKey;
+  std::string m_climberTargetKey;
 };
