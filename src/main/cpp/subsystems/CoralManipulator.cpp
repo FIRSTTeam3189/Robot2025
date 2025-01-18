@@ -17,8 +17,8 @@ CoralManipulator::CoralManipulator() :
 }
 // This method will be called once per scheduler run
 void CoralManipulator::Periodic() {
-    frc::SmartDashboard::PutNumber("Coral Manipulator PID target", m_targetAngle.value());
-    frc::SmartDashboard::PutNumber("Coral Manipulator rotation", GetRotation().value());
+    frc::SmartDashboard::PutNumber("Coral Manipulator target angle", m_targetAngle.value());
+    frc::SmartDashboard::PutNumber("Coral Manipulator current angle", GetRotation().value());
 
     if (frc::Preferences::GetBoolean("Full Diagnostics", false)) {
         frc::SmartDashboard::PutNumber("Coral Manipulator desired rotational velocity", m_profiledPIDController.GetSetpoint().velocity.value());

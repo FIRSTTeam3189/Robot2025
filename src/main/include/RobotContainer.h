@@ -20,6 +20,9 @@
 
 #include "commands/Drive.h"
 #include "commands/SetAlgaeIntakeRotation.h"
+#include "commands/RunAlgaeIntakeRoller.h"
+
+#include "commands/SetAlgaeIntakeRotation.h"
 #include "commands/SetCoralElevatorExtension.h"
 #include "commands/SetCoralManipulatorRotation.h"
 
@@ -53,6 +56,7 @@ class RobotContainer {
   bool IsClimbState();
   BrakeMode GetBrakeMode();
   void SetAllCoast();
+  void SetDriveBrake();
   void SetAllNormalBrakeMode();
 
  private:
@@ -68,8 +72,8 @@ class RobotContainer {
   
   // Vision *m_vision = new Vision(m_poseEstimator);
   // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
-  // CoralElevator *m_coralElevator = new CoralElevator();
-  // CoralManipulator *m_coralManipulator = new CoralManipulator();
+  CoralElevator *m_coralElevator = new CoralElevator();
+  CoralManipulator *m_coralManipulator = new CoralManipulator();
 
   frc::SendableChooser<frc2::Command*> m_chooser;
 

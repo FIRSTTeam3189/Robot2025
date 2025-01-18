@@ -30,10 +30,11 @@ namespace SwerveDriveConstants {
     constexpr auto kAmpAlignTarget = 90.0_deg;
 
     // TODO: Get the angles for all of them
-    constexpr auto kBlueSourceAlignTargetTop = 120.0_deg;
-    constexpr auto kRedSourceAlignTargetTop = 60.0_deg;
-    constexpr auto kBlueSourceAlignTargetBottom = 120.0_deg;
-    constexpr auto kRedSourceAlignTargetRightBottom = 60.0_deg;
+    constexpr auto kMidFieldY = 4.05;  // Meters
+    constexpr auto kBlueSourceAlignTargetTop = 126.0_deg;
+    constexpr auto kRedSourceAlignTargetTop = 54.0_deg;
+    constexpr auto kBlueSourceAlignTargetBottom = -126.0_deg;
+    constexpr auto kRedSourceAlignTargetRightBottom = -54.0_deg;
 
     constexpr frc::Pose2d kBlueResetPose {8.0_m, 4.023_m, frc::Rotation2d{0.0_deg}};
     constexpr frc::Pose2d kRedResetPose {9.55_m, 4.023_m, frc::Rotation2d{180.0_deg}};
@@ -50,7 +51,6 @@ namespace SwerveDriveConstants {
     constexpr auto kMaxAcceleration {5.0_mps_sq}; // TODO
     constexpr units::radians_per_second_t kMaxAngularVelocity {4.0 * PI};
     constexpr units::radians_per_second_squared_t kMaxAngularAcceleration {2.0 * PI};
-
     // SysID robot characterization values -- **varies by robot**
     // constexpr double kSRot {0.125}; // 0.408_V
     // constexpr auto kv {3.206 * 1_V * 1_s / 1_m};
@@ -60,7 +60,7 @@ namespace SwerveDriveConstants {
     constexpr double kSRot {0.125}; // 0.408_V
 
     // These are for robot rotation, not wheel rotation
-    constexpr double kPRot {0.005};
+    constexpr double kPRot {0.01};
     constexpr double kIRot {0.0}; // constexpr double kIRot {0.00025};
     constexpr double kDRot {0.0};
 

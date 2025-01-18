@@ -38,7 +38,6 @@ m_modulePositions(
 )
 {
     (void)VisionConstants::kSyncBytes[0];
-    (void)AutoConstants::kAutonomousPaths[0];
 
     ConfigGyro();
     ConfigSignals();
@@ -269,6 +268,17 @@ void SwerveDrive::UpdateEstimator() {
     m_modulePositions[1] = m_modules.m_frontRight.GetPosition(true);
     m_modulePositions[2] = m_modules.m_backLeft.GetPosition(true);
     m_modulePositions[3] = m_modules.m_backRight.GetPosition(true);
+    m_poseHelper->UpdatePoseEstimator(m_modulePositions, frc::Rotation2d(GetNormalizedYaw()));
+    LogModuleStates(m_modulePositions);
+}
+
+void SwerveDrive::LogModuleStates(wpi::array<frc::SwerveModulePosition, 4> modulePositions) {
+    double AdvantageScopeMeasuredStates[] = 
+        {modulePositions[0].angle.Degrees().value(), m_moduleArray[0]->GetDriveSpeed().value(),
+        modulePositions[1].angle.Degrees().value(), m_moduleArray[1]->GetDriveSpeed().value(),
+        modulePositions[2].angle.Degrees().value(), m_moduleArray[2]->GetDriveSpeed().value(),
+        modulePositions[3].angle.Degrees().value(), m_moduleArray[3]->GetDriveSpeed().value()};
+    frc::SmartDashboard::PutNumberArray("AdvantageScope Measured States", AdvantageScopeMeasuredStates);
 }
 
 void SwerveDrive::SetSlowMode(bool slow) {

@@ -25,15 +25,19 @@ namespace AutoConstants {
     constexpr double kIRotationAuto {0.0};
     constexpr double kDRotationAuto {0.0};
 
+    // TODO
+    constexpr auto kAlgaeIntakeMaxExtendTime {1.0_s};
+    constexpr auto kAlgaeIntakeMaxRetractTime {1.0_s};
+    constexpr auto kCoralElevatorMaxIntakeExtendTime {1.0_s};
+    constexpr auto kCoralManipulatorMaxIntakeExtendTime {1.0_s};
+    constexpr auto kCoralIntakeWaitingTime {3.0_s};
+    constexpr auto kCoralElevatorMaxRetractTime {1.0_s};
+    constexpr auto kCoralManipulatorMaxRetractTime {1.0_s};
+    constexpr auto kCoralIntakeScoreTime {1.5_s};
+
     // TODO: redo for krakens
     // nominalVoltage, stallTorque, stallCurrent, freeCurrent, freeSpeed, numMotors
     constexpr frc::DCMotor kDriveMotorConfig {
         12.0_V, units::newton_meter_t{5.84}, units::ampere_t{304.0}, units::ampere_t{1.5}, units::radians_per_second_t{636.6961104}
-    };
-
-    using namespace std::literals;
-    constexpr std::array kAutonomousPaths {
-        // "Do Nothing - Mid"sv,
-        "egg"
     };
 }

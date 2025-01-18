@@ -11,9 +11,9 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 
 namespace AlgaeIntakeConstants{
-    constexpr int kRotationMotorID {17};
-    constexpr int kRotationCANCoderID {18}; 
-    constexpr int kRollerMotorID {19};
+    constexpr int kRotationMotorID {14};
+    constexpr int kRotationCANCoderID {15}; 
+    constexpr int kRollerMotorID {16};
 
     // TODO
     constexpr double kSRotation {0.0}; // Static voltage applied to overcome friction
@@ -50,6 +50,9 @@ namespace AlgaeIntakeConstants{
     constexpr auto kRotationNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     constexpr auto kRotationIdleTolerance {1.5_deg}; // TODO: same as above
+
+    constexpr auto kRollerScorePower {-0.5};
+    constexpr auto kRollerIntakePower {0.5};
     
     // Other CANcoder configs
     constexpr auto kCANcoderOffset {0.0_tr}; // TODO
