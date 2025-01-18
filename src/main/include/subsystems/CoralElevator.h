@@ -25,6 +25,7 @@ class CoralElevator : public frc2::SubsystemBase {
   void SetExtensionBrakeMode(BrakeMode mode);
   void UpdatePreferences();
   void ConfigExtensionMotor();
+  void RefreshAllSignals();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -42,6 +43,7 @@ class CoralElevator : public frc2::SubsystemBase {
   units::meter_t m_targetHeight;
   ctre::phoenix6::StatusSignal<units::angle::turn_t> m_extensionHeight = m_extensionMotor.GetPosition();
   ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_extensionVelocity = m_extensionMotor.GetVelocity();
+  std::vector<ctre::phoenix6::BaseStatusSignal*> m_allSignals;
   
   // String keys for PID preferences
   std::string m_extensionPKey;

@@ -11,10 +11,15 @@ CoralElevator::CoralElevator() :
  m_targetHeight(CoralElevatorConstants::kDefaultRetractHeight) {
     ConfigExtensionMotor();
     ConfigPID();
+
+    m_allSignals.emplace_back(&m_extensionHeight);
+    m_allSignals.emplace_back(&m_extensionVelocity);
 }
 
 // This method will be called once per scheduler run
 void CoralElevator::Periodic() {
+    RefreshAllSignals();
+
     frc::SmartDashboard::PutNumber("Coral Extender target height", m_targetHeight.value());
     frc::SmartDashboard::PutNumber("Coral Extender current height", GetExtension().value());
 
@@ -28,6 +33,11 @@ void CoralElevator::Periodic() {
 void CoralElevator::ConfigExtensionMotor() {
     // Set to factory default
     m_extensionMotor.GetConfigurator().Apply(ctre::phoenix6::configs::TalonFXConfiguration({}));
+
+    m_extensionConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    m_extensionConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = CoralElevatorConstants::kTopSoftLimit; // Top
+    m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = CoralElevatorConstants::kBottomSoftLimit; // Bottom
 
     m_extensionConfig.Slot0.kS = CoralElevatorConstants::kSExtension; 
     m_extensionConfig.Slot0.kV = CoralElevatorConstants::kVExtension;
@@ -58,18 +68,17 @@ void CoralElevator::ConfigExtensionMotor() {
     m_extensionConfig.MotorOutput.NeutralMode = CoralElevatorConstants::kExtensionNeutralMode;
 
     m_extensionMotor.GetConfigurator().Apply(m_extensionConfig);
-
 }
 
 void CoralElevator::ConfigPID() {
-    m_extensionPKey = "Coral Extender Rotation P";
-    m_extensionIKey = "Coral Extender Rotation I";
-    m_extensionDKey = "Coral Extender Rotation D";
-    m_extensionGKey = "Coral Extender Rotation G";
-    m_extensionSKey = "Coral Extender Rotation S";
-    m_extensionVKey = "Coral Extender Rotation V";
-    m_extensionAKey = "Coral Extender Rotation A";
-    m_extensionTargetKey = "Coral Extender Extension Target";
+    m_extensionPKey = "Coral Elevator P";
+    m_extensionIKey = "Coral Elevator I";
+    m_extensionDKey = "Coral Elevator D";
+    m_extensionGKey = "Coral Elevator G";
+    m_extensionSKey = "Coral Elevator S";
+    m_extensionVKey = "Coral Elevator V";
+    m_extensionAKey = "Coral Elevator A";
+    m_extensionTargetKey = "Coral Elevator Target Height";
     //keys for PID and FF 
 
     frc::Preferences::SetDouble(m_extensionPKey, CoralElevatorConstants::kPExtension);
@@ -123,6 +132,10 @@ void CoralElevator::SetExtension(units::meter_t target) {
 
 units::meter_t CoralElevator::GetExtension() {
     return units::meter_t{CoralElevatorConstants::kExtensionConversionRotationsToMeters * ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(m_extensionHeight, m_extensionVelocity).value()};
+}
+
+void CoralElevator::RefreshAllSignals() {
+    frc::SmartDashboard::PutString("Coral elevator signal status", ctre::phoenix6::BaseStatusSignal::WaitForAll(0.02_s, m_allSignals).GetName());
 }
 
 units::meter_t CoralElevator::GetCurrentTargetHeight() {

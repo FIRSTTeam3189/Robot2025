@@ -42,7 +42,6 @@ class CoralManipulator : public frc2::SubsystemBase {
   units::degree_t GetRotation();
   units::degree_t GetCurrentTargetAngle();
 
-
   void Periodic() override;
   
 
@@ -54,7 +53,6 @@ class CoralManipulator : public frc2::SubsystemBase {
     frc::ArmFeedforward *m_ff;
     frc::ProfiledPIDController<units::degrees> m_profiledPIDController;
     frc::TrapezoidProfile<units::degrees>::Constraints m_constraints;
-
 
     units::degree_t m_targetAngle;
     CoralManipulatorState m_state;

@@ -33,6 +33,7 @@ class AlgaeIntake : public frc2::SubsystemBase {
   void ConfigRollerMotor();
   void ConfigRotationMotor();
   void ConfigRotationCANcoder();
+  void RefreshAllSignals();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -55,6 +56,7 @@ class AlgaeIntake : public frc2::SubsystemBase {
   units::degree_t m_targetAngle;
   ctre::phoenix6::StatusSignal<units::angle::turn_t> m_rotationAngle = m_rotationMotor.GetPosition();
   ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_rotationVelocity = m_rotationMotor.GetVelocity();
+  std::vector<ctre::phoenix6::BaseStatusSignal*> m_allSignals;
   
   // String keys for PID preferences
   std::string m_rotationPKey;
