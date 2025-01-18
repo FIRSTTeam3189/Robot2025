@@ -28,6 +28,7 @@
 #include "subsystems/AlgaeIntake.h"
 #include "subsystems/CoralElevator.h"
 #include "subsystems/CoralManipulator.h"
+#include "subsystems/Climber.h"
 
 #include "Constants/OperatorConstants.h"
 #include "Constants/AutoConstants.h"
@@ -63,6 +64,8 @@ class RobotContainer {
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
+  Climber *m_climber = new Climber();
+  
   // Vision *m_vision = new Vision(m_poseEstimator);
   // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
   // CoralElevator *m_coralElevator = new CoralElevator();

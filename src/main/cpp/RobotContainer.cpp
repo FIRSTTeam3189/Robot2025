@@ -47,8 +47,6 @@ void RobotContainer::ConfigureDriverBindings() {
         m_swerveDrive->SetPose(SwerveDriveConstants::kRedResetPose, false);
     }
   },{m_swerveDrive}).ToPtr());
-
-  frc2::Trigger extendClimberButton([this](){ return m_bill.GetL1Button(); });
 }
 
 void RobotContainer::ConfigureCoDriverBindings() {
@@ -131,6 +129,11 @@ void RobotContainer::ConfigureTestBindings() {
       m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
     },{m_swerveDrive}).ToPtr()
   );
+
+    frc2::Trigger extendClimberButton([this](){ return m_test.GetL1Button(); });
+  extendClimberButton.OnTrue(frc2::InstantCommand([this]{
+    m_climber->SetPower(1.0);
+  }, {m_climber}).ToPtr());
 
   // frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
   // intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(

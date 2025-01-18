@@ -66,7 +66,10 @@ namespace ClimberConstants{
     constexpr double kIClimber {0.0}; // Volts applied per meter integral error
     constexpr double kDClimber {0.0}; // Volts applied per meter velocity error
 
-
+    // TODO - Find the values for the climber
+    constexpr auto kMotionMagicMaxVelocity {0_tr / 1.0_s}; // rotations per second
+    constexpr auto kMotionMagicMaxAcceleration {0_tr / 1.0_s / 1.0_s}; // rotations per second squared
+    constexpr auto kMotionMagicMaxJerk {0_tr / 1.0_s / 1.0_s / 1.0_s}; // rotations per second cubed
 }
 
 namespace CoralManipulatorConstants{

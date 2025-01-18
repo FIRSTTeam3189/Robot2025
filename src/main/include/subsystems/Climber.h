@@ -19,6 +19,7 @@ class Climber : public frc2::SubsystemBase {
   void SetExtensionBrakeMode(BrakeMode mode);
   void ConfigClimberMotor();
   void ConfigPID();
+  void SetPower(double voltage);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

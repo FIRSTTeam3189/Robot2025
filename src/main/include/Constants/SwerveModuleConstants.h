@@ -73,7 +73,7 @@ namespace SwerveModuleConstants {
     constexpr int kFusedCANcoder{5};
     constexpr int kSyncCANcoder{6};
 
-    // Even though probably not using FF, keep constants in case\
+    // Even though probably not using FF, keep constants in case
     // TODO tune
     constexpr double kPDrive {1.5};
     constexpr double kIDrive {0.0};
