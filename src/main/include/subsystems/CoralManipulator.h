@@ -35,6 +35,7 @@ class CoralManipulator : public frc2::SubsystemBase {
 
   void UpdatePreferences();
 
+  void SetRotationPower(double power);
   void SetState(CoralManipulatorState state, CoralManipulatorTarget target = CoralManipulatorTarget::DefaultPosition);
   void SetRotation(units::degree_t targetAngle);
   units::degree_t GetTargetAngleFromTarget(CoralManipulatorTarget target);

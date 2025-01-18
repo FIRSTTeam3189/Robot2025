@@ -40,6 +40,8 @@ class SwerveModule {
   frc::SwerveModulePosition GetPosition(bool refresh);
   frc::SwerveModuleState GetState(bool refresh);
   units::meters_per_second_t GetDriveSpeed();
+  double GetRawDrivePower();
+  double GetRawAnglePower();
 
  private:
   // Motors

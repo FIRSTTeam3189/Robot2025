@@ -8,6 +8,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "RobotContainer.h"
 
@@ -31,5 +32,4 @@ class Robot : public frc::TimedRobot {
 
   RobotContainer m_container;
   frc2::Command* m_autonomousCommand = nullptr;
-
 };

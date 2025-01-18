@@ -35,15 +35,21 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_container.SetAllNormalBrakeMode();
+  // m_container.SetAllNormalBrakeMode();
   m_autonomousCommand = m_container.GetAutonomousCommand();
+
+  frc::SmartDashboard::PutBoolean("Auto command interrupted", false);
 
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();
   }
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+  m_container.PrintActiveCommands();
+  
+  frc::SmartDashboard::PutBoolean("Auto command/is finished", m_autonomousCommand->IsFinished()); 
+}
 
 void Robot::TeleopInit() {
   m_container.SetDriveBrake();
@@ -55,7 +61,9 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  m_container.PrintActiveCommands();
+}
 
 /**
  * This function is called periodically during test mode.

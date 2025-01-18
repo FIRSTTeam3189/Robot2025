@@ -18,9 +18,9 @@ namespace CoralElevatorConstants{
     // TODO
     constexpr double kSExtension {0.25}; // Static voltage applied to overcome friction
     constexpr double kGExtension {0.25}; // Variable gravity voltage
-    constexpr double kVExtension {0.0}; // Volts applied per meter per second
+    constexpr double kVExtension {1.5}; // Volts applied per meter per second
     constexpr double kAExtension {0.0}; // Volts applied per meter per second squared
-    constexpr double kPExtension {0.0}; // Volts applied per meter error
+    constexpr double kPExtension {1.0}; // Volts applied per meter error
     constexpr double kIExtension {0.0}; // Volts applied per meter integral error
     constexpr double kDExtension {0.0}; // Volts applied per meter velocity error
 
@@ -32,9 +32,9 @@ namespace CoralElevatorConstants{
     constexpr bool kExtensionEnableCurrentLimit = true;
 
     // TODO In rotations
-    constexpr auto kMotionMagicMaxVelocity {10_tr / 1.0_s}; // rotations per second
-    constexpr auto kMotionMagicMaxAcceleration {10_tr / 1.0_s / 1.0_s}; // rotations per second squared
-    constexpr auto kMotionMagicMaxJerk {1000_tr / 1.0_s / 1.0_s / 1.0_s}; // rotations per second cubed
+    constexpr auto kMotionMagicMaxVelocity {50_tr / 1.0_s}; // rotations per second
+    constexpr auto kMotionMagicMaxAcceleration {600_tr / 1.0_s / 1.0_s}; // rotations per second squared
+    constexpr auto kMotionMagicMaxJerk {1600_tr / 1.0_s / 1.0_s / 1.0_s}; // rotations per second cubed
 
     // TODO: config/figure out for all of these
     constexpr auto kDefaultRetractHeight {0.0_m}; // TODO
@@ -48,7 +48,7 @@ namespace CoralElevatorConstants{
     constexpr auto kExtensionHeightTolerance {0.3_m}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     // This is the diameter of the wheel that the telescoping arm's cable wraps around
     // Used to figure out the conversion from rotational to linear motion
-    constexpr auto kPulleyDiameterMeters {0.04851146_m}; 
+    // constexpr auto kPulleyDiameterMeters {0.04851146_m}; 
     // constexpr auto kPulleyCircumferenceMeters {kPulleyDiameterMeters * PI}; // TODO see below
     // constexpr double kExtensionGearRatio {1.0}; // TODO adjust if using telescoping arm or elevator
     // constexpr double kExtensionConversionRotationsToMeters {kPulleyCircumferenceMeters / kExtensionGearRatio}; 

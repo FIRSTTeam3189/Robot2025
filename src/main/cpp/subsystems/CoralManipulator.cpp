@@ -30,7 +30,7 @@ void CoralManipulator::Periodic() {
         UpdatePreferences();
     }
 
-    SetRotation(m_targetAngle);
+    // SetRotation(m_targetAngle);
 }
 
 void CoralManipulator::ConfigRotationMotor(){
@@ -73,6 +73,10 @@ void CoralManipulator::ConfigPID(){
     frc::Preferences::SetDouble(m_rotationVKey, CoralManipulatorConstants::kVRotation.value());
     frc::Preferences::SetDouble(m_rotationAKey, CoralManipulatorConstants::kARotation.value());
     frc::Preferences::SetDouble(m_rotationTargetKey, m_targetAngle.value());
+}
+
+void CoralManipulator::SetRotationPower(double power) {
+    m_rotationMotor.Set(power);
 }
 
 void CoralManipulator::SetRotation(units::degree_t targetAngle){

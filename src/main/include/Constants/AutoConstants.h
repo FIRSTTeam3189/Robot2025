@@ -35,9 +35,13 @@ namespace AutoConstants {
     constexpr auto kCoralManipulatorMaxRetractTime {1.0_s};
     constexpr auto kCoralIntakeScoreTime {1.5_s};
 
-    // TODO: redo for krakens
     // nominalVoltage, stallTorque, stallCurrent, freeCurrent, freeSpeed, numMotors
     constexpr frc::DCMotor kDriveMotorConfig {
-        12.0_V, units::newton_meter_t{5.84}, units::ampere_t{304.0}, units::ampere_t{1.5}, units::radians_per_second_t{636.6961104}
+        12.0_V, units::newton_meter_t{9.37}, units::ampere_t{483}, units::ampere_t{2}, units::radians_per_second_t{607.374579}
     };
+
+    // using namespace std::literals;
+    // constexpr std::array kAutonomousPaths {
+    //     "Test - Line"sv
+    // };
 }
