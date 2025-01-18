@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Top Coral Station Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismIntakeCoralStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Top Score Coral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
