@@ -20,10 +20,10 @@ class Climber : public frc2::SubsystemBase {
   void ConfigClimberMotor();
   void ConfigPID();
   void SetPower(double voltage);
-  void Climber::RefreshAllSignals();
-  units::meter_t Climber::GetExtension();
-  void Climber::UpdatePreferences();
-  void Climber::SetExtension(units::meter_t target);
+  void RefreshAllSignals();
+  units::meter_t GetExtension();
+  void UpdatePreferences();
+  void SetExtension(units::meter_t target);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
