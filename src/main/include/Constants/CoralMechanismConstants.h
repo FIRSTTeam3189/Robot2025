@@ -45,7 +45,8 @@ namespace CoralElevatorConstants{
     constexpr auto kExtensionHeightIntake {0.0_m};
     constexpr auto kExtensionOffset {0.170898_tr}; // TODO
     constexpr bool kExtensionMotorInverted {false};
-    constexpr auto kExtensionHeightTolerance {0.3_m}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
+    constexpr auto kCoralElevatorTopTolerance {0.025_m};
+    constexpr auto kCoralElevatorBottomTolerance {0.275_m}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     // This is the diameter of the wheel that the telescoping arm's cable wraps around
     // Used to figure out the conversion from rotational to linear motion
     // constexpr auto kPulleyDiameterMeters {0.04851146_m}; 
@@ -64,25 +65,33 @@ namespace CoralManipulatorConstants{
     constexpr int kRotationMotorID {18};  // TODO
 
     constexpr unsigned int kRotationCurrentLimit {40};
-    constexpr bool kRotationInverted {true};
-    constexpr double kRotationConversion {360.0}; 
+    constexpr bool kRotationInverted {false};
+    constexpr double kRotationConversion {360.0};
+    constexpr double kRotationEncoderOffset {0.7422};
+    constexpr bool kRotationEncoderInverted {true};
+
+    // Manipulator soft limits
+    constexpr bool kRotationForwardSoftLimitEnabled {true};
+    constexpr bool kRotationReverseSoftLimitEnabled {true};
+    constexpr double kRotationForwardSoftLimitValue {55.0};
+    constexpr double kRotationReverseSoftLimitValue {-60.0};
 
     // TODO
-    constexpr double kPRotation {0.0};
+    constexpr double kPRotation {0.01};
     constexpr double kIRotation {0.0};
     constexpr double kDRotation {0.0};
     constexpr auto kSRotation {0.0_V};
-    constexpr auto kGRotation {0.4_V};
+    constexpr auto kGRotation {0.0_V};
     constexpr auto kVRotation {0.0_V * 1.0_s / 1.0_rad};
     constexpr auto kARotation {0.0_V * 1.0_s * 1.0_s / 1.0_rad};
 
     constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
 
     // TODO
-    constexpr auto kDefaultAngle {90.0_deg};
+    constexpr auto kDefaultAngle {70.0_deg};
     constexpr auto kIntakeAngle {35.0_deg};
     constexpr auto kScoreL123Angle {-37.0_deg};
-    constexpr auto kScoreL4Angle {27.0_deg};
+    constexpr auto kScoreL4Angle {-20.0_deg};
 
     constexpr double kFeedforward {1.0};
 }

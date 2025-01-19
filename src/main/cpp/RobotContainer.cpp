@@ -265,15 +265,15 @@ void RobotContainer::ConfigureTestBindings() {
   // ).ToPtr()
   // );
 
-  frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
-  testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
-    m_coralManipulator->SetRotationPower(0.2);
-    },{m_coralManipulator}).ToPtr()
-  );
-  testCoralManipulatorPowerButton.OnFalse(frc2::InstantCommand([this]{
-    m_coralManipulator->SetRotationPower(0.0);
-    },{m_coralManipulator}).ToPtr()
-  );
+  // frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
+  // testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
+  //   m_coralManipulator->SetRotationPower(0.1);
+  //   },{m_coralManipulator}).ToPtr()
+  // );
+  // testCoralManipulatorPowerButton.OnFalse(frc2::InstantCommand([this]{
+  //   m_coralManipulator->SetRotationPower(0.0);
+  //   },{m_coralManipulator}).ToPtr()
+  // );
 
   // frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
   // intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(

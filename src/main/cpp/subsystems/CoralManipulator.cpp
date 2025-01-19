@@ -17,8 +17,11 @@ CoralManipulator::CoralManipulator() :
 }
 // This method will be called once per scheduler run
 void CoralManipulator::Periodic() {
+    m_currentAngle = GetRotation();
+    SetRotation(m_targetAngle);
+
     frc::SmartDashboard::PutNumber("Coral Manipulator target angle", m_targetAngle.value());
-    frc::SmartDashboard::PutNumber("Coral Manipulator current angle", GetRotation().value());
+    frc::SmartDashboard::PutNumber("Coral Manipulator current angle", m_currentAngle.value());
 
     if (frc::Preferences::GetBoolean("Full Diagnostics", false)) {
         frc::SmartDashboard::PutNumber("Coral Manipulator desired rotational velocity", m_profiledPIDController.GetSetpoint().velocity.value());
@@ -30,7 +33,7 @@ void CoralManipulator::Periodic() {
         UpdatePreferences();
     }
 
-    // SetRotation(m_targetAngle);
+    ApplySoftLimits();
 }
 
 void CoralManipulator::ConfigRotationMotor(){
@@ -40,7 +43,9 @@ void CoralManipulator::ConfigRotationMotor(){
         .SetIdleMode(rev::spark::SparkMaxConfig::IdleMode::kBrake);
     m_rotationConfig.absoluteEncoder
         .PositionConversionFactor(CoralManipulatorConstants::kRotationConversion)
-        .VelocityConversionFactor(CoralManipulatorConstants::kRotationConversion);
+        .VelocityConversionFactor(CoralManipulatorConstants::kRotationConversion)
+        .Inverted(CoralManipulatorConstants::kRotationEncoderInverted)
+        .ZeroOffset(CoralManipulatorConstants::kRotationEncoderOffset);
 
     m_rotationMotor.Configure(m_rotationConfig, rev::spark::SparkBase::ResetMode::kResetSafeParameters, rev::spark::SparkBase::PersistMode::kPersistParameters);
 }
@@ -80,12 +85,15 @@ void CoralManipulator::SetRotationPower(double power) {
 }
 
 void CoralManipulator::SetRotation(units::degree_t targetAngle){
-    units::volt_t PIDValue = units::volt_t{(targetAngle - GetRotation()).value() * m_profiledPIDController.GetP()};  
+    units::volt_t PIDValue = units::volt_t{(targetAngle - m_currentAngle).value() * m_profiledPIDController.GetP()};  
     units::volt_t ffValue = 0.0_V;
 
     // Only use feedforward/motion profile if actively trying to move
     if (m_state == CoralManipulatorState::GoTarget) {
         ffValue = GetMotionProfileFeedForwardValue();
+    } else {
+        // Just use g and s
+        ffValue = m_ff->Calculate(m_currentAngle, units::radians_per_second_t{0.0});
     }
 
     m_rotationMotor.SetVoltage(std::clamp((PIDValue + ffValue), -12.0_V, 12.0_V));
@@ -102,7 +110,7 @@ void CoralManipulator::SetRotation(units::degree_t targetAngle){
 
 units::volt_t CoralManipulator::GetMotionProfileFeedForwardValue() {
     // Generate motion profile
-    m_profiledPIDController.Calculate(GetRotation(), m_targetAngle);
+    m_profiledPIDController.Calculate(m_currentAngle, m_targetAngle);
 
     // Calculates the change in velocity (acceleration) since last control loop
     // Uses the acceleration value and desired velocity to calculate feedforward gains
@@ -117,6 +125,21 @@ units::volt_t CoralManipulator::GetMotionProfileFeedForwardValue() {
                                            units::radians_per_second_squared_t{m_targetAcceleration});
 
     return ffValue;
+}
+
+void CoralManipulator::ApplySoftLimits() {
+    // Soft limits on motor aren't working because of absolute encoder position wrapping at 0
+    if (CoralManipulatorConstants::kRotationForwardSoftLimitEnabled) {
+        if ((m_currentAngle.value() > CoralManipulatorConstants::kRotationForwardSoftLimitValue) && m_rotationMotor.Get() > 0) {
+            m_rotationMotor.StopMotor();
+        }
+    }
+
+    if (CoralManipulatorConstants::kRotationReverseSoftLimitEnabled) {
+        if ((m_currentAngle.value() < CoralManipulatorConstants::kRotationReverseSoftLimitValue) && m_rotationMotor.Get() < 0) {
+            m_rotationMotor.StopMotor();
+        }
+    }
 }
 
 units::degree_t CoralManipulator::GetRotation() {

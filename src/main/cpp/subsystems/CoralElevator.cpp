@@ -19,6 +19,7 @@ CoralElevator::CoralElevator() :
 // This method will be called once per scheduler run
 void CoralElevator::Periodic() {
     RefreshAllSignals();
+    m_currentHeight = GetExtension();
 
     frc::SmartDashboard::PutNumber("Coral Extender target height", m_targetHeight.value());
     frc::SmartDashboard::PutNumber("Coral Extender current height", GetExtension().value());
@@ -127,7 +128,13 @@ void CoralElevator::SetExtension(units::meter_t target) {
     // First, convert meters into rotations of the motor
     m_extensionMotor.SetControl(request.WithEnableFOC(true).WithPosition(units::turn_t{target.value() / CoralElevatorConstants::kExtensionConversionRotationsToMeters}));
 
-    frc::SmartDashboard::PutNumber("Coral extender power", m_extensionMotor.Get());
+    double speed = m_extensionMotor.Get();
+    if (m_currentHeight.value() < CoralElevatorConstants::kCoralElevatorBottomTolerance.value() || m_currentHeight.value() > CoralElevatorConstants::kCoralElevatorTopTolerance.value()) {
+        std::clamp(speed, -0.05, 0.05); //TODO -- change limits later
+        m_extensionMotor.Set(speed);
+    }
+    
+    frc::SmartDashboard::PutNumber("Coral extender power", speed);
 }
 
 units::meter_t CoralElevator::GetExtension() {

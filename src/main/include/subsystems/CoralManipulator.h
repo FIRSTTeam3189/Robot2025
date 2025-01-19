@@ -38,13 +38,13 @@ class CoralManipulator : public frc2::SubsystemBase {
   void SetRotationPower(double power);
   void SetState(CoralManipulatorState state, CoralManipulatorTarget target = CoralManipulatorTarget::DefaultPosition);
   void SetRotation(units::degree_t targetAngle);
+  void ApplySoftLimits();
   units::degree_t GetTargetAngleFromTarget(CoralManipulatorTarget target);
   units::volt_t GetMotionProfileFeedForwardValue();
   units::degree_t GetRotation();
   units::degree_t GetCurrentTargetAngle();
 
   void Periodic() override;
-  
 
  private:
     rev::spark::SparkMax m_rotationMotor;
@@ -56,6 +56,7 @@ class CoralManipulator : public frc2::SubsystemBase {
     frc::TrapezoidProfile<units::degrees>::Constraints m_constraints;
 
     units::degree_t m_targetAngle;
+    units::degree_t m_currentAngle;
     CoralManipulatorState m_state;
 
     std::string m_rotationPKey;

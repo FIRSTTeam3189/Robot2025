@@ -41,6 +41,7 @@ class CoralElevator : public frc2::SubsystemBase {
 
   CoralElevatorState m_state;
   units::meter_t m_targetHeight;
+  units::meter_t m_currentHeight;
   ctre::phoenix6::StatusSignal<units::angle::turn_t> m_extensionHeight = m_extensionMotor.GetPosition();
   ctre::phoenix6::StatusSignal<units::angular_velocity::turns_per_second_t> m_extensionVelocity = m_extensionMotor.GetVelocity();
   std::vector<ctre::phoenix6::BaseStatusSignal*> m_allSignals;

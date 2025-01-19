@@ -195,3 +195,11 @@ frc::SwerveModuleState SwerveModule::GetState(bool refresh) {
 units::meters_per_second_t SwerveModule::GetDriveSpeed() {
     return units::meters_per_second_t{m_driveMotor.GetVelocity().Refresh().GetValue().value() / SwerveModuleConstants::kRotationsPerMeter};
 }
+
+double SwerveModule::GetRawAnglePower() {
+    return m_angleMotor.Get();
+}
+
+double SwerveModule::GetRawDrivePower() {
+    return m_driveMotor.Get();
+}
