@@ -6,7 +6,14 @@
 
 #include <frc2/command/CommandScheduler.h>
 
+<<<<<<< HEAD
+
+void Robot::RobotInit() {
+  ctre::phoenix6::SignalLogger::SetPath("/media/sda1/ctre-logs/");
+}
+=======
 void Robot::RobotInit() {}
+>>>>>>> ac96de96b7bc645f4ae88b58ba48704409b28854
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
