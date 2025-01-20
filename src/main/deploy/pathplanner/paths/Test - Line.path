@@ -20,7 +20,7 @@
         "y": 6.16
       },
       "prevControl": {
-        "x": 6.499088186607455,
+        "x": 6.499088186607456,
         "y": 6.138667506179323
       },
       "nextControl": null,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Test",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

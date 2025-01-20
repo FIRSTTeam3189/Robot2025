@@ -169,8 +169,7 @@ void RobotContainer::RegisterAutoCommands() {
           frc2::WaitCommand(AutoConstants::kCoralManipulatorMaxIntakeExtendTime),
           SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
         )
-      ),
-      frc2::WaitCommand(AutoConstants::kCoralIntakeWaitingTime)
+      )
     ).ToPtr()
   );
 

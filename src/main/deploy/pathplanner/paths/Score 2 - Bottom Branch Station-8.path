@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1902260638297872,
-        "y": 6.918882978723404
+        "x": 1.1714033977178544,
+        "y": 1.0376544982846918
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.695511968083006,
-        "y": 6.4637965425492085
+        "x": 2.2966939695584703,
+        "y": 2.9578846062235895
       },
       "isLocked": false,
-      "linkedName": "Top Blue Station"
+      "linkedName": "Bottom Blue Station"
     },
     {
       "anchor": {
-        "x": 3.6774549303147945,
-        "y": 5.103270115710868
+        "x": 3.535774780058442,
+        "y": 2.6800602538013014
       },
       "prevControl": {
-        "x": 3.7848059179310343,
-        "y": 4.877491982452091
+        "x": 2.70312764504598,
+        "y": 1.9683468197659801
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "RaiseCoralL1",
-      "waypointRelativePos": 0.35910639916115294,
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -49,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.53139788428221
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Score 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.8658069430844
+    "rotation": 54.0
   },
   "useDefaultConstraints": true
 }
