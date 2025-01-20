@@ -8,65 +8,56 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.515110903059797,
-        "y": 4.187831943145206
+        "x": 6.840249999999997,
+        "y": 4.181
       },
       "isLocked": false,
       "linkedName": "Mid Start"
     },
     {
       "anchor": {
-        "x": 6.25,
-        "y": 6.16
+        "x": 4.41675,
+        "y": 1.9579999999999995
       },
       "prevControl": {
-        "x": 6.63993841142225,
-        "y": 5.835947995149877
+        "x": 5.907751426141075,
+        "y": 2.4864227508576544
       },
       "nextControl": {
-        "x": 6.0577274140431605,
-        "y": 6.319785020228649
+        "x": 2.9501171576707517,
+        "y": 1.438213668844288
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.25,
-        "y": 7.16
+        "x": 1.1714033977178544,
+        "y": 1.0376544982846918
       },
       "prevControl": {
-        "x": 6.611632931469137,
-        "y": 6.720437877490976
-      },
-      "nextControl": {
-        "x": 5.971127899155727,
-        "y": 7.498966952090536
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 5.083155173776903,
-        "y": 7.1726013053102395
-      },
-      "prevControl": {
-        "x": 5.331730477570635,
-        "y": 7.199253103445708
+        "x": 1.9005283977178533,
+        "y": 1.0376544982846918
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Bottom Blue Station"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "CoralMechanismIntakeCoralStation",
+      "waypointRelativePos": 1.2380610412926312,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -74,13 +65,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 54.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Score 2",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -179.23610153907003
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
