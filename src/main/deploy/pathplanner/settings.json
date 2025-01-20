@@ -3,20 +3,20 @@
   "robotLength": 0.914,
   "holonomicMode": true,
   "pathFolders": [
-    "Special",
+    "Score 3",
     "Score 0",
     "Score 1",
     "Score 2",
-    "Score 3",
+    "Special",
     "Test"
   ],
   "autoFolders": [
-    "Test",
+    "Score 3",
     "Score 0",
     "Score 1",
     "Score 2",
-    "Score 3",
-    "Special"
+    "Special",
+    "Test"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 5.0,

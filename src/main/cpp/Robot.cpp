@@ -51,6 +51,8 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+  frc::SmartDashboard::PutData("Command scheduler", &frc2::CommandScheduler::GetInstance());
+
   m_container.PrintActiveCommands();
   
   frc::SmartDashboard::PutBoolean("Auto command/is finished", m_autonomousCommand->IsFinished()); 
