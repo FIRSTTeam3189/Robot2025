@@ -101,6 +101,12 @@ void CoralElevator::SetState(CoralElevatorState state) {
         case (CoralElevatorState::Intake):
             m_targetHeight = CoralElevatorConstants::kExtensionHeightIntake;
             break;
+        case (CoralElevatorState::AlgaeRemovalLow):
+            m_targetHeight = CoralElevatorConstants::kExtensionHeightAlgaeRemovalLow;
+            break;
+        case (CoralElevatorState::AlgaeRemovalHigh):
+            m_targetHeight = CoralElevatorConstants::kExtensionHeightAlgaeRemovalHigh;
+            break;
         default:
             m_targetHeight = CoralElevatorConstants::kDefaultRetractHeight;
             break;

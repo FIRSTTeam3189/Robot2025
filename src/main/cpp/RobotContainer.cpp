@@ -201,6 +201,53 @@ void RobotContainer::ConfigureTestBindings() {
     ).ToPtr()
   );
 
+  frc2::Trigger removeAlgaeHigh([this](){ return m_test.GetCreateButton(); }); //TODO BUTTON BINDING
+   removeAlgaeHigh.OnTrue(frc2::ParallelCommandGroup(
+    frc2::SequentialCommandGroup(
+      frc2::InstantCommand([this]{
+      m_coralManipulator->SetRollerPower(CoralManipulatorConstants::kRollerScorePower);
+    }, {m_coralManipulator}),
+    SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::AlgaeRemovalPosition)
+    ),
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::AlgaeRemovalHigh)
+     ).ToPtr()
+    );
+
+    removeAlgaeHigh.OnFalse(frc2::ParallelCommandGroup(
+    frc2::SequentialCommandGroup(
+      frc2::InstantCommand([this]{
+      m_coralManipulator->SetRollerPower(0.0);
+    }, {m_coralManipulator}),
+    SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+    ),
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract)
+     ).ToPtr()
+    );
+
+    frc2::Trigger removeAlgaeLow([this](){ return m_test.GetCreateButton(); }); //TODO BUTTON BINDING
+    removeAlgaeLow.OnTrue(frc2::ParallelCommandGroup(
+        frc2::SequentialCommandGroup(
+          frc2::InstantCommand([this]{
+          m_coralManipulator->SetRollerPower(CoralManipulatorConstants::kRollerScorePower);
+        }, {m_coralManipulator}),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::AlgaeRemovalPosition)
+        ),
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::AlgaeRemovalHigh)
+        ).ToPtr()
+        );
+
+    removeAlgaeLow.OnFalse(frc2::ParallelCommandGroup(
+        frc2::SequentialCommandGroup(
+          frc2::InstantCommand([this]{
+          m_coralManipulator->SetRollerPower(0.0);
+        }, {m_coralManipulator}),
+        SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+        ),
+        SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract)
+        ).ToPtr()
+        );
+
+
   // // 5 buttons below just set height of elevator to desired height when pressed
   // frc2::Trigger retractCoralElevatorButton([this](){ return m_test.GetTouchpadButton(); });
   // retractCoralElevatorButton.OnTrue(

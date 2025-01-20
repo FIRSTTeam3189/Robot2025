@@ -168,6 +168,9 @@ units::degree_t CoralManipulator::GetTargetAngleFromTarget(CoralManipulatorTarge
         case (CoralManipulatorTarget::Intake):
             targetAngle = CoralManipulatorConstants::kIntakeAngle;
             break;
+        case (CoralManipulatorTarget::AlgaeRemovalPosition):
+            targetAngle = CoralManipulatorConstants::AlgaeRemovalAngle;
+            break;
         case (CoralManipulatorTarget::DefaultPosition):
             targetAngle = CoralManipulatorConstants::kDefaultAngle;
             break;

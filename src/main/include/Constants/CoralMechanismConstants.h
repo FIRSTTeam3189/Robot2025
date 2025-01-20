@@ -42,6 +42,8 @@ namespace CoralElevatorConstants{
     constexpr auto kExtensionHeightL2 {0.0_m};
     constexpr auto kExtensionHeightL3 {0.0_m};
     constexpr auto kExtensionHeightL4 {0.0_m};
+    constexpr auto kExtensionHeightAlgaeRemovalLow {0.0_m};
+    constexpr auto kExtensionHeightAlgaeRemovalHigh {0.0_m};
     constexpr auto kExtensionHeightIntake {0.0_m};
     constexpr double kExtensionOffset {0.0 / 360.0}; // TODO
     constexpr bool kExtensionMotorInverted {true};
@@ -85,6 +87,7 @@ namespace CoralManipulatorConstants{
     constexpr auto kIntakeAngle {35.0_deg};
     constexpr auto kScoreL123Angle {-37.0_deg};
     constexpr auto kScoreL4Angle {27.0_deg};
+    constexpr auto AlgaeRemovalAngle {35_deg};
 
     constexpr double kFeedforward {1.0};
 }

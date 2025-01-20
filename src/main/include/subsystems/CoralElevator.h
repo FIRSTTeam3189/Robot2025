@@ -13,7 +13,8 @@
 #include "Constants/GlobalConstants.h"
 #include "Constants/CoralMechanismConstants.h"
 
-enum class CoralElevatorState { DefaultRetract, L1, L2, L3, L4, Intake };
+// Algae L2 and L3 are the elevator heights
+enum class CoralElevatorState { DefaultRetract, L1, L2, L3, L4, Intake, AlgaeRemovalLow, AlgaeRemovalHigh };
 
 class CoralElevator : public frc2::SubsystemBase {
  public:
