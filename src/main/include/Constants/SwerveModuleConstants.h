@@ -81,7 +81,7 @@ namespace SwerveModuleConstants {
     constexpr double kVDrive {0.0};
     constexpr double kSDrive {0.0};
 
-    constexpr double kPAngle {22.0};
+    constexpr double kPAngle {35.0};
     constexpr double kIAngle {0.0};
     constexpr double kDAngle {0.0};
     constexpr double kVAngle {0.0};

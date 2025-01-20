@@ -19,6 +19,7 @@ CoralElevator::CoralElevator() :
 // This method will be called once per scheduler run
 void CoralElevator::Periodic() {
     RefreshAllSignals();
+    m_currentHeight = GetExtension();
 
     frc::SmartDashboard::PutNumber("Coral Extender target height", m_targetHeight.value());
     frc::SmartDashboard::PutNumber("Coral Extender current height", GetExtension().value());
@@ -38,6 +39,8 @@ void CoralElevator::ConfigExtensionMotor() {
     m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     m_extensionConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = CoralElevatorConstants::kTopSoftLimit; // Top
     m_extensionConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = CoralElevatorConstants::kBottomSoftLimit; // Bottom
+
+    m_extensionConfig.MotorOutput.DutyCycleNeutralDeadband = CoralElevatorConstants::kCoralElevatorSpeedDeadband;
 
     m_extensionConfig.Slot0.kS = CoralElevatorConstants::kSExtension; 
     m_extensionConfig.Slot0.kV = CoralElevatorConstants::kVExtension;
@@ -68,6 +71,7 @@ void CoralElevator::ConfigExtensionMotor() {
     m_extensionConfig.MotorOutput.NeutralMode = CoralElevatorConstants::kExtensionNeutralMode;
 
     m_extensionMotor.GetConfigurator().Apply(m_extensionConfig);
+    m_extensionMotor.SetPosition(0.0_tr);
 }
 
 void CoralElevator::ConfigPID() {
@@ -127,7 +131,22 @@ void CoralElevator::SetExtension(units::meter_t target) {
     // First, convert meters into rotations of the motor
     m_extensionMotor.SetControl(request.WithEnableFOC(true).WithPosition(units::turn_t{target.value() / CoralElevatorConstants::kExtensionConversionRotationsToMeters}));
 
-    frc::SmartDashboard::PutNumber("Coral extender power", m_extensionMotor.Get());
+    frc::SmartDashboard::PutBoolean("Manual soft limit enabled", false);
+    double speed = m_extensionMotor.Get();
+    // if ((m_currentHeight.value() < CoralElevatorConstants::kCoralElevatorBottomTolerance.value() && speed < 0) ||
+    //      (m_currentHeight.value() > CoralElevatorConstants::kCoralElevatorTopTolerance.value() && speed > 0)) {
+    //     frc::SmartDashboard::PutBoolean("Manual soft limit enabled", true);
+    //     speed = std::clamp(speed, -0.1, 0.1); //TODO -- change limits later
+    //     m_extensionMotor.Set(speed);
+    // }
+
+    // ! AAAAA
+    // TODO get rid of this if not using linear actuator
+    // if (abs(speed) < CoralElevatorConstants::kCoralElevatorSpeedDeadband) {
+    //     m_extensionMotor.Set(0.0);
+    // }
+    
+    frc::SmartDashboard::PutNumber("Coral extender power", speed);
 }
 
 units::meter_t CoralElevator::GetExtension() {

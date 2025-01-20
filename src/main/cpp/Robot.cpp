@@ -6,8 +6,7 @@
 
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {
-}
+void Robot::RobotInit() {}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -26,7 +25,10 @@ void Robot::RobotPeriodic() {
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  m_container.SetElevatorCoast();
+  m_container.SetDriveCoast();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -35,18 +37,24 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_container.SetAllNormalBrakeMode();
+  // m_container.SetAllNormalBrakeMode();
   m_autonomousCommand = m_container.GetAutonomousCommand();
+
+  frc::SmartDashboard::PutBoolean("Auto command interrupted", false);
 
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();
   }
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+  m_container.PrintActiveCommands();
+  
+  frc::SmartDashboard::PutBoolean("Auto command/is finished", m_autonomousCommand->IsFinished()); 
+}
 
 void Robot::TeleopInit() {
-  m_container.SetDriveBrake();
+  m_container.SetAllBrake();
    if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Cancel();
   }
@@ -55,7 +63,9 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  m_container.PrintActiveCommands();
+}
 
 /**
  * This function is called periodically during test mode.

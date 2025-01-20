@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score 2 - Top Coral Station Intake"
+            "pathName": "Score 1 - Top Branch 5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "CoralMechanismIntakeCoralStation"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Score 2 - Top Score Coral"
+            "name": "ScoreCoral"
           }
         }
       ]

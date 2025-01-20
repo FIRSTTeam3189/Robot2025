@@ -6,10 +6,10 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer() :
-m_chooser(pathplanner::AutoBuilder::buildAutoChooser()) {
+RobotContainer::RobotContainer() {
   (void)VisionConstants::kSyncBytes[0];
   RegisterAutoCommands();
+  m_chooser = pathplanner::AutoBuilder::buildAutoChooser();
   
   // Initialize all of your commands and subsystems here 
 
@@ -51,6 +51,50 @@ void RobotContainer::ConfigureDriverBindings() {
 
 void RobotContainer::ConfigureCoDriverBindings() {
   // Ted controls
+  frc2::Trigger intakeCoralButton([this](){ return m_ted.GetL2Button(); });
+  intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
+    ).ToPtr()
+  );
+  intakeCoralButton.OnFalse(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+    ).ToPtr()
+  );
+
+  frc2::Trigger scoreCoralButton([this](){ return m_ted.GetR2Button(); });
+  scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
+  scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+    ).ToPtr()
+  );
+
+  frc2::Trigger retractCoralElevatorButton([this](){ return m_ted.GetTouchpadButton(); });
+  retractCoralElevatorButton.OnTrue(
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract).ToPtr()
+  );
+
+  frc2::Trigger extendCoralElevatorL1Button([this](){ return m_ted.GetCrossButton(); });
+  extendCoralElevatorL1Button.OnTrue(
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1).ToPtr()
+  );
+
+  frc2::Trigger extendCoralElevatorL2Button([this](){ return m_ted.GetCircleButton(); });
+  extendCoralElevatorL2Button.OnTrue(
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2).ToPtr()
+  );
+
+  frc2::Trigger extendCoralElevatorL3Button([this](){ return m_ted.GetTriangleButton(); });
+  extendCoralElevatorL3Button.OnTrue(
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3).ToPtr()
+  );
+
+  frc2::Trigger extendCoralElevatorL4Button([this](){ return m_ted.GetSquareButton(); });
+  extendCoralElevatorL4Button.OnTrue(
+    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
+  );
 }
 
 void RobotContainer::RegisterAutoCommands() {
@@ -115,7 +159,6 @@ void RobotContainer::RegisterAutoCommands() {
     ).ToPtr()
   );
 
-
   pathplanner::NamedCommands::registerCommand("CoralMechanismIntakeCoralStation", frc2::SequentialCommandGroup(
       frc2::ParallelCommandGroup(
         frc2::ParallelRaceGroup(
@@ -175,24 +218,52 @@ void RobotContainer::CreateAutoPaths() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return m_chooser.GetSelected();
+  auto command = m_chooser.GetSelected();
+  command->AddRequirements(m_swerveDrive);
+  command->SetName("Auto command");
+  return command;
 }
 
 void RobotContainer::SetAllCoast() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Coast);
+  m_coralElevator->SetExtensionBrakeMode(BrakeMode::Coast);
+}
+
+void RobotContainer::SetAllBrake() {
+  m_swerveDrive->SetBrakeMode(BrakeMode::Brake);
+  m_coralElevator->SetExtensionBrakeMode(BrakeMode::Brake);
 }
 
 // motors will coast along
 
 void RobotContainer::SetAllNormalBrakeMode() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Default);
+  m_coralElevator->SetExtensionBrakeMode(BrakeMode::Default);
 }
 
 void RobotContainer::SetDriveBrake() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Brake);
 }
 
+void RobotContainer::SetDriveCoast() {
+  m_swerveDrive->SetBrakeMode(BrakeMode::Coast);
+}
+
+void RobotContainer::SetElevatorCoast() {
+  m_coralElevator->SetExtensionBrakeMode(BrakeMode::Coast);
+}
+
+void RobotContainer::PrintActiveCommands() {
+  frc::SmartDashboard::PutString("Current command/swerve", m_swerveDrive->GetCurrentCommand()->GetName());
+  frc::SmartDashboard::PutString("Current command/coral elevator", m_coralElevator->GetCurrentCommand()->GetName());
+  frc::SmartDashboard::PutString("Current command/coral manipulator", m_coralManipulator->GetCurrentCommand()->GetName());
+}
+
 void RobotContainer::ConfigureTestBindings() {
+  // frc2::Trigger testAutoButton([this](){ return m_test.GetOptionsButton(); });
+  // auto command = m_chooser.GetSelected();
+  // testAutoButton.OnTrue(command.ToPtr());
+
   frc2::Trigger resetPoseButton([this](){ return m_test.GetTouchpadButton(); });
   resetPoseButton.OnTrue(frc2::InstantCommand([this]{
     if (frc::DriverStation::GetAlliance()) {
@@ -203,21 +274,21 @@ void RobotContainer::ConfigureTestBindings() {
     }
   },{m_swerveDrive}).ToPtr());
 
-  frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
-  coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
-    // if (m_driveState == DriveState::HeadingControl) {
-      m_driveState = DriveState::CoralStationAlign;
-    // } else {
-    //   m_driveState = DriveState::HeadingControl;
-    // }
-      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
-    },{m_swerveDrive}).ToPtr()
-  );
-  coralStationAlignButton.OnFalse(frc2::InstantCommand([this]{
-      m_driveState = DriveState::HeadingControl;
-      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
-    },{m_swerveDrive}).ToPtr()
-  );
+  // frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
+  // coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
+  //   // if (m_driveState == DriveState::HeadingControl) {
+  //     m_driveState = DriveState::CoralStationAlign;
+  //   // } else {
+  //   //   m_driveState = DriveState::HeadingControl;
+  //   // }
+  //     m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+  //   },{m_swerveDrive}).ToPtr()
+  // );
+  // coralStationAlignButton.OnFalse(frc2::InstantCommand([this]{
+  //     m_driveState = DriveState::HeadingControl;
+  //     m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+  //   },{m_swerveDrive}).ToPtr()
+  // );
 
   // frc2::Trigger algaeIntakeButton([this](){ return m_test.GetL1Button(); });
   // algaeIntakeButton.OnTrue(frc2::SequentialCommandGroup(
@@ -250,6 +321,16 @@ void RobotContainer::ConfigureTestBindings() {
   //     m_algaeIntake->SetRollerPower(0.0);
   //   }, {m_algaeIntake})
   // ).ToPtr()
+  // );
+
+  // frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
+  // testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
+  //   m_coralManipulator->SetRotationPower(0.1);
+  //   },{m_coralManipulator}).ToPtr()
+  // );
+  // testCoralManipulatorPowerButton.OnFalse(frc2::InstantCommand([this]{
+  //   m_coralManipulator->SetRotationPower(0.0);
+  //   },{m_coralManipulator}).ToPtr()
   // );
 
   frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });

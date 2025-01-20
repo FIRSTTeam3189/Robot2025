@@ -135,13 +135,13 @@ void SwerveDrive::DriveRobotRelative(frc::ChassisSpeeds speeds) {
     auto [fl, fr, bl, br] = states;
     SwerveDriveConstants::kKinematics.DesaturateWheelSpeeds(&states, AutoConstants::kMaxAutoModuleSpeed);
 
-    double AutoDesiredStates[] = 
+    double autoDesiredStates[] = 
     {(double)fl.angle.Degrees(), (double)fl.speed,
      (double)fr.angle.Degrees(), (double)fr.speed,
      (double)bl.angle.Degrees(), (double)bl.speed,
      (double)br.angle.Degrees(), (double)br.speed};
 
-    frc::SmartDashboard::PutNumberArray("Auto Desired States", AutoDesiredStates);
+    frc::SmartDashboard::PutNumberArray("Auto Desired States", autoDesiredStates);
     frc::SmartDashboard::PutNumber("Robot relative desired x speed", speeds.vx.value());
     frc::SmartDashboard::PutNumber("Robot relative desired y speed", speeds.vy.value());
     frc::SmartDashboard::PutNumber("Robot relative desired omega speed", speeds.omega.value());
@@ -279,6 +279,16 @@ void SwerveDrive::LogModuleStates(wpi::array<frc::SwerveModulePosition, 4> modul
         modulePositions[2].angle.Degrees().value(), m_moduleArray[2]->GetDriveSpeed().value(),
         modulePositions[3].angle.Degrees().value(), m_moduleArray[3]->GetDriveSpeed().value()};
     frc::SmartDashboard::PutNumberArray("AdvantageScope Measured States", AdvantageScopeMeasuredStates);
+
+    // TODO comment out after testing
+    frc::SmartDashboard::PutNumber("Front left drive power", m_modules.m_frontLeft.GetRawDrivePower());
+    frc::SmartDashboard::PutNumber("Front left angle power", m_modules.m_frontLeft.GetRawAnglePower());
+    frc::SmartDashboard::PutNumber("Front right drive power", m_modules.m_frontRight.GetRawDrivePower());
+    frc::SmartDashboard::PutNumber("Front right angle power", m_modules.m_frontRight.GetRawAnglePower());
+    frc::SmartDashboard::PutNumber("Back left drive power", m_modules.m_backLeft.GetRawDrivePower());
+    frc::SmartDashboard::PutNumber("Back left angle power", m_modules.m_backLeft.GetRawAnglePower());
+    frc::SmartDashboard::PutNumber("Back right drive power", m_modules.m_backRight.GetRawDrivePower());
+    frc::SmartDashboard::PutNumber("Back right angle power", m_modules.m_backRight.GetRawAnglePower());
 }
 
 void SwerveDrive::SetSlowMode(bool slow) {

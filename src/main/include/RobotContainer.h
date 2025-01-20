@@ -52,11 +52,14 @@ class RobotContainer {
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
-  bool IsClimbState();
   BrakeMode GetBrakeMode();
   void SetAllCoast();
+  void SetAllBrake();
   void SetDriveBrake();
+  void SetDriveCoast();
+  void SetElevatorCoast();
   void SetAllNormalBrakeMode();
+  void PrintActiveCommands();
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -67,7 +70,7 @@ class RobotContainer {
   // The robot's subsystems are defined here...
   PoseEstimatorHelper *m_poseEstimator = new PoseEstimatorHelper();
   SwerveDrive *m_swerveDrive = new SwerveDrive(m_poseEstimator);
-  // Vision *m_vision = new Vision(m_poseEstimator);
+  Vision *m_vision = new Vision(m_poseEstimator);
   // AlgaeIntake *m_algaeIntake = new AlgaeIntake();
   CoralElevator *m_coralElevator = new CoralElevator();
   CoralManipulator *m_coralManipulator = new CoralManipulator();
