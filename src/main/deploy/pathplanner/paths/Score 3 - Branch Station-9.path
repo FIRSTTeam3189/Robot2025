@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.309119393755748,
-        "y": 5.087914479583415
+        "x": 1.2464185229728812,
+        "y": 1.1046799941372842
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.1693151595744675,
-        "y": 5.868683510638298
+        "x": 2.064453638641618,
+        "y": 1.8356309449608645
       },
       "isLocked": false,
-      "linkedName": "Branch 2"
+      "linkedName": "Bottom Blue Station"
     },
     {
       "anchor": {
-        "x": 1.1902260638297872,
-        "y": 6.918882978723404
+        "x": 3.973842053034135,
+        "y": 2.8109497202012075
       },
       "prevControl": {
-        "x": 1.43527260637788,
-        "y": 6.8255319148919344
+        "x": 1.8060811348510146,
+        "y": 2.5710964414510205
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Top Blue Station"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "",
+      "name": "RaiseCoralL1",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null
@@ -49,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -54.8658069430844
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Score 2",
+  "folder": "Score 3",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 60.25511870305767
+    "rotation": 54.0
   },
   "useDefaultConstraints": true
 }

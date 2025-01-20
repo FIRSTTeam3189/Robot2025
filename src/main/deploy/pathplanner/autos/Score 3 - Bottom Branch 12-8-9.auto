@@ -45,11 +45,41 @@
           "data": {
             "name": "ScoreCoral"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 - Branch 8-Station"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 - Branch Station-9"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Score 2",
+  "folder": "Score 3",
   "choreoAuto": false
 }

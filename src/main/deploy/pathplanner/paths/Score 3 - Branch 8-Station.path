@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.8,
-        "y": 3.86
+        "x": 3.6755806020299566,
+        "y": 2.9696196991713864
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8198704631472715,
-        "y": 2.6538195306698107
+        "x": 2.491125312273554,
+        "y": 2.7690348007539973
       },
       "isLocked": false,
-      "linkedName": "Branch 12"
+      "linkedName": "Branch 8"
     },
     {
       "anchor": {
-        "x": 3.0725936611277804,
-        "y": 1.5095933311793601
+        "x": 1.2464185229728812,
+        "y": 1.1046799941372842
       },
       "prevControl": {
-        "x": 4.382791160973043,
-        "y": 1.9374980526342866
-      },
-      "nextControl": {
-        "x": 2.2406828703070225,
-        "y": 1.2378949381786515
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.1714033977178544,
-        "y": 1.0376544982846918
-      },
-      "prevControl": {
-        "x": 2.0876971393800563,
-        "y": 1.2307222720878643
+        "x": 2.30062215456935,
+        "y": 2.7099339414618124
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "CoralMechanismIntakeCoralStation",
-      "waypointRelativePos": 1.0729440497991498,
+      "waypointRelativePos": 0.05413529913456994,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -68,10 +52,10 @@
     "rotation": 54.0
   },
   "reversed": false,
-  "folder": "Score 2",
+  "folder": "Score 3",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }
