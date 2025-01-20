@@ -52,8 +52,8 @@ void CoralManipulator::ConfigRotationMotor(){
 
 void CoralManipulator::ConfigPID(){
     m_ff = new frc::ArmFeedforward(
-        CoralManipulatorConstants::kSRotation,
-        CoralManipulatorConstants::kGRotation,
+        0_V,
+        0_V,
         CoralManipulatorConstants::kVRotation,
         CoralManipulatorConstants::kARotation
     );
@@ -84,17 +84,42 @@ void CoralManipulator::SetRotationPower(double power) {
     m_rotationMotor.Set(power);
 }
 
+units::volt_t CoralManipulator::CalculateRotationGVolts() {
+    // Using sin and not cosine because we want to apply maximum gravity at -90 and 90 and 0 at 0 degrees
+    // Since positive power creates positive angle in our system, take the inverse of the angle so -90 makes it apply positive power as if it were 90
+    // This counteracts gravity
+    units::volt_t rotationGValue = 0.0_V;
+
+    auto gravityCompensatedAngle = -m_currentAngle;
+    auto angleRadians = units::radian_t{gravityCompensatedAngle};
+
+    return units::volt_t{sin(angleRadians.value()) * m_rotationG.value()};
+}
+
+units::volt_t CoralManipulator::CalculateRotationSVolts(){
+    // Setting rotationSValue to the member variable to be able to update preferences
+    units::volt_t rotationSValue = 0.0_V;
+    if (m_rotationMotor.Get() > 0){
+        rotationSValue = m_rotationS;
+    } else if (m_rotationMotor.Get() < 0){
+        rotationSValue = -m_rotationS;
+    }
+
+    return rotationSValue;
+}
+
 void CoralManipulator::SetRotation(units::degree_t targetAngle){
     units::volt_t PIDValue = units::volt_t{(targetAngle - m_currentAngle).value() * m_profiledPIDController.GetP()};  
     units::volt_t ffValue = 0.0_V;
 
     // Only use feedforward/motion profile if actively trying to move
+
     if (m_state == CoralManipulatorState::GoTarget) {
         ffValue = GetMotionProfileFeedForwardValue();
-    } else {
-        // Just use g and s
-        ffValue = m_ff->Calculate(m_currentAngle, units::radians_per_second_t{0.0});
-    }
+    } 
+
+    // Use g and s always
+    ffValue += CalculateRotationSVolts() + CalculateRotationGVolts();
 
     m_rotationMotor.SetVoltage(std::clamp((PIDValue + ffValue), -12.0_V, 12.0_V));
 
@@ -201,10 +226,15 @@ void CoralManipulator::UpdatePreferences(){
     double a = frc::Preferences::GetDouble(m_rotationAKey, CoralManipulatorConstants::kARotation.value());
     //get the speed, gravity, velocity and acceleration values
     m_targetAngle = units::degree_t{frc::Preferences::GetDouble(m_rotationTargetKey, m_targetAngle.value())};
+
+    m_rotationS = units::volt_t{s};
+    m_rotationG = units::volt_t{g};
+
     delete m_ff;
     m_ff = new frc::ArmFeedforward(
-        units::volt_t{s},
-        units::volt_t{g},
+        // Initializing g and s to zero
+        units::volt_t{0.0},
+        units::volt_t {0.0},
         units::unit_t<frc::ArmFeedforward::kv_unit>{v},
         units::unit_t<frc::ArmFeedforward::ka_unit>{a}
     );

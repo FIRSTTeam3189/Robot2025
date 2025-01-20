@@ -54,7 +54,10 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
   BrakeMode GetBrakeMode();
   void SetAllCoast();
+  void SetAllBrake();
   void SetDriveBrake();
+  void SetDriveCoast();
+  void SetElevatorCoast();
   void SetAllNormalBrakeMode();
   void PrintActiveCommands();
 
