@@ -24,7 +24,7 @@ void SetCoralElevatorExtension::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool SetCoralElevatorExtension::IsFinished() {
-  if (abs(m_CoralElevator->GetCurrentTargetHeight().value() - m_CoralElevator->GetExtension().value()) < CoralElevatorConstants::kExtensionHeightTolerance.value()) {
+  if (abs(m_CoralElevator->GetCurrentTargetHeight().value() - m_CoralElevator->GetExtension().value()) < CoralElevatorConstants::kExtensionHeightIntake.value()) {
     return true;
   }
   return false;

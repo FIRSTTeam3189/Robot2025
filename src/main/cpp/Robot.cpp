@@ -6,7 +6,9 @@
 
 #include <frc2/command/CommandScheduler.h>
 
+
 void Robot::RobotInit() {
+  ctre::phoenix6::SignalLogger::SetPath("/media/sda1/ctre-logs/");
 }
 
 /**

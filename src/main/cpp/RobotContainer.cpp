@@ -295,7 +295,7 @@ void RobotContainer::ConfigureTestBindings() {
     ).ToPtr()
   );
 
-  // // 5 buttons below just set height of elevator to desired height when pressed
+  // 5 buttons below just set height of elevator to desired height when pressed
   frc2::Trigger retractCoralElevatorButton([this](){ return m_test.GetTouchpadButton(); });
   retractCoralElevatorButton.OnTrue(
     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract).ToPtr()
