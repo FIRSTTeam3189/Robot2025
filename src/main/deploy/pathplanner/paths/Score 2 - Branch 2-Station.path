@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.1902260638297872,
-        "y": 6.918882978723404
+        "x": 1.1947821607648248,
+        "y": 6.936497508757964
       },
       "prevControl": {
-        "x": 1.43527260637788,
-        "y": 6.8255319148919344
+        "x": 1.4398287033129173,
+        "y": 6.843146444926495
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "",
+      "name": "CoralMechanismIntakeCoralStation",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null

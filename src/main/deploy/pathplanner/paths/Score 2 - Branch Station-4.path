@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.8,
-        "y": 3.86
+        "x": 1.1947821607648248,
+        "y": 6.936497508757964
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8198704631472715,
-        "y": 2.6538195306698107
+        "x": 2.0364063171594458,
+        "y": 6.923991629796996
       },
       "isLocked": false,
-      "linkedName": "Branch 12"
+      "linkedName": "Top Blue Station"
     },
     {
       "anchor": {
-        "x": 3.0725936611277804,
-        "y": 1.5095933311793601
+        "x": 3.9628545998620814,
+        "y": 5.2481497479549235
       },
       "prevControl": {
-        "x": 4.382791160973043,
-        "y": 1.9374980526342866
-      },
-      "nextControl": {
-        "x": 2.2406828703070225,
-        "y": 1.2378949381786515
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.2464185229728812,
-        "y": 1.1046799941372842
-      },
-      "prevControl": {
-        "x": 2.162712264635083,
-        "y": 1.2977477679404568
+        "x": 3.43874432714448,
+        "y": 6.2152741586963955
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Bottom Blue Station"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -49,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "CoralMechanismIntakeCoralStation",
-      "waypointRelativePos": 1.0729440497991498,
+      "name": "RaiseCoralL1",
+      "waypointRelativePos": 0.5378761796284259,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -65,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": 119.99999999999999
   },
   "reversed": false,
   "folder": "Score 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -54.8658069430844
   },
   "useDefaultConstraints": true
 }

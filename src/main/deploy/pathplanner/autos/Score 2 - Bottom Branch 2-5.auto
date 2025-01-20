@@ -23,6 +23,18 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Score 2 - Branch Station-5"
