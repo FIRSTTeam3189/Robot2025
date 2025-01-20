@@ -6,10 +6,14 @@
 
 #include <frc2/command/CommandScheduler.h>
 
+<<<<<<< HEAD
 
 void Robot::RobotInit() {
   ctre::phoenix6::SignalLogger::SetPath("/media/sda1/ctre-logs/");
 }
+=======
+void Robot::RobotInit() {}
+>>>>>>> ac96de96b7bc645f4ae88b58ba48704409b28854
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -28,7 +32,10 @@ void Robot::RobotPeriodic() {
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  m_container.SetElevatorCoast();
+  m_container.SetDriveCoast();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -54,7 +61,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  m_container.SetDriveBrake();
+  m_container.SetAllBrake();
    if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Cancel();
   }

@@ -41,6 +41,8 @@ class CoralManipulator : public frc2::SubsystemBase {
   void ApplySoftLimits();
   units::degree_t GetTargetAngleFromTarget(CoralManipulatorTarget target);
   units::volt_t GetMotionProfileFeedForwardValue();
+  units::volt_t CalculateRotationSVolts();
+  units::volt_t CalculateRotationGVolts();
   units::degree_t GetRotation();
   units::degree_t GetCurrentTargetAngle();
 
@@ -52,6 +54,8 @@ class CoralManipulator : public frc2::SubsystemBase {
     rev::spark::SparkMaxConfig m_rotationConfig;
 
     frc::ArmFeedforward *m_ff;
+    units::volt_t m_rotationS;
+    units::volt_t m_rotationG;
     frc::ProfiledPIDController<units::degrees> m_profiledPIDController;
     frc::TrapezoidProfile<units::degrees>::Constraints m_constraints;
 

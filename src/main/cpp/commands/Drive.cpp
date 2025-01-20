@@ -103,13 +103,15 @@ units::angular_velocity::radians_per_second_t Drive::GetDesiredRotationalVelocit
   
   if (m_allianceSide) {
     if (m_allianceSide.value() == frc::DriverStation::Alliance::kRed) {
+
+      // ! Inverting joysticks because we want to drive forward with the coral manipulator forward
       frc::SmartDashboard::PutString("Alliance", "red");
-      joystickX = m_bill->GetRightY();
-      joystickY = m_bill->GetRightX();
+      joystickX = -m_bill->GetRightY();
+      joystickY = -m_bill->GetRightX();
     } else {
       frc::SmartDashboard::PutString("Alliance", "blue");
-      joystickX = -(m_bill->GetRightY());
-      joystickY = -(m_bill->GetRightX());
+      joystickX = m_bill->GetRightY();
+      joystickY = m_bill->GetRightX();
     }
   }
 

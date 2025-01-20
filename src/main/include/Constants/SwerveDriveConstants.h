@@ -65,5 +65,5 @@ namespace SwerveDriveConstants {
     constexpr double kDRot {0.0};
 
     constexpr double kSlowModeDriveMultiplier {0.35};
-    constexpr double kSwerveRotationTolerance {0.5};
+    constexpr double kSwerveRotationTolerance {1.0};
 }
