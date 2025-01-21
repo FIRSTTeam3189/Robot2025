@@ -58,6 +58,7 @@ class RobotContainer {
   void SetDriveBrake();
   void SetDriveCoast();
   void SetElevatorCoast();
+  void SetAlgaeCoast();
   void SetAllNormalBrakeMode();
   void PrintActiveCommands();
 

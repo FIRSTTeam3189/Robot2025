@@ -32,7 +32,7 @@ class AlgaeIntake : public frc2::SubsystemBase {
   void UpdatePreferences();
   void ConfigRollerMotor();
   void ConfigRotationMotor();
-  void ConfigRotationCANcoder();
+  // void ConfigRotationCANcoder();
   void RefreshAllSignals();
 
   /**
@@ -45,11 +45,11 @@ class AlgaeIntake : public frc2::SubsystemBase {
 
  private:
   ctre::phoenix6::hardware::TalonFX m_rotationMotor;
-  ctre::phoenix6::hardware::CANcoder m_CANcoder;
+  // ctre::phoenix6::hardware::CANcoder m_CANcoder;
   rev::spark::SparkMax m_rollerMotor;
 
   ctre::phoenix6::configs::TalonFXConfiguration m_rotationConfig{};
-  ctre::phoenix6::configs::CANcoderConfiguration m_encoderConfig{};
+  // ctre::phoenix6::configs::CANcoderConfiguration m_encoderConfig{};
   rev::spark::SparkMaxConfig m_rollerConfig;
 
   AlgaeIntakeState m_target;

@@ -31,6 +31,7 @@ void Robot::RobotPeriodic() {
 void Robot::DisabledInit() {
   m_container.SetElevatorCoast();
   m_container.SetDriveCoast();
+  m_container.SetAlgaeCoast();
 }
 
 void Robot::DisabledPeriodic() {}
