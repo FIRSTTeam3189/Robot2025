@@ -23,15 +23,27 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 2.5
+            "name": "WaitForStationIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Score 2 - Station-Trough 8-7"
+            "pathName": "Score 2 - Station-Branch 7"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
           }
         }
       ]

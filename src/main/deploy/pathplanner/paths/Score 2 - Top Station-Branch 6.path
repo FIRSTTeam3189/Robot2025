@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.213563829787234,
-        "y": 7.023902925531915
+        "x": 1.2155458529269871,
+        "y": 6.98515595416203
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3221077127659573,
-        "y": 6.755518617021275
+        "x": 2.3240897359057104,
+        "y": 6.716771645651391
       },
       "isLocked": false,
       "linkedName": "Top Blue Station"
@@ -55,7 +55,7 @@
   "folder": "Score 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -52.765166018425425
+    "rotation": -54.0
   },
   "useDefaultConstraints": true
 }

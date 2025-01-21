@@ -25,19 +25,25 @@
         {
           "type": "named",
           "data": {
-            "name": "RaiseCoralL1"
+            "name": "WaitForStationIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Score 2 - Station-Branch 7"
+            "pathName": "Score 2 - Station-Trough 7-8"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.5
+            "name": "ScoreCoral"
           }
         }
       ]

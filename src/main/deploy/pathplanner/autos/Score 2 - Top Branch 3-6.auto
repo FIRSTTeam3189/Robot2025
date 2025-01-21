@@ -29,6 +29,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Score 2 - Top Station-Branch 6"

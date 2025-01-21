@@ -213,11 +213,6 @@ void RobotContainer::CreateAutoPaths() {
   // Logging callback for the active path, this is sent as a vector of poses
   pathplanner::PathPlannerLogging::setLogActivePathCallback([this](std::vector<frc::Pose2d> poses) {
     // Do whatever you want with the poses here
-    m_poseEstimator->SetActivePath(poses);
-  });
-}
-
-frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   auto command = m_chooser.GetSelected();
   command->AddRequirements(m_swerveDrive);
@@ -324,6 +319,16 @@ void RobotContainer::ConfigureTestBindings() {
   ).ToPtr()
   );
 
+  frc2::Trigger testAlgaeIntakeRoller([this](){ return m_test.GetL1Button(); });
+  testAlgaeIntakeRoller.OnTrue(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.2);
+    },{m_algaeIntake}).ToPtr()
+  );
+  testAlgaeIntakeRoller.OnFalse(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.0);
+    },{m_algaeIntake}).ToPtr()
+  );
+
   // frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
   // testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
   //   m_coralManipulator->SetRotationPower(0.1);
@@ -379,6 +384,4 @@ void RobotContainer::ConfigureTestBindings() {
   extendCoralElevatorL4Button.OnTrue(
     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
   );
-}
-
-// no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket
+}+-+// no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket
