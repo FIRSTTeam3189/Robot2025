@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.25,
-        "y": 4.0
+        "x": 7.137754183308298,
+        "y": 4.025
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.827109663560281,
-        "y": 4.190211181327144
+        "x": 6.484747146152918,
+        "y": 4.026572244705614
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Start"
     },
     {
       "anchor": {
-        "x": 6.25,
-        "y": 6.16
+        "x": 6.138,
+        "y": 4.025
       },
       "prevControl": {
-        "x": 7.251877250811351,
-        "y": 6.15595584914987
+        "x": 6.5994032790232335,
+        "y": 4.040120895311046
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
-    "maxAngularVelocity": 360.0,
-    "maxAngularAcceleration": 180.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
-  },
-  "reversed": false,
-  "folder": "Test",
-  "idealStartingState": {
-    "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "reversed": false,
+  "folder": "Score 0",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -0.004484616838917672
+  },
+  "useDefaultConstraints": true
 }

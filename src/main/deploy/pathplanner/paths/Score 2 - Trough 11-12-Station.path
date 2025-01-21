@@ -1,0 +1,77 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.8053744458753025,
+        "y": 3.5988500886792276
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.8053744458753025,
+        "y": 3.5988500886792276
+      },
+      "isLocked": false,
+      "linkedName": "Trough 11-12"
+    },
+    {
+      "anchor": {
+        "x": 6.283803903716728,
+        "y": 6.5873358749337445
+      },
+      "prevControl": {
+        "x": 7.688827389513659,
+        "y": 5.825269872655938
+      },
+      "nextControl": {
+        "x": 4.769102324917488,
+        "y": 7.408889812265046
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.2101999521518096,
+        "y": 6.972396354444928
+      },
+      "prevControl": {
+        "x": 2.19680136024884,
+        "y": 6.62291736755023
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Top Blue Station"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "CoralMechanismIntakeCoralStation",
+      "waypointRelativePos": 1.4759740703272681,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -54.0
+  },
+  "reversed": false,
+  "folder": "Score 2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

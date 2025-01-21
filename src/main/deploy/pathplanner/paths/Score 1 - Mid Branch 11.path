@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.137754183308298,
+        "y": 4.025
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.052189728444359,
+        "y": 3.1694239913261866
+      },
+      "isLocked": false,
+      "linkedName": "Mid Start"
+    },
+    {
+      "anchor": {
+        "x": 5.2870681619088895,
+        "y": 2.96516690977709
+      },
+      "prevControl": {
+        "x": 6.211702273291628,
+        "y": 2.8597431404696625
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Branch 11"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "RaiseCoralL2",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "reversed": false,
+  "folder": "Score 1",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -0.004484616838917672
+  },
+  "useDefaultConstraints": true
+}

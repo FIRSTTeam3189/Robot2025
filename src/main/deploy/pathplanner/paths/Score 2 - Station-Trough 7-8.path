@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.2036202321853966,
+        "y": 1.0555439848016284
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.5177329115745284,
+        "y": 1.3920693718577741
+      },
+      "isLocked": false,
+      "linkedName": "Bottom Blue Station"
+    },
+    {
+      "anchor": {
+        "x": 3.436660342001716,
+        "y": 3.1167226166772104
+      },
+      "prevControl": {
+        "x": 2.8641838091042837,
+        "y": 2.604246190624401
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Trough 7-8"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "RaiseCoralL1",
+      "waypointRelativePos": 0.49257309450319015,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "reversed": false,
+  "folder": "Score 2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 54.0
+  },
+  "useDefaultConstraints": true
+}

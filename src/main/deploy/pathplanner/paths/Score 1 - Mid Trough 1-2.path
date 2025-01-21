@@ -3,38 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.25,
-        "y": 4.0
+        "x": 7.137754183308298,
+        "y": 4.025
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.25,
-        "y": 5.000000000000001
+        "x": 6.830028856509938,
+        "y": 4.1365937267471695
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Mid Start"
     },
     {
       "anchor": {
-        "x": 7.25,
-        "y": 7.16
+        "x": 5.804615190849899,
+        "y": 4.486161474186732
       },
       "prevControl": {
-        "x": 7.25,
-        "y": 6.16
+        "x": 6.037483606099152,
+        "y": 4.39520928246327
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trough 1-2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "RaiseCoralL1",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,10 +52,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Score 1",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -0.004484616838917672
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

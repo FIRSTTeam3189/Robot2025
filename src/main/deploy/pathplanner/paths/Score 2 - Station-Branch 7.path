@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.25,
-        "y": 4.0
+        "x": 1.2036202321853966,
+        "y": 1.0555439848016284
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.25,
-        "y": 5.000000000000001
+        "x": 2.4744872937926212,
+        "y": 1.127665350172057
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Bottom Blue Station"
     },
     {
       "anchor": {
-        "x": 7.25,
-        "y": 7.16
+        "x": 3.1698267974935472,
+        "y": 3.8586601836126486
       },
       "prevControl": {
-        "x": 7.25,
-        "y": 6.16
+        "x": 2.8740070117387218,
+        "y": 3.4851468634183145
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,10 +31,17 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "RaiseCoralL2",
+      "waypointRelativePos": 0.4352072010869565,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Score 2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 54.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

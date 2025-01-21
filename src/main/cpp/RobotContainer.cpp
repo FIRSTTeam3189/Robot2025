@@ -184,6 +184,8 @@ void RobotContainer::RegisterAutoCommands() {
       )
     ).ToPtr()
   );
+
+  pathplanner::NamedCommands::registerCommand("WaitForStationIntake", frc2::WaitCommand(AutoConstants::kCoralIntakeWaitingTime).ToPtr());
 } 
 
 void RobotContainer::CreateAutoPaths() {
