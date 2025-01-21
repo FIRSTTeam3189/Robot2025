@@ -213,6 +213,11 @@ void RobotContainer::CreateAutoPaths() {
   // Logging callback for the active path, this is sent as a vector of poses
   pathplanner::PathPlannerLogging::setLogActivePathCallback([this](std::vector<frc::Pose2d> poses) {
     // Do whatever you want with the poses here
+      m_poseEstimator->SetActivePath(poses);
+  });
+}
+
+frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   auto command = m_chooser.GetSelected();
   command->AddRequirements(m_swerveDrive);
@@ -384,4 +389,4 @@ void RobotContainer::ConfigureTestBindings() {
   extendCoralElevatorL4Button.OnTrue(
     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
   );
-}+-+// no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket
+}// no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket
