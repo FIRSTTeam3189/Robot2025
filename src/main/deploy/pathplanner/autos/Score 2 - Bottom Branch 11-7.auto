@@ -25,7 +25,13 @@
         {
           "type": "named",
           "data": {
-            "name": "RaiseCoralL1"
+            "name": "WaitForStationIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
           }
         },
         {
@@ -35,9 +41,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.5
+            "name": "ScoreCoral"
           }
         }
       ]

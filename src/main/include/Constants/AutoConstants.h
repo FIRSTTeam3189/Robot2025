@@ -30,7 +30,7 @@ namespace AutoConstants {
     constexpr auto kAlgaeIntakeMaxRetractTime {1.0_s};
     constexpr auto kCoralElevatorMaxIntakeExtendTime {1.0_s};
     constexpr auto kCoralManipulatorMaxIntakeExtendTime {1.0_s};
-    constexpr auto kCoralIntakeWaitingTime {3.0_s};
+    constexpr auto kCoralIntakeWaitingTime {2.5_s};
     constexpr auto kCoralElevatorMaxRetractTime {1.0_s};
     constexpr auto kCoralManipulatorMaxRetractTime {1.0_s};
     constexpr auto kCoralIntakeScoreTime {1.5_s};

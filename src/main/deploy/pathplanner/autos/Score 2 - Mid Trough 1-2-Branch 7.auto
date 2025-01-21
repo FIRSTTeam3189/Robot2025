@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 1 - Mid Trough 1-2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Trough 1-2-Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForStationIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Station-Branch 7"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Score 2",
+  "choreoAuto": false
+}

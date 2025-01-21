@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 1 - Bottom Branch 11"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Branch 11-Station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitForStationIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralMechanismDefault"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 2 - Station-Trough 7-8"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreCoral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Score 2",
+  "choreoAuto": false
+}

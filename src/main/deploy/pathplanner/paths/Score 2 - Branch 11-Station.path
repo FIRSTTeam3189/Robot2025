@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.263075657894737,
-        "y": 2.9569901315789475
+        "x": 5.291692393315389,
+        "y": 2.9679822123915494
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.646628289473684,
-        "y": 1.4944901315789478
+        "x": 3.6752450248943367,
+        "y": 1.5054822123915494
       },
       "isLocked": false,
       "linkedName": "Branch 11"
     },
     {
       "anchor": {
-        "x": 1.2123355263157893,
-        "y": 0.994161184210526
+        "x": 1.2036202321853966,
+        "y": 1.0555439848016284
       },
       "prevControl": {
-        "x": 2.8287828947377522,
-        "y": 1.686924342105891
+        "x": 2.8200676006073593,
+        "y": 1.7483071426969934
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Blue Bottom Station"
+      "linkedName": "Bottom Blue Station"
     }
   ],
   "rotationTargets": [],

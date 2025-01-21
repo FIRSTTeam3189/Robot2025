@@ -184,6 +184,8 @@ void RobotContainer::RegisterAutoCommands() {
       )
     ).ToPtr()
   );
+
+  pathplanner::NamedCommands::registerCommand("WaitForStationIntake", frc2::WaitCommand(AutoConstants::kCoralIntakeWaitingTime).ToPtr());
 } 
 
 void RobotContainer::CreateAutoPaths() {
@@ -211,11 +213,6 @@ void RobotContainer::CreateAutoPaths() {
   // Logging callback for the active path, this is sent as a vector of poses
   pathplanner::PathPlannerLogging::setLogActivePathCallback([this](std::vector<frc::Pose2d> poses) {
     // Do whatever you want with the poses here
-    m_poseEstimator->SetActivePath(poses);
-  });
-}
-
-frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   auto command = m_chooser.GetSelected();
   command->AddRequirements(m_swerveDrive);
@@ -329,6 +326,16 @@ void RobotContainer::ConfigureTestBindings() {
     }, {m_algaeIntake}),
     SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::DefaultRetract)
   ).ToPtr()
+  );
+
+  frc2::Trigger testAlgaeIntakeRoller([this](){ return m_test.GetL1Button(); });
+  testAlgaeIntakeRoller.OnTrue(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.2);
+    },{m_algaeIntake}).ToPtr()
+  );
+  testAlgaeIntakeRoller.OnFalse(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.0);
+    },{m_algaeIntake}).ToPtr()
   );
 
   frc2::Trigger testAlgaeIntakeRollerButton([this](){ return m_test.GetCrossButton(); });
