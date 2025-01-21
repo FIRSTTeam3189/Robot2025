@@ -231,6 +231,7 @@ void RobotContainer::SetAllCoast() {
 void RobotContainer::SetAllBrake() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Brake);
   m_coralElevator->SetExtensionBrakeMode(BrakeMode::Brake);
+  m_algaeIntake->SetRotationBrakeMode(BrakeMode::Brake);
 }
 
 // motors will coast along
@@ -238,6 +239,7 @@ void RobotContainer::SetAllBrake() {
 void RobotContainer::SetAllNormalBrakeMode() {
   m_swerveDrive->SetBrakeMode(BrakeMode::Default);
   m_coralElevator->SetExtensionBrakeMode(BrakeMode::Default);
+  m_algaeIntake->SetRotationBrakeMode(BrakeMode::Default);
 }
 
 void RobotContainer::SetDriveBrake() {
@@ -250,6 +252,10 @@ void RobotContainer::SetDriveCoast() {
 
 void RobotContainer::SetElevatorCoast() {
   m_coralElevator->SetExtensionBrakeMode(BrakeMode::Coast);
+}
+
+void RobotContainer::SetAlgaeCoast() {
+  m_algaeIntake->SetRotationBrakeMode(BrakeMode::Coast);
 }
 
 void RobotContainer::PrintActiveCommands() {
@@ -273,21 +279,21 @@ void RobotContainer::ConfigureTestBindings() {
     }
   },{m_swerveDrive}).ToPtr());
 
-  // frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
-  // coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
-  //   // if (m_driveState == DriveState::HeadingControl) {
-  //     m_driveState = DriveState::CoralStationAlign;
-  //   // } else {
-  //   //   m_driveState = DriveState::HeadingControl;
-  //   // }
-  //     m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
-  //   },{m_swerveDrive}).ToPtr()
-  // );
-  // coralStationAlignButton.OnFalse(frc2::InstantCommand([this]{
-  //     m_driveState = DriveState::HeadingControl;
-  //     m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
-  //   },{m_swerveDrive}).ToPtr()
-  // );
+  frc2::Trigger coralStationAlignButton([this](){ return m_test.GetL2Button(); });
+  coralStationAlignButton.OnTrue(frc2::InstantCommand([this]{
+    // if (m_driveState == DriveState::HeadingControl) {
+      m_driveState = DriveState::CoralStationAlign;
+    // } else {
+    //   m_driveState = DriveState::HeadingControl;
+    // }
+      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+    },{m_swerveDrive}).ToPtr()
+  );
+  coralStationAlignButton.OnFalse(frc2::InstantCommand([this]{
+      m_driveState = DriveState::HeadingControl;
+      m_swerveDrive->SetDefaultCommand(Drive(&m_test, m_swerveDrive, m_driveState));
+    },{m_swerveDrive}).ToPtr()
+  );
 
   frc2::Trigger algaeIntakeButton([this](){ return m_test.GetL1Button(); });
   algaeIntakeButton.OnTrue(frc2::SequentialCommandGroup(
@@ -309,74 +315,97 @@ void RobotContainer::ConfigureTestBindings() {
   );
 
   frc2::Trigger scoreAlgaeProcessorButton([this](){ return m_test.GetR2Button(); });
-  scoreAlgaeProcessorButton.OnTrue(frc2::ParallelCommandGroup(
-    SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::ScoreProcessor),
-    RunAlgaeIntakeRoller(m_algaeIntake, AlgaeIntakeConstants::kRollerScorePower)
+  scoreAlgaeProcessorButton.OnTrue(frc2::SequentialCommandGroup( 
+    frc2::InstantCommand([this]{
+      m_algaeIntake->SetRollerPower(AlgaeIntakeConstants::kRollerScorePower);
+    }, {m_algaeIntake}),
+    SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::ScoreProcessor)
+    // RunAlgaeIntakeRoller(m_algaeIntake, AlgaeIntakeConstants::kRollerScorePower)
   ).ToPtr()
   );
-  scoreAlgaeProcessorButton.OnFalse(frc2::ParallelCommandGroup(
-    SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::DefaultRetract),
-     frc2::InstantCommand([this]{
+  scoreAlgaeProcessorButton.OnFalse(frc2::SequentialCommandGroup(
+    frc2::InstantCommand([this]{
       m_algaeIntake->SetRollerPower(0.0);
-    }, {m_algaeIntake})
+    }, {m_algaeIntake}),
+    SetAlgaeIntakeRotation(m_algaeIntake, AlgaeIntakeState::DefaultRetract)
   ).ToPtr()
   );
 
-  // frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
-  // testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
-  //   m_coralManipulator->SetRotationPower(0.1);
-  //   },{m_coralManipulator}).ToPtr()
-  // );
-  // testCoralManipulatorPowerButton.OnFalse(frc2::InstantCommand([this]{
-  //   m_coralManipulator->SetRotationPower(0.0);
-  //   },{m_coralManipulator}).ToPtr()
-  // );
+  frc2::Trigger testAlgaeIntakeRollerButton([this](){ return m_test.GetCrossButton(); });
+  testAlgaeIntakeRollerButton.OnTrue(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(1.0);
+    },{m_algaeIntake}).ToPtr()
+  );
+  testAlgaeIntakeRollerButton.OnFalse(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.0);
+    },{m_algaeIntake}).ToPtr()
+  );
 
-  // frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
-  // intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(
-  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
-  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
-  //   ).ToPtr()
-  // );
-  // intakeCoralButton.OnFalse(frc2::ParallelCommandGroup(
-  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-  //   ).ToPtr()
-  // );
+  frc2::Trigger testAlgaeOuttakeRollerButton([this](){ return m_test.GetTriangleButton(); });
+  testAlgaeOuttakeRollerButton.OnTrue(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(-1.0);
+    },{m_algaeIntake}).ToPtr()
+  );
+  testAlgaeOuttakeRollerButton.OnFalse(frc2::InstantCommand([this]{
+    m_algaeIntake->SetRollerPower(0.0);
+    },{m_algaeIntake}).ToPtr()
+  );
 
-  // frc2::Trigger scoreCoralButton([this](){ return m_test.GetR2Button(); });
-  // scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
-  // scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
-  //     SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
-  //     SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
-  //   ).ToPtr()
-  // );
+  frc2::Trigger testCoralManipulatorPowerButton([this](){ return m_test.GetL2Button(); });
+  testCoralManipulatorPowerButton.OnTrue(frc2::InstantCommand([this]{
+    m_coralManipulator->SetRotationPower(0.1);
+    },{m_coralManipulator}).ToPtr()
+  );
+  testCoralManipulatorPowerButton.OnFalse(frc2::InstantCommand([this]{
+    m_coralManipulator->SetRotationPower(0.0);
+    },{m_coralManipulator}).ToPtr()
+  );
+
+  frc2::Trigger intakeCoralButton([this](){ return m_test.GetL2Button(); });
+  intakeCoralButton.OnTrue(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::Intake),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::Intake)
+    ).ToPtr()
+  );
+  intakeCoralButton.OnFalse(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+    ).ToPtr()
+  );
+
+  frc2::Trigger scoreCoralButton([this](){ return m_test.GetR2Button(); });
+  scoreCoralButton.OnTrue(SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::ScoreCoralL123).ToPtr());
+  scoreCoralButton.OnFalse(frc2::ParallelCommandGroup(
+      SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract),
+      SetCoralManipulatorRotation(m_coralManipulator, CoralManipulatorTarget::DefaultPosition)
+    ).ToPtr()
+  );
 
   // 5 buttons below just set height of elevator to desired height when pressed
-  frc2::Trigger retractCoralElevatorButton([this](){ return m_test.GetTouchpadButton(); });
-  retractCoralElevatorButton.OnTrue(
-    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract).ToPtr()
-  );
+  // frc2::Trigger retractCoralElevatorButton([this](){ return m_test.GetTouchpadButton(); });
+  // retractCoralElevatorButton.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::DefaultRetract).ToPtr()
+  // );
 
-  frc2::Trigger extendCoralElevatorL1Button([this](){ return m_test.GetCrossButton(); });
-  extendCoralElevatorL1Button.OnTrue(
-    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1).ToPtr()
-  );
+  // frc2::Trigger extendCoralElevatorL1Button([this](){ return m_test.GetCrossButton(); });
+  // extendCoralElevatorL1Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L1).ToPtr()
+  // );
 
-  frc2::Trigger extendCoralElevatorL2Button([this](){ return m_test.GetCircleButton(); });
-  extendCoralElevatorL2Button.OnTrue(
-    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2).ToPtr()
-  );
+  // frc2::Trigger extendCoralElevatorL2Button([this](){ return m_test.GetCircleButton(); });
+  // extendCoralElevatorL2Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L2).ToPtr()
+  // );
 
-  frc2::Trigger extendCoralElevatorL3Button([this](){ return m_test.GetTriangleButton(); });
-  extendCoralElevatorL3Button.OnTrue(
-    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3).ToPtr()
-  );
+  // frc2::Trigger extendCoralElevatorL3Button([this](){ return m_test.GetTriangleButton(); });
+  // extendCoralElevatorL3Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L3).ToPtr()
+  // );
 
-  frc2::Trigger extendCoralElevatorL4Button([this](){ return m_test.GetSquareButton(); });
-  extendCoralElevatorL4Button.OnTrue(
-    SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
-  );
+  // frc2::Trigger extendCoralElevatorL4Button([this](){ return m_test.GetSquareButton(); });
+  // extendCoralElevatorL4Button.OnTrue(
+  //   SetCoralElevatorExtension(m_coralElevator, CoralElevatorState::L4).ToPtr()
+  // );
 }
 
 // no matter how nice ethan might seem, when you least expect it he will slap you with a piece of chicken and eat you in a bucket

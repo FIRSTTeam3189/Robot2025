@@ -2,16 +2,15 @@
 
 AlgaeIntake::AlgaeIntake() : 
  m_rotationMotor(AlgaeIntakeConstants::kRotationMotorID, "Swerve"),
- m_CANcoder(AlgaeIntakeConstants::kRotationCANCoderID, "Swerve"),
  m_rollerMotor(AlgaeIntakeConstants::kRollerMotorID, rev::spark::SparkMax::MotorType::kBrushless),
  m_rotationConfig(),
- m_encoderConfig(),
+//  m_encoderConfig(),
  m_rollerConfig(),
  m_target(AlgaeIntakeState::DefaultRetract),
  m_targetAngle(AlgaeIntakeConstants::kDefaultRetractAngle)
 {
     ConfigRotationMotor();
-    ConfigRotationCANcoder();
+    // ConfigRotationCANcoder();
     ConfigRollerMotor();
     ConfigPID();
 
@@ -56,17 +55,19 @@ void AlgaeIntake::ConfigRotationMotor() {
     m_rotationConfig.MotorOutput.NeutralMode = AlgaeIntakeConstants::kRotationNeutralMode;
 
     m_rotationMotor.GetConfigurator().Apply(m_rotationConfig);
+
+    m_rotationMotor.SetPosition(units::turn_t{AlgaeIntakeConstants::kRotationZeroAngle.value() / 360.0});
 }
 
-void AlgaeIntake::ConfigRotationCANcoder() {
-    m_CANcoder.GetConfigurator().Apply(ctre::phoenix6::configs::CANcoderConfiguration{});
+// void AlgaeIntake::ConfigRotationCANcoder() {
+//     m_CANcoder.GetConfigurator().Apply(ctre::phoenix6::configs::CANcoderConfiguration{});
 
-    m_encoderConfig.MagnetSensor.MagnetOffset = AlgaeIntakeConstants::kCANcoderOffset;
-    m_encoderConfig.MagnetSensor.SensorDirection = AlgaeIntakeConstants::kCANcoderInverted;
-    m_encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = AlgaeIntakeConstants::kCANcoderDiscontinuityPoint; // 0-1
+//     m_encoderConfig.MagnetSensor.MagnetOffset = AlgaeIntakeConstants::kCANcoderOffset;
+//     m_encoderConfig.MagnetSensor.SensorDirection = AlgaeIntakeConstants::kCANcoderInverted;
+//     m_encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = AlgaeIntakeConstants::kCANcoderDiscontinuityPoint; // 0-1
 
-    m_CANcoder.GetConfigurator().Apply(m_encoderConfig);
-}
+//     m_CANcoder.GetConfigurator().Apply(m_encoderConfig);
+// }
 
 void AlgaeIntake::ConfigRollerMotor() {
     m_rollerConfig
