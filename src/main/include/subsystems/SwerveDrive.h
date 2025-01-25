@@ -95,19 +95,29 @@ class SwerveDrive : public frc2::SubsystemBase {
   std::string_view m_diagnosticsKey = "Full Diagnostics";
   bool m_slowMode = false;
 
+  // nominalVoltage, stallTorque, stallCurrent, freeCurrent, freeSpeed, numMotors
+  // frc::DCMotor m_driveMotorConfig = frc::DCMotor(
+  //   AutoConstants::kNominalVoltage, AutoConstants::kStallTorque, AutoConstants::kStallCurrent, AutoConstants::kFreeCurrent, AutoConstants::kFreeSpeed, 1
+  // );
+
+  frc::DCMotor m_driveMotorConfig = frc::DCMotor(
+    12.0_V, units::newton_meter_t{43.32}, units::ampere_t{366}, AutoConstants::kFreeCurrent, units::radians_per_second_t{102.8}, 1
+  );
+
   // Wheel radius, maxDriveVelocityMPS, wheelCOF, driveMotor, driveCurrentLimit, numMotors
   pathplanner::ModuleConfig m_autoModuleConfig = pathplanner::ModuleConfig(
     units::meter_t{SwerveModuleConstants::kWheelRadiusMeters},
     SwerveModuleConstants::kMaxSpeed, 
     SwerveModuleConstants::kWheelCOF,
-    AutoConstants::kDriveMotorConfig,
+    // AutoConstants::kDriveMotorConfig,
+    m_driveMotorConfig,
     SwerveModuleConstants::kDrivePeakCurrentLimit,
     1
   );
 
   // units::kilogram_t mass, units::kilogram_square_meter_t MOI, ModuleConfig moduleConfig, units::meter_t trackwidth, units::meter_t wheelbase
   pathplanner::RobotConfig m_autoRobotConfig = pathplanner::RobotConfig(
-    53.524_kg, // TODO robot total mass
+    54.431_kg, // TODO robot total mass
     units::kilogram_square_meter_t{6.750}, // TODO estimate robot as cube or smth
     m_autoModuleConfig,
     SwerveDriveConstants::kTrackwidth

@@ -143,7 +143,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState &state) {
     frc::SmartDashboard::PutNumber("Target Speed ", targetSpeed);
 
     // Output target speed to see if multiplier is necessary
-    m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{targetSpeed})); // TODO *1.311
+    m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{targetSpeed * SwerveModuleConstants::kModuleSpeedMultiplier}));
     if (fabs(targetSpeed) < .05 && fabs(m_lastAngle - targetAngle.value()) < 5.0) {
         m_driveMotor.SetControl(m_driveSetter.WithEnableFOC(true).WithVelocity(units::turns_per_second_t{0.0}));
         targetAngle = units::degree_t{m_lastAngle};

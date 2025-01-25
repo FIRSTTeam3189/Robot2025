@@ -88,6 +88,7 @@ namespace SwerveModuleConstants {
     constexpr double kSAngle {0.0};
 
     constexpr auto kMaxSpeed {5.0_mps}; // TODO
+    constexpr double kModuleSpeedMultiplier {1.311};
     constexpr double kDEGToRAD {57.2957795131};
     constexpr double kWheelRadiusInches {2.0};
     constexpr double kWheelRadiusMeters {0.0508};

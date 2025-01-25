@@ -45,6 +45,28 @@ m_modulePositions(
     m_modulePositions, frc::Pose2d{}, VisionConstants::kEncoderTrustCoefficients, VisionConstants::kVisionTrustCoefficients);
     m_poseHelper->SetPoseEstimator(poseEstimator);
     
+    // pathplanner::RobotConfig guiConfig = pathplanner::RobotConfig::fromGUISettings();
+    // frc::DCMotor guiMotor = guiConfig.moduleConfig.driveMotor;
+    // // frc::DCMotor manualMotor = AutoConstants::kDriveMotorConfig;
+    // frc::DCMotor manualMotor = m_driveMotorConfig;
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/freeCurrent", guiMotor.freeCurrent.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/freeSpeed", guiMotor.freeSpeed.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/torque", guiMotor.Kt.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/velocity", guiMotor.Kv.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/nominalVoltage", guiMotor.nominalVoltage.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/resistance", guiMotor.R.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/stallCurrent", guiMotor.stallCurrent.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config gui/stallTorque", guiMotor.stallTorque.value());
+
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/freeCurrent", manualMotor.freeCurrent.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/freeSpeed", manualMotor.freeSpeed.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/torque", manualMotor.Kt.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/velocity", manualMotor.Kv.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/nominalVoltage", manualMotor.nominalVoltage.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/resistance", manualMotor.R.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/stallCurrent", manualMotor.stallCurrent.value());
+    // frc::SmartDashboard::PutNumber("Auto drive motor config manual/stallTorque", manualMotor.stallTorque.value());
+
     // / Setup autobuilder for pathplannerlib
     pathplanner::AutoBuilder::configure(
         [this](){ return GetEstimatedAutoPose(); }, // Robot pose supplier
@@ -56,6 +78,7 @@ m_modulePositions(
             pathplanner::PIDConstants(AutoConstants::kPRotationAuto, AutoConstants::kIRotationAuto, AutoConstants::kDRotationAuto) // Rotation PID constants
         ),
         m_autoRobotConfig,
+        // guiConfig,
         []() {
             // Boolean supplier that controls when the path will be mirrored for the red alliance
             // This will flip the path being followed to the red side of the field.

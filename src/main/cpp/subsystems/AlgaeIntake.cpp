@@ -151,7 +151,7 @@ void AlgaeIntake::SetState(AlgaeIntakeState state) {
             break;
     }
 
-    SetRotation(targetAngle);
+    m_targetAngle = targetAngle;
 }
 
 void AlgaeIntake::SetRotation(units::degree_t target) {
@@ -161,7 +161,7 @@ void AlgaeIntake::SetRotation(units::degree_t target) {
     // set target position to target degrees
     m_rotationMotor.SetControl(request.WithEnableFOC(true).WithPosition(target));
 
-    frc::SmartDashboard::PutNumber("Intake power", m_rotationMotor.Get());
+    frc::SmartDashboard::PutNumber("Algae intake power", m_rotationMotor.Get());
 }
 
 units::degree_t AlgaeIntake::GetCurrentTargetAngle() {

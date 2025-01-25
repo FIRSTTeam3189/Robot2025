@@ -15,11 +15,11 @@ namespace AlgaeIntakeConstants{
     constexpr int kRollerMotorID {17};
 
     // TODO
-    constexpr double kSRotation {0.0}; // Static voltage applied to overcome friction
-    constexpr double kGRotation {0.0}; // Variable gravity voltage
-    constexpr double kVRotation {0.0}; // Volts applied per rotation per second
+    constexpr double kSRotation {0.1}; // Static voltage applied to overcome friction
+    constexpr double kGRotation {0.225}; // Variable gravity voltage
+    constexpr double kVRotation {4.8}; // Volts applied per rotation per second
     constexpr double kARotation {0.0}; // Volts applied per rotation per second squared
-    constexpr double kPRotation {0.0}; // Volts applied per rotation error
+    constexpr double kPRotation {10.0}; // Volts applied per rotation error
     constexpr double kIRotation {0.0}; // Volts applied per rotation integral error
     constexpr double kDRotation {0.0}; // Volts applied per rotation velocity error
 
@@ -42,13 +42,13 @@ namespace AlgaeIntakeConstants{
 
     // Other rotation configs     
     constexpr double kRotationGearRatio {45.0}; // ratio between rotation shaft cancoder and rotation motor
-    constexpr units::degree_t kRotationZeroAngle {149.59_deg}; // This varies based on other subsystems; angle that intake should be set to on startup
-    constexpr auto kDefaultRetractAngle {90.0_deg}; // TODO
-    constexpr auto kIntakeAlgaeAngle {45.0_deg}; // TODO
+    constexpr units::degree_t kRotationZeroAngle {159.0_deg}; // This varies based on other subsystems; angle that intake should be set to on startup
+    constexpr auto kDefaultRetractAngle {100.0_deg}; // TODO
+    constexpr auto kIntakeAlgaeAngle {20.0_deg}; // TODO
     constexpr auto kScoreProcessorAngle {80.0_deg}; // TODO
     constexpr bool kRotationMotorInverted {false};
     constexpr auto kRotationNeutralMode {ctre::phoenix6::signals::NeutralModeValue::Brake};
-    constexpr auto kRotationAngleTolerance {5.0_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
+    constexpr auto kRotationAngleTolerance {2.5_deg}; // TODO: go lower if possible (test various numbers and make preference for live-setting)
     constexpr auto kRotationIdleTolerance {1.5_deg}; // TODO: same as above
 
     constexpr auto kRollerScorePower {0.5};
